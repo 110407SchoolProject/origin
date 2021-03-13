@@ -5,7 +5,6 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,8 +25,6 @@ import android.widget.Toast;
 
 import com.example.a110407_app.MainActivity;
 import com.example.a110407_app.R;
-import com.example.a110407_app.ui.login.LoginViewModel;
-import com.example.a110407_app.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
