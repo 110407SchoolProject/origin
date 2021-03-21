@@ -29,6 +29,7 @@ import com.example.a110407_app.R;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private Button registerButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,12 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
+        final Button loginButton = findViewById(R.id.btnRegister);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        registerButton = (Button)findViewById(R.id.Register);
+        registerButton.setOnClickListener(btnRegisterOnClickListner);
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -123,6 +128,19 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void openActivityHome(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    public  View.OnClickListener btnRegisterOnClickListner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            openActivityRegister();
+        }
+    };
+
+    public void openActivityRegister(){
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
 
     }
