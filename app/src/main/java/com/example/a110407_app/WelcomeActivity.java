@@ -23,6 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.pizza);
         image.setImageResource(R.drawable.pizza);
     }
+
     public void FadeOutAndHideImage(final ImageView image){
         Animation fadeout = new AlphaAnimation(1,0);
         fadeout.setInterpolator(new AccelerateInterpolator());
