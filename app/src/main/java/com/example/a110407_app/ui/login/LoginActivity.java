@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -27,41 +26,26 @@ import android.widget.Toast;
 import com.example.a110407_app.MainActivity;
 import com.example.a110407_app.R;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class LoginActivity extends AppCompatActivity {
-    String result;
-    TextView getName;
-    Button button;
+
     private LoginViewModel loginViewModel;
+    private Button registerButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getName = (TextView) findViewById(R.id.getName);
-        button = (Button) findViewById(R.id.getText);
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
+        final Button loginButton = findViewById(R.id.btnRegister);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Thread thread = new Thread(multiThread);
-                thread.start();
-            }
-        });
+        registerButton = (Button)findViewById(R.id.Register);
+        registerButton.setOnClickListener(btnRegisterOnClickListner);
+
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -142,9 +126,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     public void openActivityHome(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    public  View.OnClickListener btnRegisterOnClickListner = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            openActivityRegister();
+        }
+    };
+
+    public void openActivityRegister(){
+        Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
 
     }
@@ -157,61 +153,4 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
-
-    private final Runnable multiThread = new Runnable(){
-        @Override
-        public void run()
-        {
-            try {
-                URL url = new URL("http://192.168.31.80/GetData.php");
-                //開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                // 建立 Google 比較挺的 HttpURLConnection 物件
-                connection.setRequestMethod("POST");
-                // 設定連線方式為 POST
-                connection.setDoOutput(true); // 允許輸出
-                connection.setDoInput(true); // 允許讀入
-                connection.setUseCaches(false); // 不使用快取
-                connection.connect(); // 開始連線
-
-                int responseCode =
-                        connection.getResponseCode();
-                // 建立取得回應的物件
-                if(responseCode ==
-                        HttpURLConnection.HTTP_OK){
-                    // 如果 HTTP 回傳狀態是 OK ，而不是 Error
-                    InputStream inputStream =
-                            connection.getInputStream();
-                    // 取得輸入串流
-                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
-                    // 讀取輸入串流的資料
-                    String line = ""; // 宣告讀取用的字串
-                    while((line = bufReader.readLine()) != null) {
-                        JSONArray datajson = new JSONArray(line);
-                        int i = datajson.length()-1;
-                        JSONObject info = datajson.getJSONObject(i);
-                        String name = info.getString("name");
-                        result = name.toString();
-
-
-                    }
-                    inputStream.close(); // 關閉輸入串流
-                }
-                // 讀取輸入串流並存到字串的部分
-                // 取得資料後想用不同的格式
-                // 例如 Json 等等，都是在這一段做處理
-
-            } catch(Exception e) {
-                result = e.toString(); // 如果出事，回傳錯誤訊息
-            }
-
-            // 當這個執行緒完全跑完後執行
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    getName.setText(result); // 更改顯示文字
-                }
-            });
-        }
-    };
-
 }
