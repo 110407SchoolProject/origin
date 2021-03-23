@@ -26,8 +26,19 @@ import android.widget.Toast;
 import com.example.a110407_app.MainActivity;
 import com.example.a110407_app.R;
 
-public class LoginActivity extends AppCompatActivity {
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class LoginActivity extends AppCompatActivity {
+    String result;
+    TextView text;
+    Button getData;
     private LoginViewModel loginViewModel;
     private Button registerButton;
 
@@ -35,6 +46,15 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        text = (TextView) findViewById(R.id.Text);
+        getData = (Button) findViewById(R.id.getData);
+        getData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Thread thread = new Thread(multiThread);
+                thread.start();
+            }
+        });
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -126,6 +146,59 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+    private final Runnable multiThread = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                URL url = new URL("http://192.168.31.80/GetData.php");
+                //開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                // 建立 Google 比較挺的 HttpURLConnection 物件
+                connection.setRequestMethod("POST");
+                // 設定連線方式為 POST
+                connection.setDoOutput(true); // 允許輸出
+                connection.setDoInput(true); // 允許讀入
+                connection.setUseCaches(false); // 不使用快取
+                connection.connect(); // 開始連線
+
+                int responseCode =
+                        connection.getResponseCode();
+                // 建立取得回應的物件
+                if(responseCode ==
+                        HttpURLConnection.HTTP_OK){
+                    // 如果 HTTP 回傳狀態是 OK ，而不是 Error
+                    InputStream inputStream =
+                            connection.getInputStream();
+                    // 取得輸入串流
+                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
+                    // 讀取輸入串流的資料
+                    String line = ""; // 宣告讀取用的字串
+                    while((line = bufReader.readLine()) != null) {
+                        JSONArray datajson = new JSONArray(line);
+                        int i = datajson.length()-1;
+                        JSONObject info = datajson.getJSONObject(i);
+                        String name = info.getString("name");
+                        result = name.toString();
+
+
+                    }
+                    inputStream.close(); // 關閉輸入串流
+                }
+                // 讀取輸入串流並存到字串的部分
+                // 取得資料後想用不同的格式
+                // 例如 Json 等等，都是在這一段做處理
+            }catch(Exception e){
+                result = e.toString();
+            }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        text.setText(result);
+
+                    }
+                });
+        }
+    };
     public void openActivityHome(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
