@@ -19,7 +19,7 @@
     <string name="action_sign_in">登入</string>
     <string name="action_Register">註冊</string>
     <string name="action_sign_in_short">登入</string>
-    <string name="welcome">"Welcome HI!"</string>
+    <string name="welcome">"歡迎回來!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>

@@ -19,7 +19,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        mHandler.sendEmptyMessageAtTime(GOTO_LOGIN_ACTIVITY,5000);
+        mHandler.sendEmptyMessageAtTime(GOTO_LOGIN_ACTIVITY,8000);
         image = (ImageView) findViewById(R.id.welcomeView);
         image.setImageResource(R.drawable.cat_welcome);
     }

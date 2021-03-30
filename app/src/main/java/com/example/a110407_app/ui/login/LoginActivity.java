@@ -39,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
     String result;
     TextView text;
     Button getData;
+
+    private String userNameServer="";
+    private String userPasswordServer="";
+    private String userTrueName="";
     private LoginViewModel loginViewModel;
     private Button registerButton;
 
@@ -93,9 +97,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
+//暫時用不到
+//                if (loginResult.getSuccess() != null) {
+////                    updateUiWithUser(loginResult.getSuccess());
+//                }
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
@@ -140,7 +145,37 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                openActivityHome();
+
+
+                Thread thread = new Thread(multiThread);
+                thread.start();
+                try {
+                    thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("伺服器端:"+userNameServer);
+                System.out.println("伺服器端:"+userPasswordServer);
+                if(userNameServer.equals(usernameEditText.getText().toString())){
+                    if(userPasswordServer.equals(passwordEditText.getText().toString())){
+                        //登入成功才會導入首頁
+                        openActivityHome();
+                        //歡迎文字
+                        String welcome = getString(R.string.welcome) + userTrueName;
+                        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+                    }else{
+                        String loginFail = "使用者密碼可能有誤";
+                        Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
+                        System.out.println("密碼錯誤");
+                        openLoginView();
+                    }
+                }else{
+                    String loginFail = "帳號不存在";
+                    Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
+                    System.out.println("帳號不存在");
+                    openLoginView();
+                }
+
 
 
             }
@@ -150,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                URL url = new URL("http://192.168.1.101/GetData.php");
+                URL url = new URL("http://192.168.1.102/GetUserData.php");
                 //開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 // 建立 Google 比較挺的 HttpURLConnection 物件
@@ -160,7 +195,6 @@ public class LoginActivity extends AppCompatActivity {
                 connection.setDoInput(true); // 允許讀入
                 connection.setUseCaches(false); // 不使用快取
                 connection.connect(); // 開始連線
-
                 int responseCode =
                         connection.getResponseCode();
                 // 建立取得回應的物件
@@ -177,8 +211,18 @@ public class LoginActivity extends AppCompatActivity {
                         JSONArray datajson = new JSONArray(line);
                         int i = datajson.length()-1;
                         JSONObject info = datajson.getJSONObject(i);
-                        String name = info.getString("name");
-                        result = name.toString();
+                        String name = info.getString("userName");
+                        String password = info.getString("userPassword");
+                        String trueName =info.getString("userTrueName");
+                        System.out.println(trueName);
+                        System.out.println(name);
+                        System.out.println(password);
+
+                        userNameServer =name;
+                        userPasswordServer =password;
+                        userTrueName=trueName;
+
+
 
 
                     }
@@ -205,6 +249,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    public void openLoginView(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+
+    }
     public  View.OnClickListener btnRegisterOnClickListner = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -217,11 +267,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-    }
+//    private void updateUiWithUser(LoggedInUserView model) {
+//        String welcome = getString(R.string.welcome) + userTrueName;
+//        // TODO : initiate successful logged in experience
+//        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+//    }
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();

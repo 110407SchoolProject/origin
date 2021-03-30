@@ -1,5 +1,6 @@
 package com.example.a110407_app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                openActivityEditDiary();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -80,5 +82,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void openActivityEditDiary(){
+        Intent intent = new Intent(this, EditDiaryActivity.class);
+        startActivity(intent);
+
     }
 }
