@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
-
-
+    android:background="@drawable/unnamed"
     tools:context=".EditDiaryActivity">
 
     <LinearLayout
@@ -26,14 +24,16 @@
             app:srcCompat="@drawable/calandar" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:ems="10"
             android:inputType="textPersonName"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:text="標題(預設今天日期)" />
+            android:text=""
+            android:hint="標題"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -45,14 +45,17 @@
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/editTextContent"
                     android:layout_width="match_parent"
                     android:layout_height="290dp"
+                    android:layout_gravity="start"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="今天過得如何呢?" />
+                    android:gravity="clip_horizontal"
+                    android:keepScreenOn="true"
+                    android:hint="今天過得如何呢" />
 
             </LinearLayout>
         </ScrollView>
