@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-
+//                openActivityHome();
 
                 Thread thread = new Thread(multiThread);
                 thread.start();
@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                URL url = new URL("http://192.168.1.102/GetUserData.php");
+                URL url = new URL("http://172.18.100.17/GetUserData.php");
                 //開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 // 建立 Google 比較挺的 HttpURLConnection 物件
