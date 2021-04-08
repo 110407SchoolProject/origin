@@ -43,12 +43,11 @@ public class EditDiaryActivity extends AppCompatActivity {
 
     private  EditText editTextTitle;
     private  EditText editTextContent;
+    private Button saveDairy;
+    String getTitle;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
@@ -68,7 +67,21 @@ public class EditDiaryActivity extends AppCompatActivity {
         editTextContent.setGravity(Gravity.TOP);
         editTextContent.setSingleLine(false);
 
+        //儲存日記
+        saveDairy = (Button) findViewById(R.id.btnSaveDiary);
+        saveDairy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //顯示title、日期在日記列表中
+            }
+        });
+
 
 
     }
+
+    /*
+    public void getTitleShowOnDairyList(){
+        getTitle = editTextTitle.getText().toString();
+    }*/
 }

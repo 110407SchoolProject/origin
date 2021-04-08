@@ -30,6 +30,11 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.a110407_app.ui.profile.ProfileFragment"
+        android:label="個人設置"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.a110407_app.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
