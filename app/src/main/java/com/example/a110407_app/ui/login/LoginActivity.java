@@ -145,36 +145,36 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-                openActivityHome();
+//                openActivityHome();
 
-//                Thread thread = new Thread(multiThread);
-//                thread.start();
-//                try {
-//                    thread.sleep(150);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                System.out.println("伺服器端:"+userNameServer);
-//                System.out.println("伺服器端:"+userPasswordServer);
-//                if(userNameServer.equals(usernameEditText.getText().toString())){
-//                    if(userPasswordServer.equals(passwordEditText.getText().toString())){
-//                        //登入成功才會導入首頁
-//                        openActivityHome();
-//                        //歡迎文字
-//                        String welcome = getString(R.string.welcome) + userTrueName;
-//                        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-//                    }else{
-//                        String loginFail = "使用者密碼可能有誤";
-//                        Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
-//                        System.out.println("密碼錯誤");
-//                        openLoginView();
-//                    }
-//                }else{
-//                    String loginFail = "帳號不存在";
-//                    Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
-//                    System.out.println("帳號不存在");
-//                    openLoginView();
-//                }
+                Thread thread = new Thread(multiThread);
+                thread.start();
+                try {
+                    thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("伺服器端:"+userNameServer);
+                System.out.println("伺服器端:"+userPasswordServer);
+                if(userNameServer.equals(usernameEditText.getText().toString())){
+                    if(userPasswordServer.equals(passwordEditText.getText().toString())){
+                        //登入成功才會導入首頁
+                        openActivityHome();
+                        //歡迎文字
+                        String welcome = getString(R.string.welcome) + userTrueName;
+                        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+                    }else{
+                        String loginFail = "使用者密碼可能有誤";
+                        Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
+                        System.out.println("密碼錯誤");
+                        openLoginView();
+                    }
+                }else{
+                    String loginFail = "帳號不存在";
+                    Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
+                    System.out.println("帳號不存在");
+                    openLoginView();
+                }
 
 
 
@@ -185,7 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                URL url = new URL("http://192.168.1.102/GetUserData.php");
+                URL url = new URL("http://172.18.100.17/GetUserData.php");
                 //開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 // 建立 Google 比較挺的 HttpURLConnection 物件
