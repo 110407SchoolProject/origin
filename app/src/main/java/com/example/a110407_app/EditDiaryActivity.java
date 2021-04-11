@@ -1,5 +1,6 @@
 package com.example.a110407_app;
 
+import android.icu.text.CaseMap;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -45,7 +46,9 @@ public class EditDiaryActivity extends AppCompatActivity {
     private  EditText editTextContent;
     private Button saveDairy;
     String getTitle;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,8 +78,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                 //顯示title、日期在日記列表中
             }
         });
-
-
 
     }
 

@@ -145,8 +145,8 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
-//                openActivityHome();
-
+                        openActivityHome();
+                /*
                 Thread thread = new Thread(multiThread);
                 thread.start();
                 try {
@@ -175,12 +175,15 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println("帳號不存在");
                     openLoginView();
                 }
+                */
 
 
 
             }
+
         });
     }
+
     private final Runnable multiThread = new Runnable() {
         @Override
         public void run() {
@@ -222,9 +225,6 @@ public class LoginActivity extends AppCompatActivity {
                         userPasswordServer =password;
                         userTrueName=trueName;
 
-
-
-
                     }
                     inputStream.close(); // 關閉輸入串流
                 }
@@ -243,11 +243,13 @@ public class LoginActivity extends AppCompatActivity {
                 });
         }
     };
+
     public void openActivityHome(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 
     }
+
 
 
     public void openLoginView(){
