@@ -47,7 +47,7 @@ public class EditDiaryActivity extends AppCompatActivity {
 
     private  EditText editTextTitle;
     private  EditText editTextContent;
-    private Button saveDairy;
+    private Button btnSaveDiary;
     String getTitle;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -75,8 +75,10 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnSaveDiary = findViewById(R.id.btnSaveDiary);
 
         //儲存日記
-        saveDairy = (Button) findViewById(R.id.btnSaveDiary);
-        saveDairy.setOnClickListener(new View.OnClickListener() {
+        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
+
+
+        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //顯示title、日期在日記列表中
