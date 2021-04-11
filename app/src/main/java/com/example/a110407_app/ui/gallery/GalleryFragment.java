@@ -58,6 +58,8 @@ public class GalleryFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),"開啟日記"+(id+1),
                         Toast.LENGTH_LONG).show();
+                //點入看日記的頁面
+
             }
         });
 

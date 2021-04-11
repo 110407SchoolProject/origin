@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.a110407_app.ui.login.RegisterActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -41,10 +42,12 @@ import java.nio.Buffer;
 import java.util.Date;
 
 public class EditDiaryActivity extends AppCompatActivity {
+    public static final String EXTRA_TEXT="com.example.application.example.EXTRA_TEXT";
+    public static final String EXTRA_TEXT2="com.example.application.example.EXTRA_TEXT2";
 
     private  EditText editTextTitle;
     private  EditText editTextContent;
-    private Button saveDairy;
+    private Button btnSaveDiary;
     String getTitle;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -69,10 +72,13 @@ public class EditDiaryActivity extends AppCompatActivity {
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editTextContent.setGravity(Gravity.TOP);
         editTextContent.setSingleLine(false);
+        btnSaveDiary = findViewById(R.id.btnSaveDiary);
 
         //儲存日記
-        saveDairy = (Button) findViewById(R.id.btnSaveDiary);
-        saveDairy.setOnClickListener(new View.OnClickListener() {
+        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
+
+
+        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //顯示title、日期在日記列表中
