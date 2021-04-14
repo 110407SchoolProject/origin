@@ -1,6 +1,7 @@
 package com.example.a110407_app;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,9 +9,11 @@ import android.view.Menu;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.example.a110407_app.ui.home.HomeFragment;
 import com.example.a110407_app.ui.slideshow.SlideshowFragment;
+import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -26,6 +29,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -34,11 +39,18 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private ImageButton imageButton;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //setContentView(R.layout.content_main);
+        Stetho.initializeWithDefaults(this);
+        // Facebook 提供的 視覺化資料庫
+
+
+
 
         //啟動最上方紫色的Toolbar()
         Toolbar toolbar = findViewById(R.id.toolbar);

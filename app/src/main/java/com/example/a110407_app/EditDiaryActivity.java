@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.login.RegisterActivity;
+import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -39,7 +41,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class EditDiaryActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT="com.example.application.example.EXTRA_TEXT";
@@ -48,7 +52,17 @@ public class EditDiaryActivity extends AppCompatActivity {
     private  EditText editTextTitle;
     private  EditText editTextContent;
     private Button btnSaveDiary;
-    String getTitle;
+    public String getTitle;
+    public String getContent;
+
+    //建立SQLite DataBase
+    private final String DB_NAME = "MyDairy.db";
+    private String TABLE_NAME = "MyDairy";
+    private final int DB_VERSION = 1;
+    SQLiteDBHelper mHelper;
+
+    ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();//取得所有資料
+    ArrayList<HashMap<String, String>> getNowArray = new ArrayList<>();//取得被選中的項目資料
 
     @RequiresApi(api = Build.VERSION_CODES.N)
 
@@ -58,6 +72,11 @@ public class EditDiaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
         Calendar mCalendar = Calendar.getInstance();
+        //連結Facebook 開發的stetho資料庫工具
+        Stetho.initializeWithDefaults(this);
+        //初始化資料庫
+        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+
 
         //抓取今天的日期設定到標題
         Integer month = 0;
@@ -81,7 +100,11 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //顯示title、日期在日記列表中
+                getTitle = editTextTitle.getText().toString();
+                getContent = editTextContent.getText().toString();
+                mHelper.addData(getTitle,getContent);
+                System.out.println(mHelper.showAll());
+
             }
         });
 
