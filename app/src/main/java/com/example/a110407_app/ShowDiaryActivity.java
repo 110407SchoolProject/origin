@@ -1,5 +1,6 @@
 package com.example.a110407_app;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -7,17 +8,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -36,32 +41,62 @@ import org.w3c.dom.Text;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.GenericArrayType;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.Buffer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.example.a110407_app.R;
 
 public class ShowDiaryActivity extends AppCompatActivity {
     private TextView showTitleText;
     private TextView showContentText;
+    private String titleText;
+    private String contentText;
+
+    SQLiteDBHelper mHelper;
+    private final String DB_NAME = "MyDairy.db";
+    private String TABLE_NAME = "MyDairy";
+    private final int DB_VERSION = 1;
+    private ArrayList<HashMap<String, String>> diaryTitleAndContent;
+
+
+    private GalleryFragment galleryFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_diary);
 
+
+        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
 
-
+        //抓使用者點選的日記id
         Intent intent =getIntent();
-        String titleText =intent.getStringExtra(EditDiaryActivity.EXTRA_TEXT);
-        String contentText =intent.getStringExtra(EditDiaryActivity.EXTRA_TEXT2);
+        String id =intent.getStringExtra("Did");
+
+        diaryTitleAndContent=mHelper.searchById(id);
+
+        for(HashMap<String,String> data:diaryTitleAndContent){
+            titleText=data.get("Title");
+            contentText=data.get("Content");
+        }
+
+
+
+
+
 
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
-        //要抓到編號，來決定顯示的日記是哪1
-        //從日記List 點入進來，傳日記id進來
+
+
 
 
     }
