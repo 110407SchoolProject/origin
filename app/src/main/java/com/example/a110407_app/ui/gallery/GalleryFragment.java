@@ -1,6 +1,9 @@
 package com.example.a110407_app.ui.gallery;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +21,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.a110407_app.EditDiaryActivity;
 import com.example.a110407_app.R;
+import com.example.a110407_app.ShowDiaryActivity;
+import com.example.a110407_app.ui.login.RegisterActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +35,16 @@ public class GalleryFragment extends Fragment {
 
     private ListView diaryListView;
     private GalleryViewModel galleryViewModel;
+
+
+
+    public void openActivityShowDiary(long id){
+        Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
+        intent.putExtra("Did",Long.toString((id+1)));
+        startActivity(intent);
+
+    }
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,6 +75,8 @@ public class GalleryFragment extends Fragment {
                 Toast.makeText(getActivity(),"開啟日記"+(id+1),
                         Toast.LENGTH_LONG).show();
                 //點入看日記的頁面
+
+                openActivityShowDiary(id);
 
             }
         });
