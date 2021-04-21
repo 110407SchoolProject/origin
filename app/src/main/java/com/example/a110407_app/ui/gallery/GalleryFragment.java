@@ -5,7 +5,6 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,41 +26,30 @@ import com.example.a110407_app.R;
 import com.example.a110407_app.ShowDiaryActivity;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.login.RegisterActivity;
-import com.facebook.stetho.Stetho;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.*;
-import java.util.stream.*;
 
 public class GalleryFragment extends Fragment {
 
     private ListView diaryListView;
     private GalleryViewModel galleryViewModel;
 
-    SQLiteDBHelper mHelper;
+    SQLiteDBHelper          mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 1;
-    private ArrayList<HashMap<String, String>> diaryTitleAndContent;
-    String titleText;
-    String contentText;
-    String listFromResource [];
-    String[] getTitle;
+    private ArrayList<HashMap<String, String>> diaryTitleList;
 
-
-
-    public void openActivityShowDiary(long id){
+    //開啟該篇日記
+    public void openActivityShowDiary(String title){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
-        intent.putExtra("Did",Long.toString((id+1)));
+
+        intent.putExtra("Title",title);
         startActivity(intent);
-
     }
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -73,51 +61,66 @@ public class GalleryFragment extends Fragment {
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+                Integer countDiaryNumber=0;
+                for(HashMap<String,String> data:mHelper.showAll()){
+                    countDiaryNumber+=1;
+                }
+                //沒有日記的話就顯示，目前空空如也
+                if(countDiaryNumber==0){
+                    textView.setText(s);
+                }
+
             }
         });
+        //資料庫
+        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
 
-        mHelper = new SQLiteDBHelper(getActivity());
-        Intent intent = new Intent();
-        String id =intent.getStringExtra("Did");
-        diaryTitleAndContent = mHelper.searchById(id);
-        ArrayList titleList = new ArrayList<>();
-        for(HashMap<String,String> data:diaryTitleAndContent){
-            titleList.add(data.get("Title"));
-
-            //getTitle = new String[data.keySet().size()];
-            //data.keySet().toArray(getTitle);
-            //getTitle = data.keySet().toArray(new String[0]);
+        //抓取資料庫的日記筆數
+        Integer countDiaryNumber=0;
+        for(HashMap<String,String> data:mHelper.showAll()){
+            countDiaryNumber+=1;
         }
+        System.out.println("目前有這個數筆日記："+countDiaryNumber);
+        //日記標題清單
+        //標題
+        String title="";
 
+        //抓取日記標題
+        final ArrayList titleArrayList = new ArrayList();
 
-        String[] listFromResource= getResources().getStringArray(R.array.diary);
+        for(int i = 1;i<=256;i++){
+            String id = Integer.toString(i);
+            diaryTitleList= new ArrayList<>();
+            diaryTitleList =mHelper.searchById(id);
+            if(diaryTitleList.size()==0){
+                continue;
+            }else{
+                for(HashMap<String,String> data:diaryTitleList){
+                    title=data.get("Title");
+                    titleArrayList.add(title);
+                }
+            }
+        }
+        //抓ListView ，並把剛抓到的日記顯示出來
         diaryListView = (ListView)root.findViewById(R.id.diaryListView);
-
-        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1);
-
-        //想法：應該透過資料庫來新增日記list的項目
-
-        adapter.addAll(listFromResource);
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,titleArrayList);
         diaryListView.setAdapter(adapter);
 
+
+        //開啟日記
         diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),"開啟日記"+(id+1),
-                        Toast.LENGTH_LONG).show();
+
+                Toast.LENGTH_LONG).show();
                 //點入看日記的頁面
+                int idByInt =(int)id;
 
-                openActivityShowDiary(id);
-
+                String title = (String) titleArrayList.get(idByInt);
+                openActivityShowDiary(title);
             }
         });
-
-
-
-
-
-
         return root;
     }
 }
