@@ -64,35 +64,53 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private final int DB_VERSION = 1;
     private ArrayList<HashMap<String, String>> diaryTitleAndContent;
 
+    private  Button btnDeleteDiary;
 
-    private GalleryFragment galleryFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_diary);
 
-
-
-
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
-
+        btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         //抓使用者點選的日記id
         mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
         //這是上個頁面傳過來的
-
         Intent intent =getIntent();
-        String id =intent.getStringExtra("Did");
+        String title =intent.getStringExtra("Title");
 
-        diaryTitleAndContent=mHelper.searchById(id);
 
+        diaryTitleAndContent=mHelper.searchByTitle(title);
         for(HashMap<String,String> data:diaryTitleAndContent){
             titleText=data.get("Title");
             contentText=data.get("Content");
+
         }
 
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
 
+
+        btnDeleteDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =getIntent();
+                String title = intent.getStringExtra("Title");
+                System.out.println("刪除日記"+title);
+
+                String thisDiaryId="";
+
+                diaryTitleAndContent=mHelper.searchByTitle(title);
+                for(HashMap<String,String> data:diaryTitleAndContent){
+                    thisDiaryId=data.get("id");
+                }
+
+                mHelper.deleteByIdEZ(thisDiaryId);
+
+            }
+        });
+
     }
+
 }

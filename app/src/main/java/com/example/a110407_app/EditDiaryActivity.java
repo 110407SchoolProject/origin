@@ -12,8 +12,10 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.example.a110407_app.ui.login.RegisterActivity;
 import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,6 +23,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -61,8 +65,11 @@ public class EditDiaryActivity extends AppCompatActivity {
     private final int DB_VERSION = 1;
     SQLiteDBHelper mHelper;
 
-    ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();//取得所有資料
-    ArrayList<HashMap<String, String>> getNowArray = new ArrayList<>();//取得被選中的項目資料
+    FragmentManager fragmentManager;
+    GalleryFragment galleryFragment;
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
 
@@ -97,21 +104,22 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
 
 
+
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getTitle = editTextTitle.getText().toString();
                 getContent = editTextContent.getText().toString();
                 mHelper.addData(getTitle,getContent);
-                System.out.println(mHelper.showAll());
 
+
+                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
+//                fragmentManager=getSupportFragmentManager();
+//                fragmentManager.beginTransaction().
+//                        add(R.id.LayoutForFragment,galleryFragment).
+//                        show(galleryFragment).
+//                        commit();
             }
         });
-
     }
-
-    /*
-    public void getTitleShowOnDairyList(){
-        getTitle = editTextTitle.getText().toString();
-    }*/
 }

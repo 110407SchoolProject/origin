@@ -44,9 +44,10 @@ public class GalleryFragment extends Fragment {
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
     //開啟該篇日記
-    public void openActivityShowDiary(long id){
+    public void openActivityShowDiary(String title){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
-        intent.putExtra("Did",Long.toString((id+1)));
+
+        intent.putExtra("Title",title);
         startActivity(intent);
     }
 
@@ -79,22 +80,30 @@ public class GalleryFragment extends Fragment {
         for(HashMap<String,String> data:mHelper.showAll()){
             countDiaryNumber+=1;
         }
+        System.out.println("目前有這個數筆日記："+countDiaryNumber);
         //日記標題清單
-        String[] titleList = new String[countDiaryNumber];
         //標題
         String title="";
+
         //抓取日記標題
-        for(int i = 0;i<=countDiaryNumber;i++){
+        final ArrayList titleArrayList = new ArrayList();
+
+        for(int i = 1;i<=256;i++){
             String id = Integer.toString(i);
+            diaryTitleList= new ArrayList<>();
             diaryTitleList =mHelper.searchById(id);
-            for(HashMap<String,String> data:diaryTitleList){
-                title=data.get("Title");
-                titleList[i-1]=title;
+            if(diaryTitleList.size()==0){
+                continue;
+            }else{
+                for(HashMap<String,String> data:diaryTitleList){
+                    title=data.get("Title");
+                    titleArrayList.add(title);
+                }
             }
         }
         //抓ListView ，並把剛抓到的日記顯示出來
         diaryListView = (ListView)root.findViewById(R.id.diaryListView);
-        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,titleList);
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,titleArrayList);
         diaryListView.setAdapter(adapter);
 
 
@@ -103,13 +112,15 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),"開啟日記"+(id+1),
+
                 Toast.LENGTH_LONG).show();
                 //點入看日記的頁面
-                openActivityShowDiary(id);
+                int idByInt =(int)id;
+
+                String title = (String) titleArrayList.get(idByInt);
+                openActivityShowDiary(title);
             }
         });
-
-
         return root;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.a110407_app;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -39,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private ImageButton imageButton;
 
+    public SQLiteDBHelper mHelper;
+    private final String DB_NAME = "MyDairy.db";
+    private String TABLE_NAME = "MyDairy";
+    private final int DB_VERSION = 1;
 
 
     @Override
@@ -48,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(R.layout.content_main);
         Stetho.initializeWithDefaults(this);
         // Facebook 提供的 視覺化資料庫
+//        deleteDatabase(DB_NAME);
 
-
+        //建立資料庫
+        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        mHelper.getReadableDatabase();
 
 
         //啟動最上方紫色的Toolbar()
@@ -80,57 +88,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-        //點左上角的drawer圖示，裡面的每個item所做的動作
-        /*
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                drawer.closeDrawer(GravityCompat.START);
-                int id = item.getItemId();
-
-                if(id==R.id.nav_home){
-                    HomeFragment homeFragment = new HomeFragment();
-                    FragmentManager manager = getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.nav_host_fragment,homeFragment,homeFragment.getTag()).commit();
-
-                }else if(id==R.id.nav_gallery){
-                    GalleryFragment galleryFragment = new GalleryFragment();
-                    FragmentManager manager = getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.nav_host_fragment,galleryFragment,galleryFragment.getTag()).commit();
-
-
-                }else if (id==R.id.nav_profile){
-                    showActivityProfile();
-                    return true;
-                }else if(id==R.id.nav_slideshow){
-                    SlideshowFragment slideshowFragment = new SlideshowFragment();
-                    FragmentManager manager = getSupportFragmentManager();
-                    manager.beginTransaction().replace(R.id.nav_host_fragment,slideshowFragment,slideshowFragment.getTag()).commit();
-                    }
-
-                return false;
-            }
-        });
-        */
-
-        /*
-        imageButton = (ImageButton) findViewById(R.id.btnImageProfile);
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"success",Toast.LENGTH_LONG).show();
-            }
-        });*/
-
     }
-
-
-
-
-
-
 
     // 打開右上角的menu
     @Override
@@ -151,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onSupportNavigateUp() {

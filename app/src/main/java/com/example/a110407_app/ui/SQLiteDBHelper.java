@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class SQLiteDBHelper extends SQLiteOpenHelper {
     String TAG =SQLiteOpenHelper.class.getSimpleName();
     String TableName;
+
     public SQLiteDBHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version,String TableName) {
         super(context, name, factory, version);
         this.TableName = TableName;
@@ -21,6 +22,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         String SQLTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Title TEXT, " +
@@ -118,11 +120,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
+
+
+
     //以興趣篩選資料
-    public ArrayList<HashMap<String, String>> searchByHobby(String getHobby) {
+    public ArrayList<HashMap<String, String>> searchByTitle(String getTitle) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(" SELECT * FROM " + TableName
-                + " WHERE Hobby =" + "'" + getHobby + "'", null);
+                + " WHERE Title =" + "'" + getTitle + "'", null);
         ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
         while (c.moveToNext()) {
             HashMap<String, String> hashMap = new HashMap<>();
@@ -150,14 +155,26 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     //刪除全部資料
     public void deleteAll(){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM"+TableName);
+        db.execSQL("DELETE FROM "+TableName);
     }
+//    public void dropTable(){
+//        SQLiteDatabase db = getWritableDatabase();
+//        db.execSQL("DROP TABLE "+TableName);
+//    }
 
     //以id刪除資料(簡單)
     public void deleteByIdEZ(String id){
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TableName,"_id = " + id,null);
     }
+
+    public void deleteByTitle(String Title){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TableName,"Title = " + Title,null);
+    }
+
+
+
 
 
 
