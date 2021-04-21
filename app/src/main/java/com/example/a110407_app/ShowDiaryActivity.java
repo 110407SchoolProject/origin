@@ -58,7 +58,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private String titleText;
     private String contentText;
 
-    SQLiteDBHelper mHelper;
+    private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 1;
@@ -72,12 +72,15 @@ public class ShowDiaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_diary);
 
 
-        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+
 
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
 
         //抓使用者點選的日記id
+        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        //這是上個頁面傳過來的
+
         Intent intent =getIntent();
         String id =intent.getStringExtra("Did");
 
@@ -88,16 +91,8 @@ public class ShowDiaryActivity extends AppCompatActivity {
             contentText=data.get("Content");
         }
 
-
-
-
-
-
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
-
-
-
 
     }
 }
