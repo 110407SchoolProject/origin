@@ -1,6 +1,7 @@
 package com.example.a110407_app;
 
 import android.icu.text.CaseMap;
+import android.icu.text.SymbolTable;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -52,14 +53,17 @@ public class EditDiaryActivity extends AppCompatActivity {
     private  EditText editTextTitle;
     private  EditText editTextContent;
     private Button btnSaveDiary;
+    public String cid;
     public String getTitle;
     public String getContent;
+    public String score;
+    public String dat;
 
     //建立SQLite DataBase
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 1;
+
     SQLiteDBHelper mHelper;
+
+
 
     ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();//取得所有資料
     ArrayList<HashMap<String, String>> getNowArray = new ArrayList<>();//取得被選中的項目資料
@@ -75,7 +79,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         //連結Facebook 開發的stetho資料庫工具
         Stetho.initializeWithDefaults(this);
         //初始化資料庫
-        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        mHelper = new SQLiteDBHelper(this);
 
 
         //抓取今天的日期設定到標題
@@ -83,7 +87,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         Integer date= 0;
         Date mDate = new Date();
         month = mDate.getMonth()+1 ;
-        date= mDate.getDate() ;
+        date= mDate.getDate();
         editTextTitle =(EditText)findViewById(R.id.editTextTitle);
         editTextTitle.setHint(month+"月"+date+"號的日記");
         //抓取輸入的內文，下面要在寫入data base
@@ -102,7 +106,10 @@ public class EditDiaryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getTitle = editTextTitle.getText().toString();
                 getContent = editTextContent.getText().toString();
-                mHelper.addData(getTitle,getContent);
+                cid = "50";
+                score = "100";
+                dat = "57575";
+                mHelper.addData(cid,getTitle,getContent,score,dat);
                 System.out.println(mHelper.showAll());
 
             }

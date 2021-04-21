@@ -59,9 +59,9 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private String contentText;
 
     SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 1;
+    //private final String DB_NAME = "MyDairy.db";
+    //private String TABLE_NAME = "MyDairy";
+    //private final int DB_VERSION = 1;
     private ArrayList<HashMap<String, String>> diaryTitleAndContent;
 
 
@@ -72,7 +72,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_diary);
 
 
-        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        mHelper = new SQLiteDBHelper(this);
 
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
@@ -89,15 +89,8 @@ public class ShowDiaryActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
-
-
-
 
     }
 }

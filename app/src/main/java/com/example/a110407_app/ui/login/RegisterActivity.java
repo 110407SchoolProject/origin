@@ -11,8 +11,12 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.a110407_app.R;
+import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.facebook.stetho.Stetho;
 
 public class RegisterActivity extends AppCompatActivity {
+    public static final String EXTRA_TEXT="com.example.application.example.EXTRA_TEXT";
+    public static final String EXTRA_TEXT2="com.example.application.example.EXTRA_TEXT2";
     private Button registerInRegister  ;
     private RadioGroup genderRadioGroup ;
     private RadioButton genderButtonMale;
@@ -22,6 +26,14 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userPasswordEditText;
     private EditText userPasswordConfirmEditText;
     private String userGender="";
+    public String userTrueName, userName, userPassword, userPasswordConfirm;
+
+   // private final String DB_NAME = "MyDairy.db";
+    //private final String TABLE_NAME = "Profile";
+    //private final int DB_VERSION = 2;
+    SQLiteDBHelper mHelper;
+
+
 
 
 
@@ -30,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        Stetho.initializeWithDefaults(this);
+        mHelper = new SQLiteDBHelper(this);
 
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);
@@ -74,15 +88,12 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            String userTrueName = userTrueNameEditText.getText().toString();
-            String userName = userNameEditText.getText().toString();
-            String userPassword = userPasswordEditText.getText().toString();
-            String userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
-            System.out.println(userTrueName);
-            System.out.println(userGender); //在上面定義
-            System.out.println(userName);
-            System.out.println(userPassword);
-            System.out.println(userPasswordConfirm);
+            userTrueName = userTrueNameEditText.getText().toString();
+            userName = userNameEditText.getText().toString();
+            userPassword = userPasswordEditText.getText().toString();
+            userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
+
+
 
             int checkData =5;
 
@@ -110,18 +121,15 @@ public class RegisterActivity extends AppCompatActivity {
             if(checkData==5){
                 String registerSuccess ="Register your Account Successfully";
                 // TODO : initiate successful logged in experience
-                Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
+                mHelper.addProfileData(userTrueName,userName, userPassword);;
+                System.out.println(mHelper.showAll());
+
+
             }else{
                 String registerFail ="Register your Account Fail 請仔細檢查上面是否填寫";
                 // TODO : initiate successful logged in experience
                 Toast.makeText(getApplicationContext(), registerFail, Toast.LENGTH_LONG).show();
             }
-
-
-
-
-
-
 
         }
     };
