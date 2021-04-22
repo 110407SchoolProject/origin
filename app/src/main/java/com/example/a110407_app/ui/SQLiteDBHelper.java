@@ -29,12 +29,47 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 "Content TEXT" +
                 ");";
         db.execSQL(SQLTable);
+
+        String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "userTrueName TEXT, " +
+                "userName TEXT, " +
+                "Password TEXT" +
+                ");";
+        db.execSQL(RegisterTable);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        final String SQL = "DROP TABLE " + TableName;
-        db.execSQL(SQL);
+        //final String SQL = "DROP TABLE " + TableName;
+        //db.execSQL(SQL);
+
+        //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
+        if (newVersion > oldVersion){
+            db.beginTransaction();
+            boolean success = false;
+            switch (oldVersion){
+                case 2:
+                    String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
+                            "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "userTrueName TEXT, " +
+                            "userName TEXT, " +
+                            "Password TEXT" +
+                            ");";
+                    db.execSQL(RegisterTable);
+                    success = true;
+                    break;
+            }
+            if (success){
+                db.setTransactionSuccessful();
+            }
+            db.endTransaction();
+        }
+        else {
+            onCreate(db);
+        }
+
+
 
     }
 
@@ -77,6 +112,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         values.put("Title", title);
         values.put("Content", content);
         db.insert(TableName, null, values);
+    }
+
+    public void addProfileData(String usertruename, String username, String password){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("userTrueName",usertruename);
+        values.put("userName",username);
+        values.put("Password",password);
+        db.insert(TableName,null,values);
     }
 
     //顯示所有資料

@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private ImageButton imageButton;
 
-    public SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 1;
+    //public SQLiteDBHelper mHelper;
+    //private final String DB_NAME = "MyDairy.db";
+    //private String TABLE_NAME = "MyDairy";
+    //private final int DB_VERSION = 1;
 
 
     @Override
@@ -56,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
 //        deleteDatabase(DB_NAME);
 
         //建立資料庫
-        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
-        mHelper.getReadableDatabase();
+        //mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        //mHelper.getReadableDatabase();
+        //mHelper.getDatabaseName();
 
 
         //啟動最上方紫色的Toolbar()
@@ -122,5 +123,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, EditDiaryActivity.class);
         startActivity(intent);
     }
+
+
 
 }

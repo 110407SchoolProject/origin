@@ -2,6 +2,7 @@ package com.example.a110407_app.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,9 +29,9 @@ public class RegisterActivity extends AppCompatActivity {
     private String userGender="";
     public String userTrueName, userName, userPassword, userPasswordConfirm;
 
-   // private final String DB_NAME = "MyDairy.db";
-    //private final String TABLE_NAME = "Profile";
-    //private final int DB_VERSION = 2;
+    private final String DB_NAME = "MyDairy.db";
+    private final String TABLE_NAME = "Profile";
+    private final int DB_VERSION = 3;
     SQLiteDBHelper mHelper;
 
 
@@ -43,7 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Stetho.initializeWithDefaults(this);
-        mHelper = new SQLiteDBHelper(this);
+        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        mHelper.getWritableDatabase();
 
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);
@@ -93,8 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
             userPassword = userPasswordEditText.getText().toString();
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
 
-
-
             int checkData =5;
 
             if(userTrueName.length()==0) {
@@ -121,8 +121,11 @@ public class RegisterActivity extends AppCompatActivity {
             if(checkData==5){
                 String registerSuccess ="Register your Account Successfully";
                 // TODO : initiate successful logged in experience
-                mHelper.addProfileData(userTrueName,userName, userPassword);;
+                Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
+                mHelper.addProfileData(userTrueName, userName,userPassword);
                 System.out.println(mHelper.showAll());
+                openLoginActivity();
+
 
 
             }else{
@@ -133,5 +136,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     };
+
+    public void openLoginActivity(){
+        Intent intent  = new Intent(this,LoginActivity.class);
+        startActivity(intent);
+    }
 
 }

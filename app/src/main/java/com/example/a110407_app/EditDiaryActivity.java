@@ -1,5 +1,6 @@
 package com.example.a110407_app;
 
+import android.content.Intent;
 import android.icu.text.CaseMap;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -62,7 +63,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     //建立SQLite DataBase
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 1;
+    private final int DB_VERSION = 3;
     SQLiteDBHelper mHelper;
 
     FragmentManager fragmentManager;
@@ -83,6 +84,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         Stetho.initializeWithDefaults(this);
         //初始化資料庫
         mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+        mHelper.getWritableDatabase();
 
 
         //抓取今天的日期設定到標題
