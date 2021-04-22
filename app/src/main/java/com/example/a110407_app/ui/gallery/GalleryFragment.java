@@ -40,7 +40,7 @@ public class GalleryFragment extends Fragment {
     SQLiteDBHelper          mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 1;
+    private final int DB_VERSION = 3;
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
     //開啟該篇日記
