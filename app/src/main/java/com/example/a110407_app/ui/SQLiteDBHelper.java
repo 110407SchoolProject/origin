@@ -49,7 +49,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 2:
+                case 1:
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                             "userTrueName TEXT, " +

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
@@ -65,52 +66,69 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> diaryTitleAndContent;
 
     private  Button btnDeleteDiary;
+    private  Button btnEditDiary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_diary);
 
+        //介面元件取得
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
+        btnEditDiary = findViewById(R.id.btnEditDiary);
+
         //抓使用者點選的日記id
         mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
-        //這是上個頁面傳過來的
+        //這是上個頁面傳過來的id
         Intent intent =getIntent();
-        String title =intent.getStringExtra("Title");
+        String id =intent.getStringExtra("id");
 
 
-        diaryTitleAndContent=mHelper.searchByTitle(title);
+        //資料庫搜尋內容，用id搜尋
+        diaryTitleAndContent=mHelper.searchById(id);
         for(HashMap<String,String> data:diaryTitleAndContent){
             titleText=data.get("Title");
             contentText=data.get("Content");
-
         }
-
+        //將標題和內容顯示出來
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
 
-
+        //刪除按鈕
         btnDeleteDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent =getIntent();
-                String title = intent.getStringExtra("Title");
-                System.out.println("刪除日記"+title);
+                String id = intent.getStringExtra("id");
+                System.out.println("刪除日記"+id);
 
-                String thisDiaryId="";
-
-                diaryTitleAndContent=mHelper.searchByTitle(title);
-                for(HashMap<String,String> data:diaryTitleAndContent){
-                    thisDiaryId=data.get("id");
-                }
-
-                mHelper.deleteByIdEZ(thisDiaryId);
-
+                mHelper.deleteByIdEZ(id);
+                Toast.makeText(getApplicationContext(), "刪除成功", Toast.LENGTH_SHORT).show();
             }
         });
 
+        btnEditDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //取得本文的id
+                Intent intent =getIntent();
+                String id = intent.getStringExtra("id");
+
+                openActivityEditDiaryById(id);
+                System.out.println(id);
+            }
+        });
+
+
     }
+
+    public void openActivityEditDiaryById(String Id){
+        Intent intent1 = new Intent(this, EditDiaryActivity.class);
+        intent1.putExtra("Id",Id);
+        startActivity(intent1);
+    };
+
 
 }

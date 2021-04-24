@@ -44,10 +44,10 @@ public class GalleryFragment extends Fragment {
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
     //開啟該篇日記
-    public void openActivityShowDiary(String title){
+    public void openActivityShowDiary(String diaryId){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
 
-        intent.putExtra("Title",title);
+        intent.putExtra("id",diaryId);
         startActivity(intent);
     }
 
@@ -87,20 +87,25 @@ public class GalleryFragment extends Fragment {
 
         //抓取日記標題
         final ArrayList titleArrayList = new ArrayList();
-
+        final ArrayList idArrayList = new ArrayList();
         for(int i = 1;i<=256;i++){
             String id = Integer.toString(i);
+            String diaryId = "";
             diaryTitleList= new ArrayList<>();
             diaryTitleList =mHelper.searchById(id);
+
             if(diaryTitleList.size()==0){
                 continue;
             }else{
                 for(HashMap<String,String> data:diaryTitleList){
                     title=data.get("Title");
+                    diaryId=data.get("id");
                     titleArrayList.add(title);
+                    idArrayList.add(diaryId);
                 }
             }
         }
+        System.out.println(idArrayList);
         //抓ListView ，並把剛抓到的日記顯示出來
         diaryListView = (ListView)root.findViewById(R.id.diaryListView);
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,titleArrayList);
@@ -118,7 +123,8 @@ public class GalleryFragment extends Fragment {
                 int idByInt =(int)id;
 
                 String title = (String) titleArrayList.get(idByInt);
-                openActivityShowDiary(title);
+                String diaryId =(String)idArrayList.get(idByInt);
+                openActivityShowDiary(diaryId);
             }
         });
         return root;
