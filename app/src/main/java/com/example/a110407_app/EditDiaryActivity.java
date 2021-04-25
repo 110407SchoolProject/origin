@@ -66,8 +66,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private final int DB_VERSION = 3;
     SQLiteDBHelper mHelper;
 
-    FragmentManager fragmentManager;
-    GalleryFragment galleryFragment;
+
 
 
 
@@ -94,7 +93,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         month = mDate.getMonth()+1 ;
         date= mDate.getDate() ;
         editTextTitle =(EditText)findViewById(R.id.editTextTitle);
-        editTextTitle.setHint(month+"月"+date+"號的日記");
+        editTextTitle.setText(month+"月"+date+"號的日記");
         //抓取輸入的內文，下面要在寫入data base
         editTextContent= findViewById(R.id.editTextContent);
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
