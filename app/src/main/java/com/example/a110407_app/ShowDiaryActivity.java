@@ -54,19 +54,17 @@ import java.util.Map;
 import com.example.a110407_app.R;
 
 public class ShowDiaryActivity extends AppCompatActivity {
-    private TextView showTitleText;
-    private TextView showContentText;
-    private String titleText;
-    private String contentText;
-
-    private SQLiteDBHelper mHelper;
+    private TextView showTitleText; //顯示日記標題
+    private TextView showContentText; //顯示日記內文
+    private String titleText; //日記標題
+    private String contentText; //日記內文
+    private SQLiteDBHelper mHelper; //內部資料庫元件
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 3;
-    private ArrayList<HashMap<String, String>> diaryTitleAndContent;
-
-    private  Button btnDeleteDiary;
-    private  Button btnEditDiary;
+    private ArrayList<HashMap<String, String>> diaryTitleAndContent; //標題和內文的ArrayList
+    private  Button btnDeleteDiary; //刪除按鈕
+    private  Button btnEditDiary; //編輯按鈕
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +114,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
                 Intent intent =getIntent();
                 String id = intent.getStringExtra("id");
 
-                openActivityEditDiaryById(id);
+                openActivityChangeDiaryById(id);
                 System.out.println(id);
             }
         });
@@ -124,10 +122,11 @@ public class ShowDiaryActivity extends AppCompatActivity {
 
     }
 
-    public void openActivityEditDiaryById(String Id){
-        Intent intent1 = new Intent(this, EditDiaryActivity.class);
-        intent1.putExtra("Id",Id);
-        startActivity(intent1);
+    public void openActivityChangeDiaryById(String Id){
+        Intent intent = new Intent(this, ChangeDiaryActivity.class);
+        intent.putExtra("id",Id);
+        System.out.println("SHOW"+Id);
+        startActivity(intent);
     };
 
 
