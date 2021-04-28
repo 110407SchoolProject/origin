@@ -50,15 +50,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class EditDiaryActivity extends AppCompatActivity {
-    public static final String EXTRA_TEXT="com.example.application.example.EXTRA_TEXT";
-    public static final String EXTRA_TEXT2="com.example.application.example.EXTRA_TEXT2";
+public class ChangeDiaryActivity extends AppCompatActivity {
 
-    private  EditText editTextTitle;
-    private  EditText editTextContent;
+    private  EditText changeTextTitle;
+    private  EditText changeTextContent;
     private Button btnSaveDiary;
-    private String getTitle;
-    private String getContent;
+    private String titleText;
+    private String contentText;
 
     //建立SQLite DataBase
     private final String DB_NAME = "MyDairy.db";
@@ -66,61 +64,53 @@ public class EditDiaryActivity extends AppCompatActivity {
     private final int DB_VERSION = 3;
     SQLiteDBHelper mHelper;
 
-
-
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    private ArrayList<HashMap<String, String>> diaryTitleAndContent = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_diary);
-        Calendar mCalendar = Calendar.getInstance();
-        //連結Facebook 開發的stetho資料庫工具
+        setContentView(R.layout.activity_change_diary);
+
         Stetho.initializeWithDefaults(this);
-        //初始化資料庫
+
         mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
         mHelper.getWritableDatabase();
-
-
-        //抓取今天的日期設定到標題
-        Integer month = 0;
-        Integer date= 0;
-        Date mDate = new Date();
-        month = mDate.getMonth()+1 ;
-        date= mDate.getDate() ;
-        editTextTitle =(EditText)findViewById(R.id.editTextTitle);
-        editTextTitle.setText(month+"月"+date+"號的日記");
-        //抓取輸入的內文，下面要在寫入data base
-        editTextContent= findViewById(R.id.editTextContent);
-        editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        editTextContent.setGravity(Gravity.TOP);
-        editTextContent.setSingleLine(false);
+        changeTextTitle=(EditText)findViewById(R.id.changeTextTitle);
+        changeTextContent= (EditText)findViewById(R.id.changeTextContent);
+        changeTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        changeTextContent.setGravity(Gravity.TOP);
+        changeTextContent.setSingleLine(false);
         btnSaveDiary = findViewById(R.id.btnSaveDiary);
 
-        //儲存日記
-        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+        System.out.println(id);
 
+        diaryTitleAndContent=mHelper.searchById(id);
+        for(HashMap<String,String> data:diaryTitleAndContent){
+            titleText=data.get("Title");
+            contentText=data.get("Content");
+        }
+        System.out.println(diaryTitleAndContent);
+        System.out.println(titleText);
+        System.out.println(contentText);
 
+        changeTextTitle.setText(titleText,TextView.BufferType.EDITABLE);
+        changeTextContent.setText(contentText,TextView.BufferType.EDITABLE);
 
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getTitle = editTextTitle.getText().toString();
-                getContent = editTextContent.getText().toString();
-                mHelper.addData(getTitle,getContent);
+                Intent intent = getIntent();
+                String id = intent.getStringExtra("id");
+                String newTitle = changeTextTitle.getText().toString();
+                String newContent = changeTextContent.getText().toString();
 
-
-                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
-//                fragmentManager=getSupportFragmentManager();
-//                fragmentManager.beginTransaction().
-//                        add(R.id.LayoutForFragment,galleryFragment).
-//                        show(galleryFragment).
-//                        commit();
+                mHelper.modifyEZ(id,newTitle,newContent);
+                Toast.makeText(getApplicationContext(), "更改成功", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 }

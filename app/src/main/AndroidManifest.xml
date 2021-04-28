@@ -14,8 +14,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan|stateHidden">
-        <activity android:name=".ShowDiaryActivity" android:parentActivityName=".EditDiaryActivity"></activity>
-        <activity android:name=".ui.ShowDiaryActivity"></activity>
+        <activity android:name=".ChangeDiaryActivity"></activity>
+        <activity
+            android:name=".ShowDiaryActivity"
+            android:parentActivityName=".EditDiaryActivity" />
+        <activity android:name=".ui.ShowDiaryActivity" />
         <activity android:name=".EditDiaryActivity" />
         <activity android:name=".WelcomeActivity">
             <intent-filter>

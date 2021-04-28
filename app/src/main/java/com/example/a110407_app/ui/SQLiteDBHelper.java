@@ -193,6 +193,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("title", title);
         values.put("content", content);
+        System.out.println(id+title+content);
         db.update(TableName, values, "_id = " + id, null);
     }
 
