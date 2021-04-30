@@ -36,9 +36,9 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String getContent;
 
     //建立SQLite DataBase
-    SQLiteDBHelper mHelper;
+    private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "Category";
+    private String TABLE_NAME = "CategoryTable";
     private final int DB_VERSION = 10;
 
 
@@ -55,6 +55,7 @@ public class EditDiaryActivity extends AppCompatActivity {
 
     //建立分類的資料表
     SQLiteDBHelper CategoryDBHelper;
+    public String strCategory;
 
 
 
@@ -165,6 +166,12 @@ public class EditDiaryActivity extends AppCompatActivity {
                                 System.arraycopy(Category1, 0, Category2, 0, Category1.length);
                                 Category2[Category1.length] = getNewCategory;
                                 Category1 = Category2;
+                                for (int i = 0; i < Category1.length; i++) {
+                                    System.out.println(Category1[i]);
+                                    if(Category1[i]==Category1[Category1.length-1]){
+                                        mHelper.addCategory(Category1[i]);
+                                    }
+                                }
 
                                 //************************
                                 //finish();
@@ -178,9 +185,13 @@ public class EditDiaryActivity extends AppCompatActivity {
                                  */
                                 //dialog.dismiss();
                             }
+
+
                         });
                         NewCategory.show();
+
                     }
+
                 });
                 //FragmentManager fragmentManager = getSupportFragmentManager();
                 //EditDairyFragment fragment= new EditDairyFragment();
