@@ -14,7 +14,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan|stateHidden">
-        <activity android:name=".ChangeDiaryActivity"></activity>
+        <activity android:name=".chooseCategory"></activity>
+        <activity android:name=".ChangeDiaryActivity" />
         <activity
             android:name=".ShowDiaryActivity"
             android:parentActivityName=".EditDiaryActivity" />

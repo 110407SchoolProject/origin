@@ -60,11 +60,12 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private String contentText; //日記內文
     private SQLiteDBHelper mHelper; //內部資料庫元件
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 3;
+    private String TABLE_NAME = "Category";
+    private final int DB_VERSION = 10;
     private ArrayList<HashMap<String, String>> diaryTitleAndContent; //標題和內文的ArrayList
     private  Button btnDeleteDiary; //刪除按鈕
     private  Button btnEditDiary; //編輯按鈕
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

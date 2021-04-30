@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class SQLiteDBHelper extends SQLiteOpenHelper {
@@ -22,14 +23,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        /*
         String SQLTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Title TEXT, " +
                 "Content TEXT" +
                 ");";
         db.execSQL(SQLTable);
-
+         */
+        /*
         String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userTrueName TEXT, " +
@@ -37,7 +39,16 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 "Password TEXT" +
                 ");";
         db.execSQL(RegisterTable);
+
+         */
+
+        String CategoryTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "Category TEXT " +
+                ");";
+        db.execSQL(CategoryTable);
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -46,10 +57,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
         if (newVersion > oldVersion){
+            //System.out.println("有吃到");
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 1:
+                case 9:
+
+                    /*新增Profile資料表
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                             "userTrueName TEXT, " +
@@ -57,6 +71,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                             "Password TEXT" +
                             ");";
                     db.execSQL(RegisterTable);
+                     */
+                    //新增Date欄位在Dairy 表裡面
+                    // db.execSQL("ALTER TABLE MyDairy ADD COLUMN Date TEXT");
+                    //新增Category欄位在Dairy表裡面
+                    //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Category TEXT");
+                    //新增Score欄位在Dairy表裡面
+                    //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Score FLOAT");
+                    //新增Category資料表
+
+                    db.execSQL("CREATE TABLE IF NOT EXISTS CategoryTable ( " +
+                            "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                            "Category TEXT " +
+                            ")");
                     success = true;
                     break;
             }
@@ -71,6 +98,21 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
 
 
+    }
+
+
+    //新增分類項
+    public void addCategory(String category){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Category",category);
+        db.insert(TableName,null,values);
+    }
+
+    //刪除分類項
+    public void deleteCategory(String category){
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TableName,"Category = " + category,null);
     }
 
     public void checkTable(){
@@ -106,11 +148,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     }
 
     //新增資料
-    public void addData(String title, String content) {
+    public void addData(String title, String content, String date,String category,String score) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Title", title);
         values.put("Content", content);
+        values.put("Date",date);
+        values.put("Category",category);
+        values.put("Score",score);
         db.insert(TableName, null, values);
     }
 
@@ -134,10 +179,16 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             String id = c.getString(0);
             String title = c.getString(1);
             String content = c.getString(2);
+            String date = c.getString(3);
+            String category = c.getString(4);
+            String score = c.getString(5);
 
             hashMap.put("id", id);
             hashMap.put("Title", title);
             hashMap.put("Content", content);
+            hashMap.put("Date",date);
+            hashMap.put("Category",category);
+            hashMap.put("Score",score);
             arrayList.add(hashMap);
         }
         return arrayList;
@@ -155,10 +206,17 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             String id = c.getString(0);
             String title = c.getString(1);
             String content = c.getString(2);
+            String date = c.getString(3);
+            String category = c.getString(4);
+            String score = c.getString(5);
+
 
             hashMap.put("id", id);
             hashMap.put("Title", title);
             hashMap.put("Content", content);
+            hashMap.put("Date",date);
+            hashMap.put("Category",category);
+            hashMap.put("Score",score);
             arrayList.add(hashMap);
         }
         return arrayList;
@@ -178,21 +236,31 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             String id = c.getString(0);
             String title = c.getString(1);
             String content = c.getString(2);
+            String date = c.getString(3);
+            String category = c.getString(4);
+            String score = c.getString(5);
 
             hashMap.put("id", id);
             hashMap.put("Title", title);
             hashMap.put("Content", content);
+            hashMap.put("Date",date);
+            hashMap.put("Category",category);
+            hashMap.put("Score",score);
+            arrayList.add(hashMap);
             arrayList.add(hashMap);
         }
         return arrayList;
     }
 
     //修改資料(簡單)
-    public void modifyEZ(String id, String title, String content) {
+    public void modifyEZ(String id, String title, String content,String date, String category,String score) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("title", title);
         values.put("content", content);
+        values.put("Date",date);
+        values.put("Category",category);
+        values.put("Score",score);
         System.out.println(id+title+content);
         db.update(TableName, values, "_id = " + id, null);
     }

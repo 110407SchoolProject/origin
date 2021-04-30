@@ -30,10 +30,10 @@ public class RegisterActivity extends AppCompatActivity {
     public String userTrueName, userName, userPassword, userPasswordConfirm;
 
     private final String DB_NAME = "MyDairy.db";
-    private final String TABLE_NAME = "Profile";
-    private final int DB_VERSION = 3;
+    private final String TABLE_NAME = "Category";
+    private final int DB_VERSION = 10;
     SQLiteDBHelper mHelper;
-
+    //private  String TABLE_NAME_CATEGORY = "Category";
 
 
 

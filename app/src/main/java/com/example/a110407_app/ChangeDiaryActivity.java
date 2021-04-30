@@ -60,9 +60,14 @@ public class ChangeDiaryActivity extends AppCompatActivity {
 
     //建立SQLite DataBase
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 3;
+    private String TABLE_NAME = "Category";
+    private final int DB_VERSION = 10;
     SQLiteDBHelper mHelper;
+    private String category = "未分類";
+    private String score = "5";
+
+    //private  String TABLE_NAME_CATEGORY = "Category";
+
 
     private ArrayList<HashMap<String, String>> diaryTitleAndContent = new ArrayList();
 
@@ -98,6 +103,15 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         changeTextTitle.setText(titleText,TextView.BufferType.EDITABLE);
         changeTextContent.setText(contentText,TextView.BufferType.EDITABLE);
 
+        Integer month = 0;
+        Integer date= 0;
+        Date mDate = new Date();
+        month = mDate.getMonth()+1 ;
+        date= mDate.getDate() ;
+        final String stringDate = date.toString();
+        final String stringMonth = month.toString();
+        final String todayDate = stringMonth + stringDate;
+
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +120,8 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                 String newTitle = changeTextTitle.getText().toString();
                 String newContent = changeTextContent.getText().toString();
 
-                mHelper.modifyEZ(id,newTitle,newContent);
+
+                mHelper.modifyEZ(id,newTitle,newContent,todayDate,category,score);
                 Toast.makeText(getApplicationContext(), "更改成功", Toast.LENGTH_SHORT).show();
             }
         });
