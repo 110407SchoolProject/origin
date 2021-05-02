@@ -38,8 +38,8 @@ public class EditDiaryActivity extends AppCompatActivity {
     //建立SQLite DataBase
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "CategoryTable";
-    private final int DB_VERSION = 10;
+    private String TABLE_NAME = "MyDairy";
+    private final int DB_VERSION = 5;
 
 
     private Button chooseCategory;
@@ -54,9 +54,8 @@ public class EditDiaryActivity extends AppCompatActivity {
     private TextView getSpinnerText;
 
     //建立分類的資料表
-    SQLiteDBHelper CategoryDBHelper;
-    public String strCategory;
-
+    private  SQLiteDBHelper CategoryDBHelper;
+    private final String TABLE_CATEGORY = "CategoryTable";
 
 
 
@@ -75,8 +74,8 @@ public class EditDiaryActivity extends AppCompatActivity {
         mHelper = new SQLiteDBHelper(this, DB_NAME, null, DB_VERSION, TABLE_NAME);
         mHelper.getWritableDatabase();
         //初始化分類表的資料庫
-        //CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME_CATEGORY);
-        //CategoryDBHelper.getWritableDatabase();
+        CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
+        CategoryDBHelper.getWritableDatabase();
 
 
         //抓取今天的日期設定到標題
@@ -110,11 +109,8 @@ public class EditDiaryActivity extends AppCompatActivity {
 
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
-//                fragmentManager=getSupportFragmentManager();
-//                fragmentManager.beginTransaction().
-//                        add(R.id.LayoutForFragment,galleryFragment).
-//                        show(galleryFragment).
-//                        commit();
+                finish();
+
             }
         });
 
@@ -169,7 +165,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                                 for (int i = 0; i < Category1.length; i++) {
                                     System.out.println(Category1[i]);
                                     if(Category1[i]==Category1[Category1.length-1]){
-                                        mHelper.addCategory(Category1[i]);
+                                        CategoryDBHelper.addCategory(Category1[i]);
                                     }
                                 }
 
