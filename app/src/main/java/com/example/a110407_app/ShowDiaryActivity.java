@@ -56,11 +56,13 @@ import com.example.a110407_app.R;
 public class ShowDiaryActivity extends AppCompatActivity {
     private TextView showTitleText; //顯示日記標題
     private TextView showContentText; //顯示日記內文
+    private TextView showCategory;//顯示日記分類
     private String titleText; //日記標題
     private String contentText; //日記內文
+    private String categorytext;//日記分類
     private SQLiteDBHelper mHelper; //內部資料庫元件
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "Category";
+    private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 10;
     private ArrayList<HashMap<String, String>> diaryTitleAndContent; //標題和內文的ArrayList
     private  Button btnDeleteDiary; //刪除按鈕
@@ -75,6 +77,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
         //介面元件取得
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
+        showCategory = findViewById(R.id.textShowCategory);
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         btnEditDiary = findViewById(R.id.btnEditDiary);
 
@@ -90,10 +93,13 @@ public class ShowDiaryActivity extends AppCompatActivity {
         for(HashMap<String,String> data:diaryTitleAndContent){
             titleText=data.get("Title");
             contentText=data.get("Content");
+            categorytext = data.get("Category");
+
         }
         //將標題和內容顯示出來
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
+        showCategory.setText(categorytext);
 
         //刪除按鈕
         btnDeleteDiary.setOnClickListener(new View.OnClickListener() {

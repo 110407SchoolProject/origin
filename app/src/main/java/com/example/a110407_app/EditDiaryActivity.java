@@ -23,7 +23,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class EditDiaryActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
@@ -35,10 +37,10 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String getTitle;
     private String getContent;
 
-    //建立SQLite DataBase
+    //建立日記表的資料庫
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "CategoryTable";
+    private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 10;
 
 
@@ -47,17 +49,17 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String score = "5";
 
 
-    String[] Category1 = new String[]{"未分類", "生活", "學校", "朋友"};
-    //String[] Category2 = new String[Category1.length + 1];
+    String[] Category1 = new String[]{"未分類"};
 
+    //pony
+    private ArrayList<HashMap<String, String>> categoryList ;
+    private ArrayList<HashMap<String, String>> categoryAllList;
     private TextView showCategory;
     private TextView getSpinnerText;
 
     //建立分類的資料表
-    SQLiteDBHelper CategoryDBHelper;
-    public String strCategory;
-
-
+    private  SQLiteDBHelper CategoryDBHelper;
+    public final String TABLE_CATEGORY = "CategoryTable";
 
 
 
@@ -71,12 +73,14 @@ public class EditDiaryActivity extends AppCompatActivity {
         Calendar mCalendar = Calendar.getInstance();
         //連結Facebook 開發的stetho資料庫工具
         Stetho.initializeWithDefaults(this);
-        //初始化資料庫
+        //初始化日記表資料庫
         mHelper = new SQLiteDBHelper(this, DB_NAME, null, DB_VERSION, TABLE_NAME);
         mHelper.getWritableDatabase();
         //初始化分類表的資料庫
-        //CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME_CATEGORY);
-        //CategoryDBHelper.getWritableDatabase();
+        CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
+        CategoryDBHelper.getWritableDatabase();
+
+
 
 
         //抓取今天的日期設定到標題
@@ -100,7 +104,6 @@ public class EditDiaryActivity extends AppCompatActivity {
         //儲存日記
         btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
 
-
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,13 +113,9 @@ public class EditDiaryActivity extends AppCompatActivity {
 
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
-//                fragmentManager=getSupportFragmentManager();
-//                fragmentManager.beginTransaction().
-//                        add(R.id.LayoutForFragment,galleryFragment).
-//                        show(galleryFragment).
-//                        commit();
             }
         });
+
 
 
         //選擇日記分類
@@ -124,15 +123,33 @@ public class EditDiaryActivity extends AppCompatActivity {
         chooseCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //跳出AlertDialog，用Spinner選擇分類，如果沒有想要的分類，就點選button新增分類
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditDiaryActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.activity_choose_category, null);
                 alertDialog.setView(view);
                 Button buttonCreateCategory = (Button) view.findViewById(R.id.buttonCreateCategory);
                 buttonCreateCategory.setText("新增分類");
-                alertDialog.setTitle("Choose a Category");
+                alertDialog.setTitle("請選擇一個分類");
                 Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
-                ArrayAdapter<String> adaptertext = new ArrayAdapter<String>(EditDiaryActivity.this, android.R.layout.simple_spinner_item, Category1);
+
+
+                ArrayList categoryAllListToShow =new ArrayList();
+                categoryAllListToShow.add("未分類");
+                if(categoryAllListToShow.size()==0){
+
+                }
+
+                categoryAllList= CategoryDBHelper.selectAllCategory();
+                System.out.println(categoryAllList);
+                String categoryName ="";
+                for(HashMap<String,String> data:categoryAllList){
+                    categoryName=data.get("Category");
+                    categoryAllListToShow.add(categoryName);
+                }
+
+                ArrayAdapter<String> adaptertext = new ArrayAdapter<String>(EditDiaryActivity.this, android.R.layout.simple_spinner_item, categoryAllListToShow);
+
                 adaptertext.setDropDownViewResource(android.R.layout.simple_spinner_item);
                 spinnerCategory.setAdapter(adaptertext);
                 spinnerCategory.setOnItemSelectedListener(spinnerListener);
@@ -152,7 +169,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         final AlertDialog.Builder NewCategory = new AlertDialog.Builder(EditDiaryActivity.this);
-                        View view1 = getLayoutInflater().inflate(R.layout.newcategory, null);
+                        final View view1 = getLayoutInflater().inflate(R.layout.newcategory, null);
                         NewCategory.setView(view1);
                         //NewCategory.show();
                         final EditText EditTextNewCategory = (EditText) view1.findViewById(R.id.EditTextNewCategory);
@@ -161,31 +178,32 @@ public class EditDiaryActivity extends AppCompatActivity {
                         NewCategory.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String[] Category2 = new String[Category1.length + 1];//每增加一筆，原始的Category1就增加一個長度
-                                final String getNewCategory = EditTextNewCategory.getText().toString();
-                                System.arraycopy(Category1, 0, Category2, 0, Category1.length);
-                                Category2[Category1.length] = getNewCategory;
-                                Category1 = Category2;
-                                for (int i = 0; i < Category1.length; i++) {
-                                    System.out.println(Category1[i]);
-                                    if(Category1[i]==Category1[Category1.length-1]){
-                                        mHelper.addCategory(Category1[i]);
-                                    }
+                                String categoryText = EditTextNewCategory.getText().toString();
+                                System.out.println(categoryText);
+
+                                categoryList = CategoryDBHelper.searchByCategory(categoryText);
+                                if(categoryList.size()==0){
+                                    System.out.println(categoryList);
+                                    CategoryDBHelper.addCategory(categoryText);
+                                }else{
+                                    final AlertDialog.Builder categoryExist = new AlertDialog.Builder(EditDiaryActivity.this);
+                                    final View view2 = getLayoutInflater().inflate(R.layout.categoryexist, null);
+                                    categoryExist.setView(view2);
+                                    categoryExist.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            categoryExist.setView(view1);
+                                        }
+                                    });
+                                    categoryExist.show();
+                                    System.out.println("該目錄存在");
                                 }
 
                                 //************************
                                 //finish();
                                 //startActivity(getIntent());
                                 //*************************
-                                //測試EditText是否有成功新增進去Category1 String Array
-                                /*
-                                for(String i : Category1){
-                                    System.out.println(i);
-                                }
-                                 */
-                                //dialog.dismiss();
                             }
-
 
                         });
                         NewCategory.show();
@@ -193,33 +211,25 @@ public class EditDiaryActivity extends AppCompatActivity {
                     }
 
                 });
-                //FragmentManager fragmentManager = getSupportFragmentManager();
-                //EditDairyFragment fragment= new EditDairyFragment();
-                //fragmentManager.beginTransaction().replace(R.id.activityEditDairy,fragment).commit();
-                //FragmentManager fm = getSupportFragmentManager();
-                //EditDairyFragment fragment = new EditDairyFragment();
-                //fm.beginTransaction().add(R.id.activityEditDairy,fragment).commit();
+
             }
+
         });
 
 
+
+
+
     }
 
-    /*
-    @Override
-    protected void onRestart(){
-        this.recreate();
-        super.onRestart();
-    }
-     */
 
     //判斷Spinner選到哪一個選項
     private Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String sel = parent.getSelectedItem().toString();
-            int p = position;
-            showCategory.setText(Category1[p]);
+
+            showCategory.setText(sel);
         }
 
 

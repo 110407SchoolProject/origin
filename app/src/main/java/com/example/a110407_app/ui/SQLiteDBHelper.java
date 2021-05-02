@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class SQLiteDBHelper extends SQLiteOpenHelper {
     String TAG =SQLiteOpenHelper.class.getSimpleName();
@@ -197,8 +198,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     //以id搜尋特定資料
     public ArrayList<HashMap<String,String>> searchById(String getId){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery(" SELECT * FROM " + TableName
-                + " WHERE _id =" + "'" + getId + "'", null);
+        Cursor c = db.rawQuery(" SELECT * FROM " + TableName + " WHERE _id =" + "'" + getId + "'", null);
         ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
         while (c.moveToNext()) {
             HashMap<String, String> hashMap = new HashMap<>();
@@ -221,6 +221,52 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         }
         return arrayList;
     }
+
+    //以分類篩選資料
+    public ArrayList<HashMap<String,String>> searchByCategory(String getCategory){
+        SQLiteDatabase db = getReadableDatabase();
+        //Cursor c = db.rawQuery(" SELECT * FROM " + TableName
+        //        + " WHERE Category =" + "'" + getCategory + "'", null);
+        Cursor c = db.rawQuery(" SELECT * FROM " + TableName + " WHERE Category =" + "'" + getCategory + "'", null);
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        while (c.moveToNext()) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            String category = c.getString(0);
+            hashMap.put("Category", category);
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+
+    //將所有的category抓出來
+    public ArrayList<HashMap<String,String>> selectAllCategory(){
+        SQLiteDatabase db = getReadableDatabase();
+        //Cursor c = db.rawQuery(" SELECT * FROM " + TableName
+        //        + " WHERE Category =" + "'" + getCategory + "'", null);
+        Cursor c = db.rawQuery(" SELECT Category FROM " + TableName , null);
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        while (c.moveToNext()) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            String category = c.getString(0);
+            hashMap.put("Category", category);
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+
+    public ArrayList<HashMap<String,String>> selectTheLastCategory(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT Category FROM " + TableName , null);
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        c.moveToLast();
+        HashMap<String, String> hashMap = new HashMap<>();
+        String category = c.getString(0);
+        hashMap.put("Category", category);
+        arrayList.add(hashMap);
+        return arrayList;
+    }
+
+
 
 
 
