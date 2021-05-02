@@ -60,8 +60,8 @@ public class ChangeDiaryActivity extends AppCompatActivity {
 
     //建立SQLite DataBase
     private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "Category";
-    private final int DB_VERSION = 10;
+    private String TABLE_NAME = "MyDairy";
+    private final int DB_VERSION = 5;
     SQLiteDBHelper mHelper;
     private String category = "未分類";
     private String score = "5";
@@ -123,9 +123,20 @@ public class ChangeDiaryActivity extends AppCompatActivity {
 
                 mHelper.modifyEZ(id,newTitle,newContent,todayDate,category,score);
                 Toast.makeText(getApplicationContext(), "更改成功", Toast.LENGTH_SHORT).show();
+                openActivityShowDiary(id);
+                finish();
             }
         });
 
 
+
+
+    }
+
+    public void openActivityShowDiary(String id){
+        Intent intent = new Intent(this, ShowDiaryActivity.class);
+
+        intent.putExtra("id",id);
+        startActivity(intent);
     }
 }

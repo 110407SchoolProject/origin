@@ -58,12 +58,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
         if (newVersion > oldVersion){
-            //System.out.println("有吃到");
+            System.out.println("有吃到");
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 9:
+                case 4:
 
+                    System.out.println("幹你娘");
                     /*新增Profile資料表
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -74,7 +75,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                     db.execSQL(RegisterTable);
                      */
                     //新增Date欄位在Dairy 表裡面
-                    // db.execSQL("ALTER TABLE MyDairy ADD COLUMN Date TEXT");
+                    //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Date TEXT");
                     //新增Category欄位在Dairy表裡面
                     //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Category TEXT");
                     //新增Score欄位在Dairy表裡面
@@ -85,6 +86,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                             "Category TEXT " +
                             ")");
+
+
                     success = true;
                     break;
             }

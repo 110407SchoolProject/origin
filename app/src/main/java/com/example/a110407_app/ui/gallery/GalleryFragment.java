@@ -40,7 +40,7 @@ public class GalleryFragment extends Fragment {
     SQLiteDBHelper          mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 10;
+    private final int DB_VERSION = 5;
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
     //開啟該篇日記
@@ -100,12 +100,16 @@ public class GalleryFragment extends Fragment {
                 for(HashMap<String,String> data:diaryTitleList){
                     title=data.get("Title");
                     diaryId=data.get("id");
+                    if(title==null){
+                        title="無標題";
+                    }
                     titleArrayList.add(title);
                     idArrayList.add(diaryId);
                 }
             }
         }
-        System.out.println(idArrayList);
+        System.out.println(titleArrayList);
+
         //抓ListView ，並把剛抓到的日記顯示出來
         diaryListView = (ListView)root.findViewById(R.id.diaryListView);
         ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,titleArrayList);
