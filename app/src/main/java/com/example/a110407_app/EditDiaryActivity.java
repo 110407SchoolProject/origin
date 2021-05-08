@@ -38,7 +38,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String getTitle;
     private String getContent;
     //心情按鈕
-    private int img_id[]={R.drawable.crying,R.drawable.sad,R.drawable.normal,R.drawable.smiling,R.drawable.exciting};
+
     private ImageButton btnCryingMood;
     private ImageButton btnSadMood;
     private ImageButton btnNormalMood;
@@ -89,7 +89,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         Integer date = 0;
         Date mDate = new Date();
         month = mDate.getMonth() + 1;
-        date = mDate.getDate();
+        date = mDate.getDate()+1;
         final String stringDate = date.toString();
         final String stringMonth = month.toString();
         final String todayDate = stringMonth + stringDate;

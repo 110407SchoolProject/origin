@@ -6,10 +6,10 @@
 
     <EditText
         android:id="@+id/EditTextNewCategory"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="請輸入新增的分類">
+        android:layout_gravity="bottom"
+        android:hint="請輸入新分類的名稱">
 
     </EditText>
 

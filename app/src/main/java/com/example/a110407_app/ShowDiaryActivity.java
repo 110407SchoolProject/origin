@@ -99,7 +99,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
         //將標題和內容顯示出來
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
-        showCategory.setText(categorytext);
+        showCategory.setText("目錄："+categorytext);
 
         //刪除按鈕
         btnDeleteDiary.setOnClickListener(new View.OnClickListener() {
