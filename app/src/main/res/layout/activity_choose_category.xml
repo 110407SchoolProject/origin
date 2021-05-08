@@ -14,15 +14,16 @@
     <Spinner
         android:id="@+id/spinnerCategory"
         android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
         android:layout_height="50dp">
 
     </Spinner>
 
     <Button
         android:id="@+id/buttonCreateCategory"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-    </Button>
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_height="50dp"></Button>
 
 </LinearLayout>
 

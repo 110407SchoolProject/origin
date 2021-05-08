@@ -1,7 +1,6 @@
 package com.example.a110407_app;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,12 +31,20 @@ import java.util.HashMap;
 public class EditDiaryActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
     public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
-
+    //日記項
     private EditText editTextTitle;
     private EditText editTextContent;
     private Button btnSaveDiary;
     private String getTitle;
     private String getContent;
+    //心情按鈕
+    private int img_id[]={R.drawable.crying,R.drawable.sad,R.drawable.normal,R.drawable.smiling,R.drawable.exciting};
+    private ImageButton btnCryingMood;
+    private ImageButton btnSadMood;
+    private ImageButton btnNormalMood;
+    private ImageButton btnSmilingMood;
+    private ImageButton btnExcitingMood;
+    private ImageView currentMood;
 
     //建立日記表的資料庫
     private SQLiteDBHelper mHelper;
@@ -43,13 +52,10 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 10;
 
-
+    //分類
     private Button chooseCategory;
     private String category = "未分類";
-    private String score = "5";
-
-
-    String[] Category1 = new String[]{"未分類"};
+    private String moodScore = "5";
 
     //pony
     private ArrayList<HashMap<String, String>> categoryList ;
@@ -89,6 +95,8 @@ public class EditDiaryActivity extends AppCompatActivity {
         final String todayDate = stringMonth + stringDate;
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTitle.setText(month + "月" + date + "號的日記");
+
+
         //抓取輸入的內文，下面要在寫入data base
         editTextContent = findViewById(R.id.editTextContent);
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -104,12 +112,62 @@ public class EditDiaryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getTitle = editTextTitle.getText().toString();
                 getContent = editTextContent.getText().toString();
-                mHelper.addData(getTitle, getContent, todayDate, category, score);
-
+                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //心情選取欄位
+        currentMood= (ImageView)findViewById(R.id.currentMoodImageView);
+        btnCryingMood =(ImageButton)findViewById(R.id.btnCrying);
+        btnSadMood =(ImageButton)findViewById(R.id.btnSad);
+        btnNormalMood =(ImageButton)findViewById(R.id.bntNormal);
+        btnSmilingMood =(ImageButton)findViewById(R.id.btnSmiling);
+        btnExcitingMood =(ImageButton)findViewById(R.id.btnExciting);
+
+        btnCryingMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodScore="1";
+
+                System.out.println(moodScore);
+                currentMood.setImageResource(R.drawable.crying);
+            }
+        });
+        btnSadMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodScore="2";
+                System.out.println(moodScore);
+                currentMood.setImageResource(R.drawable.sad);
+            }
+        });
+        btnNormalMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodScore="3";
+                System.out.println(moodScore);
+                currentMood.setImageResource(R.drawable.normal);
+            }
+        });
+        btnSmilingMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodScore="4";
+                System.out.println(moodScore);
+                currentMood.setImageResource(R.drawable.smiling);
+            }
+        });
+        btnExcitingMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moodScore="5";
+                System.out.println(moodScore);
+                currentMood.setImageResource(R.drawable.exciting);
+            }
+        });
+
 
 
 
@@ -124,7 +182,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                 View view = getLayoutInflater().inflate(R.layout.activity_choose_category, null);
                 alertDialog.setView(view);
                 Button buttonCreateCategory = (Button) view.findViewById(R.id.buttonCreateCategory);
-                buttonCreateCategory.setText("新增分類");
+                buttonCreateCategory.setText("新增一個新的分類");
                 alertDialog.setTitle("請選擇一個分類");
                 Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
 
@@ -151,9 +209,9 @@ public class EditDiaryActivity extends AppCompatActivity {
 
 
 
-                showCategory = (TextView) findViewById(R.id.textViewCategory);
+                showCategory = (TextView) findViewById(R.id.CategoryTextView);
                 //當點選"確認選擇此分類"，將此分類帶入文章的TextView中
-                alertDialog.setPositiveButton("確定選擇此分類", new DialogInterface.OnClickListener() {
+                alertDialog.setPositiveButton("確定分類", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showCategory.getText();

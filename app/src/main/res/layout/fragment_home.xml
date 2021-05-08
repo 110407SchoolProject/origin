@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_horizontal" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,14 +16,26 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/text_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="#FCFCFC"
+            android:textSize="20sp" />
+
+        <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:text="TextView" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="TextView"
+            android:textColor="#FCFCFC" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="277dp"
+            android:layout_height="599dp"
             android:orientation="vertical">
 
             <ImageView
@@ -51,19 +48,35 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="今日小語" />
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:text="今日小語"
+                android:textColor="#FCFCFC"
+                android:textSize="20dp" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="今天的天氣適合帶著朋友四處走走，放鬆一下身心" />
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:text="今天的天氣適合帶著朋友四處走走，放鬆一下身心"
+                android:layout_marginRight="8dp"
+
+                android:textColor="#FCFCFC"
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/newestDiaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="最新日記" />
+                android:layout_marginLeft="8dp"
+
+                android:layout_marginTop="8dp"
+                android:text="最新日記"
+
+                android:textColor="#FCFCFC"
+                android:textSize="20dp" />
 
         </LinearLayout>
 

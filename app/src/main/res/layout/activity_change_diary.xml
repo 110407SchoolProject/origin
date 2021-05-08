@@ -69,35 +69,35 @@
             android:layout_marginRight="12dp">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/btnCrying"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@android:drawable/btn_star_big_on" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/btnSad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@android:drawable/btn_star_big_on" />
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/bntNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@android:drawable/btn_star_big_on" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/btnSmiling"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:srcCompat="@android:drawable/btn_star_big_on" />
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/btnExciting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
