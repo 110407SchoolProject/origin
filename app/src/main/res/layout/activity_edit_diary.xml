@@ -29,6 +29,7 @@
             android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#FCFCFC"
 
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -54,6 +55,7 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:ems="10"
+                    android:textColor="#FCFCFC"
                     android:gravity="clip_horizontal"
                     android:hint="今天過得如何呢"
                     android:inputType="textPersonName"

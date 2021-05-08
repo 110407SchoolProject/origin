@@ -22,12 +22,14 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioGroup genderRadioGroup ;
     private RadioButton genderButtonMale;
     private RadioButton genderButtonFemale;
+
+    private EditText userBirthdayEditText;
     private EditText userTrueNameEditText ;
     private EditText userNameEditText;
     private EditText userPasswordEditText;
     private EditText userPasswordConfirmEditText;
     private String userGender="";
-    public String userTrueName, userName, userPassword, userPasswordConfirm;
+    public String userTrueName, userName,userBirthday, userPassword, userPasswordConfirm;
 
     private final String DB_NAME = "MyDairy.db";
     private final String TABLE_NAME = "Profile";
@@ -58,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity {
         genderButtonMale=(RadioButton)findViewById(R.id.genderMale);
         genderButtonFemale=(RadioButton)findViewById(R.id.genderFemale);
         genderRadioGroup.setOnCheckedChangeListener(radioButtonGenderOnCheckedChange);
+        //(生日)
+        //userBirthdayEditText=(EditText) findViewById(R.id.userBirthdayEditText);
         //帳號(使用者名稱)
         userNameEditText =(EditText)findViewById(R.id.userNameEditText);
         //密碼
@@ -92,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             userTrueName = userTrueNameEditText.getText().toString();
             userName = userNameEditText.getText().toString();
+            userBirthday =userBirthdayEditText.getText().toString();
             userPassword = userPasswordEditText.getText().toString();
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
 

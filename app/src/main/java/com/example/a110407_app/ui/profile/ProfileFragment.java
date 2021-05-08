@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
         // 必須先呼叫getView()取得程式畫面物件，然後才能呼叫它的
         // findViewById()取得介面物件
         image = (ImageView) getView().findViewById(R.id.profileImage);
-        image.setImageResource(R.drawable.pizza);
+        image.setImageResource(R.drawable.ic_menu_camera);
         name = (TextView) getView().findViewById(R.id.profileName);
         name.setText("Gary Wang");
         username = (TextView) getView().findViewById(R.id.profileUsername);

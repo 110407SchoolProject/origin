@@ -88,6 +88,7 @@ public class GalleryFragment extends Fragment {
         //抓取日記標題
         final ArrayList titleArrayList = new ArrayList();
         final ArrayList idArrayList = new ArrayList();
+
         for(int i = 1;i<=256;i++){
             String id = Integer.toString(i);
             String diaryId = "";
@@ -108,11 +109,12 @@ public class GalleryFragment extends Fragment {
                 }
             }
         }
+
         System.out.println(titleArrayList);
 
         //抓ListView ，並把剛抓到的日記顯示出來
         diaryListView = (ListView)root.findViewById(R.id.diaryListView);
-        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1,titleArrayList);
+        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
         diaryListView.setAdapter(adapter);
 
 

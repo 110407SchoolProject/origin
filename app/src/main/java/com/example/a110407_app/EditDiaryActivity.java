@@ -61,8 +61,6 @@ public class EditDiaryActivity extends AppCompatActivity {
     private  SQLiteDBHelper CategoryDBHelper;
     public final String TABLE_CATEGORY = "CategoryTable";
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
 
     @Override
@@ -79,9 +77,6 @@ public class EditDiaryActivity extends AppCompatActivity {
         //初始化分類表的資料庫
         CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
         CategoryDBHelper.getWritableDatabase();
-
-
-
 
         //抓取今天的日期設定到標題
         Integer month = 0;
@@ -153,6 +148,8 @@ public class EditDiaryActivity extends AppCompatActivity {
                 adaptertext.setDropDownViewResource(android.R.layout.simple_spinner_item);
                 spinnerCategory.setAdapter(adaptertext);
                 spinnerCategory.setOnItemSelectedListener(spinnerListener);
+
+
 
                 showCategory = (TextView) findViewById(R.id.textViewCategory);
                 //當點選"確認選擇此分類"，將此分類帶入文章的TextView中
