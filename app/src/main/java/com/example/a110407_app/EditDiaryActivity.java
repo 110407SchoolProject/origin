@@ -112,6 +112,7 @@ public class EditDiaryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 getTitle = editTextTitle.getText().toString();
                 getContent = editTextContent.getText().toString();
+                category=showCategory.getText().toString();
                 mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
@@ -234,6 +235,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String categoryText = EditTextNewCategory.getText().toString();
+
                                 System.out.println(categoryText);
 
                                 categoryList = CategoryDBHelper.searchByCategory(categoryText);
