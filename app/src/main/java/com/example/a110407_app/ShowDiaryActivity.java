@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,9 +59,12 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private TextView showTitleText; //顯示日記標題
     private TextView showContentText; //顯示日記內文
     private TextView showCategory;//顯示日記分類
+    private ImageView showImageMood;//顯示日記心情
+
     private String titleText; //日記標題
     private String contentText; //日記內文
     private String categorytext;//日記分類
+    private String moodScore;
     private SQLiteDBHelper mHelper; //內部資料庫元件
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
@@ -78,6 +83,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
         showCategory = findViewById(R.id.textShowCategory);
+        showImageMood = findViewById(R.id.moodImage);
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         btnEditDiary = findViewById(R.id.btnEditDiary);
 
@@ -94,12 +100,37 @@ public class ShowDiaryActivity extends AppCompatActivity {
             titleText=data.get("Title");
             contentText=data.get("Content");
             categorytext = data.get("Category");
-
+            moodScore=data.get("Score");
         }
         //將標題和內容顯示出來
         showTitleText.setText(titleText);
         showContentText.setText(contentText);
         showCategory.setText("目錄："+categorytext);
+
+        int score = (int)Float.parseFloat(moodScore);
+        System.out.println(score);
+        switch(score) {
+            case 1:
+                System.out.println("Crying");
+                showImageMood.setImageResource(R.drawable.crying);
+                break;
+            case 2:
+                System.out.println("Sad");
+                showImageMood.setImageResource(R.drawable.sad);
+                break;
+            case 3:
+                System.out.println("Normal");
+                showImageMood.setImageResource(R.drawable.normal);
+                break;
+            case 4:
+                System.out.println("Smiling");
+                showImageMood.setImageResource(R.drawable.smiling);
+                break;
+            case 5:
+                System.out.println("Exciting");
+                showImageMood.setImageResource(R.drawable.exciting);
+                break;
+        }
 
         //刪除按鈕
         btnDeleteDiary.setOnClickListener(new View.OnClickListener() {

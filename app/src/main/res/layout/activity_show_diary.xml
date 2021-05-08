@@ -49,7 +49,7 @@
                 android:textColor="#FCFCFC" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/moodImage"
                 android:layout_width="116dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

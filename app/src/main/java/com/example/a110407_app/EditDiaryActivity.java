@@ -61,7 +61,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private ArrayList<HashMap<String, String>> categoryList ;
     private ArrayList<HashMap<String, String>> categoryAllList;
     private TextView showCategory;
-    private TextView getSpinnerText;
+
 
     //建立分類的資料表
     private  SQLiteDBHelper CategoryDBHelper;
@@ -126,6 +126,9 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnNormalMood =(ImageButton)findViewById(R.id.bntNormal);
         btnSmilingMood =(ImageButton)findViewById(R.id.btnSmiling);
         btnExcitingMood =(ImageButton)findViewById(R.id.btnExciting);
+
+        showCategory = (TextView) findViewById(R.id.CategoryTextView);
+        showCategory.setText("未分類");
 
         btnCryingMood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,7 +213,7 @@ public class EditDiaryActivity extends AppCompatActivity {
 
 
 
-                showCategory = (TextView) findViewById(R.id.CategoryTextView);
+
                 //當點選"確認選擇此分類"，將此分類帶入文章的TextView中
                 alertDialog.setPositiveButton("確定分類", new DialogInterface.OnClickListener() {
                     @Override
