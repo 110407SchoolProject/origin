@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/welcomeView"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/cat_welcome" />
     </LinearLayout>

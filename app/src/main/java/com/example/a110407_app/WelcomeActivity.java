@@ -19,7 +19,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        mHandler.sendEmptyMessageAtTime(GOTO_LOGIN_ACTIVITY,8000);
+        mHandler.sendEmptyMessageAtTime(GOTO_LOGIN_ACTIVITY,1000);
         image = (ImageView) findViewById(R.id.welcomeView);
         image.setImageResource(R.drawable.cat_welcome);
     }
@@ -27,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void FadeOutAndHideImage(final ImageView image){
         Animation fadeout = new AlphaAnimation(1,0);
         fadeout.setInterpolator(new AccelerateInterpolator());
-        fadeout.setDuration(3000);
+        fadeout.setDuration(1000);
         fadeout.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

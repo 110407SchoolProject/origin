@@ -52,24 +52,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //setContentView(R.layout.content_main);
         Stetho.initializeWithDefaults(this);
-        // Facebook 提供的 視覺化資料庫
-//        deleteDatabase(DB_NAME);
-
-        //建立資料庫
-        //mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
-        //mHelper.getReadableDatabase();
-        //mHelper.getDatabaseName();
-
 
         //啟動最上方紫色的Toolbar()
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //加入dairy的按鈕
+
+        //新增dairy的按鈕
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "新增日記", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 //新增日記
                 openActivityEditDiary();
@@ -87,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home,R.id.nav_profile,R.id.nav_gallery, R.id.nav_slideshow).setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }

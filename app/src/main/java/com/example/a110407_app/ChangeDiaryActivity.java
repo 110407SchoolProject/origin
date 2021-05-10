@@ -100,6 +100,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         System.out.println(titleText);
         System.out.println(contentText);
 
+
         changeTextTitle.setText(titleText,TextView.BufferType.EDITABLE);
         changeTextContent.setText(contentText,TextView.BufferType.EDITABLE);
 

@@ -1,6 +1,9 @@
 package com.example.a110407_app;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.facebook.stetho.Stetho;
 
 import androidx.annotation.RequiresApi;
@@ -31,6 +35,7 @@ import java.util.HashMap;
 public class EditDiaryActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
     public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
+    private GalleryFragment GalleryFragment;
     //日記項
     private EditText editTextTitle;
     private EditText editTextContent;
@@ -89,7 +94,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         Integer date = 0;
         Date mDate = new Date();
         month = mDate.getMonth() + 1;
-        date = mDate.getDate()+1;
+        date = mDate.getDate();
         final String stringDate = date.toString();
         final String stringMonth = month.toString();
         final String todayDate = stringMonth + stringDate;
@@ -116,6 +121,8 @@ public class EditDiaryActivity extends AppCompatActivity {
                 mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
+                openActivityShowDiary();
+                finish();
             }
         });
 
@@ -258,30 +265,39 @@ public class EditDiaryActivity extends AppCompatActivity {
                                     categoryExist.show();
                                     System.out.println("該目錄存在");
                                 }
-
-                                //************************
-                                //finish();
-                                //startActivity(getIntent());
-                                //*************************
                             }
 
                         });
                         NewCategory.show();
-
                     }
 
                 });
-
             }
 
         });
-
-
-
-
-
     }
 
+//當使用者儲存完畢，可以馬上顯示出這筆日記
+    public void openActivityShowDiary(){
+        //先將所有日記都讀出來，意味著抓到的是剛剛最新的那筆日記資料
+        //可能會有效能問題，先測試看看，目前可以
+        ArrayList<HashMap<String, String>> diaryArrayList;
+
+        Intent intent = new Intent(this, ShowDiaryActivity.class);
+        final ArrayList idArrayList = new ArrayList();
+        diaryArrayList=mHelper.showAll();
+        String id ="";
+        String diaryId;
+        for(HashMap<String,String> data:diaryArrayList){
+            id=data.get("id");
+            idArrayList.add(id);
+        }
+        int size =idArrayList.size();
+        diaryId= (String) idArrayList.get(size-1);
+        //把此篇的日記id搬運過去
+        intent.putExtra("id",diaryId);
+        startActivity(intent);
+    }
 
     //判斷Spinner選到哪一個選項
     private Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {

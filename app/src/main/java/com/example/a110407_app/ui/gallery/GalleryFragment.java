@@ -18,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -25,6 +27,7 @@ import com.example.a110407_app.EditDiaryActivity;
 import com.example.a110407_app.R;
 import com.example.a110407_app.ShowDiaryActivity;
 import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.example.a110407_app.ui.home.HomeFragment;
 import com.example.a110407_app.ui.login.RegisterActivity;
 
 import java.util.ArrayList;
@@ -37,7 +40,8 @@ public class GalleryFragment extends Fragment {
     private ListView diaryListView;
     private GalleryViewModel galleryViewModel;
 
-    SQLiteDBHelper          mHelper;
+
+    SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 5;
@@ -69,9 +73,9 @@ public class GalleryFragment extends Fragment {
                 if(countDiaryNumber==0){
                     textView.setText(s);
                 }
-
             }
         });
+
         //資料庫
         mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
 
@@ -88,6 +92,8 @@ public class GalleryFragment extends Fragment {
         //抓取日記標題
         final ArrayList titleArrayList = new ArrayList();
         final ArrayList idArrayList = new ArrayList();
+
+
 
         for(int i = 1;i<=256;i++){
             String id = Integer.toString(i);
@@ -118,6 +124,7 @@ public class GalleryFragment extends Fragment {
         diaryListView.setAdapter(adapter);
 
 
+
         //開啟日記
         diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -131,6 +138,16 @@ public class GalleryFragment extends Fragment {
                 String title = (String) titleArrayList.get(idByInt);
                 String diaryId =(String)idArrayList.get(idByInt);
                 openActivityShowDiary(diaryId);
+
+//                Fragment currentFragment = getFragmentManager().findFragmentByTag(GalleryFragment);
+//
+//                System.out.println(currentFragment);
+//                FragmentManager fragmentManager = getFragmentManager();
+//
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//
+//                fragmentTransaction.detach(currentFragment);
+//                fragmentTransaction.attach(currentFragment);
             }
         });
         return root;

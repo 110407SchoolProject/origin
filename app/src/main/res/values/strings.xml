@@ -25,11 +25,8 @@
     <string name="login_failed">"Login failed"</string>
 
     <string-array name="diary">
-        <item>2021/3/5 南投出遊</item>
-        <item>2021/3/6 幸福的吃火鍋</item>
-        <item>2021/3/7 平淡的雨天</item>
-        <item>2021/3/8 趕不完的作業</item>
-        <item>2021/3/9 好討厭 今天雨好大</item>
+        <item>目前沒有日記唷！趕快來新增日記吧！</item>
+
 
 
     </string-array>

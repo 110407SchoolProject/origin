@@ -63,8 +63,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="8dp"
-                android:text="今天的天氣適合帶著朋友四處走走，放鬆一下身心"
                 android:layout_marginRight="8dp"
+                android:text="每天寫下日記，有助於放鬆身心，將自己所發生的點點滴滴記錄起來，何嘗不是種享受呢？"
 
                 android:textColor="#FCFCFC"
                 android:textSize="16dp" />
@@ -80,6 +80,15 @@
 
                 android:textColor="#FCFCFC"
                 android:textSize="20dp" />
+
+            <ListView
+                android:id="@+id/diaryListViewInHome"
+                android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_height="200dp"
+                android:entries="@array/diary"
+                android:textColor="#FCFCFC" />
 
         </LinearLayout>
 

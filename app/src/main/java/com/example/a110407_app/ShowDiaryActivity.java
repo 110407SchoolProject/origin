@@ -1,6 +1,8 @@
 package com.example.a110407_app;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -25,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -142,6 +143,11 @@ public class ShowDiaryActivity extends AppCompatActivity {
 
                 mHelper.deleteByIdEZ(id);
                 Toast.makeText(getApplicationContext(), "刪除成功", Toast.LENGTH_SHORT).show();
+
+                finish();
+                openActivityHome();
+
+
             }
         });
 
@@ -167,5 +173,10 @@ public class ShowDiaryActivity extends AppCompatActivity {
         startActivity(intent);
     };
 
+    public void openActivityHome(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
 
 }
