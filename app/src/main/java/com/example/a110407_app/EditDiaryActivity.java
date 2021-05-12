@@ -33,9 +33,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class EditDiaryActivity extends AppCompatActivity {
-    public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
-    public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
-    private GalleryFragment GalleryFragment;
     //日記項
     private EditText editTextTitle;
     private EditText editTextContent;
@@ -43,31 +40,25 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String getTitle;
     private String getContent;
     //心情按鈕
-
     private ImageButton btnCryingMood;
     private ImageButton btnSadMood;
     private ImageButton btnNormalMood;
     private ImageButton btnSmilingMood;
     private ImageButton btnExcitingMood;
     private ImageView currentMood;
-
     //建立日記表的資料庫
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
     private final int DB_VERSION = 10;
-
     //分類
     private Button chooseCategory;
     private String category = "未分類";
     private String moodScore = "5";
-
-    //pony
+    //新增目錄的視窗
     private ArrayList<HashMap<String, String>> categoryList ;
     private ArrayList<HashMap<String, String>> categoryAllList;
     private TextView showCategory;
-
-
     //建立分類的資料表
     private  SQLiteDBHelper CategoryDBHelper;
     public final String TABLE_CATEGORY = "CategoryTable";
@@ -79,7 +70,6 @@ public class EditDiaryActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
-        Calendar mCalendar = Calendar.getInstance();
         //連結Facebook 開發的stetho資料庫工具
         Stetho.initializeWithDefaults(this);
         //初始化日記表資料庫
@@ -88,7 +78,6 @@ public class EditDiaryActivity extends AppCompatActivity {
         //初始化分類表的資料庫
         CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
         CategoryDBHelper.getWritableDatabase();
-
         //抓取今天的日期設定到標題
         Integer month = 0;
         Integer date = 0;
@@ -100,32 +89,11 @@ public class EditDiaryActivity extends AppCompatActivity {
         final String todayDate = stringMonth + stringDate;
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTitle.setText(month + "月" + date + "號的日記");
-
-
         //抓取輸入的內文，下面要在寫入data base
         editTextContent = findViewById(R.id.editTextContent);
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editTextContent.setGravity(Gravity.TOP);
         editTextContent.setSingleLine(false);
-        btnSaveDiary = findViewById(R.id.btnSaveDiary);
-
-        //儲存日記
-        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
-
-        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getTitle = editTextTitle.getText().toString();
-                getContent = editTextContent.getText().toString();
-                category=showCategory.getText().toString();
-                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
-
-                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
-                openActivityShowDiary();
-                finish();
-            }
-        });
-
         //心情選取欄位
         currentMood= (ImageView)findViewById(R.id.currentMoodImageView);
         btnCryingMood =(ImageButton)findViewById(R.id.btnCrying);
@@ -133,10 +101,8 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnNormalMood =(ImageButton)findViewById(R.id.bntNormal);
         btnSmilingMood =(ImageButton)findViewById(R.id.btnSmiling);
         btnExcitingMood =(ImageButton)findViewById(R.id.btnExciting);
-
         showCategory = (TextView) findViewById(R.id.CategoryTextView);
         showCategory.setText("未分類");
-
         btnCryingMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,15 +145,11 @@ public class EditDiaryActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         //選擇日記分類
         chooseCategory = (Button) findViewById(R.id.chooseCategory);
         chooseCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //跳出AlertDialog，用Spinner選擇分類，如果沒有想要的分類，就點選button新增分類
                 final AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditDiaryActivity.this);
                 View view = getLayoutInflater().inflate(R.layout.activity_choose_category, null);
@@ -197,12 +159,8 @@ public class EditDiaryActivity extends AppCompatActivity {
                 alertDialog.setTitle("請選擇一個分類");
                 Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
 
-
                 ArrayList categoryAllListToShow =new ArrayList();
                 categoryAllListToShow.add("未分類");
-                if(categoryAllListToShow.size()==0){
-
-                }
 
                 categoryAllList= CategoryDBHelper.selectAllCategory();
                 System.out.println(categoryAllList);
@@ -217,9 +175,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                 adaptertext.setDropDownViewResource(android.R.layout.simple_spinner_item);
                 spinnerCategory.setAdapter(adaptertext);
                 spinnerCategory.setOnItemSelectedListener(spinnerListener);
-
-
-
 
                 //當點選"確認選擇此分類"，將此分類帶入文章的TextView中
                 alertDialog.setPositiveButton("確定分類", new DialogInterface.OnClickListener() {
@@ -239,7 +194,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                         NewCategory.setView(view1);
                         //NewCategory.show();
                         final EditText EditTextNewCategory = (EditText) view1.findViewById(R.id.EditTextNewCategory);
-
                         //Dialog Button，點下去將EditText新增的分類加進去Category1 String Array
                         NewCategory.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
@@ -275,6 +229,23 @@ public class EditDiaryActivity extends AppCompatActivity {
             }
 
         });
+
+        //儲存日記
+        btnSaveDiary = findViewById(R.id.btnSaveDiary);
+        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
+        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getTitle = editTextTitle.getText().toString();
+                getContent = editTextContent.getText().toString();
+                category=showCategory.getText().toString();
+                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
+
+                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
+                openActivityShowDiary();
+                finish();
+            }
+        });
     }
 
 //當使用者儲存完畢，可以馬上顯示出這筆日記
@@ -298,21 +269,15 @@ public class EditDiaryActivity extends AppCompatActivity {
         intent.putExtra("id",diaryId);
         startActivity(intent);
     }
-
     //判斷Spinner選到哪一個選項
     private Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String sel = parent.getSelectedItem().toString();
-
             showCategory.setText(sel);
         }
-
-
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
     };
-
 }

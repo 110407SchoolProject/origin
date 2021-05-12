@@ -55,7 +55,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         // 必須先呼叫getView()取得程式畫面物件，然後才能呼叫它的
         // findViewById()取得介面物件
         image = (ImageView) getView().findViewById(R.id.profileImage);
@@ -67,7 +66,7 @@ public class ProfileFragment extends Fragment {
         email = (TextView) getView().findViewById(R.id.profileEmail);
         email.setText("garywang0827@gmail.com");
         birthday = (TextView) getView().findViewById(R.id.profileBirhtday);
-        birthday.setText("20000827");
+        birthday.setText("2000/08/27");
 
         diaryNumbers=getView().findViewById(R.id.currentDiaryNumbers);
         diaryPoints=getView().findViewById(R.id.currentDiaryPoints);
@@ -124,9 +123,6 @@ public class ProfileFragment extends Fragment {
 
         int diaryPoint = countDiaryNumber*5;
         diaryPoints.setText(Integer.toString(diaryPoint));
-
-
-
 
     }
 

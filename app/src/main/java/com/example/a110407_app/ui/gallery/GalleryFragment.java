@@ -116,7 +116,7 @@ public class GalleryFragment extends Fragment {
             }
         }
 
-        System.out.println(titleArrayList);
+        System.out.println("所有的日記："+titleArrayList);
 
         //抓ListView ，並把剛抓到的日記顯示出來
         diaryListView = (ListView)root.findViewById(R.id.diaryListView);
@@ -139,15 +139,6 @@ public class GalleryFragment extends Fragment {
                 String diaryId =(String)idArrayList.get(idByInt);
                 openActivityShowDiary(diaryId);
 
-//                Fragment currentFragment = getFragmentManager().findFragmentByTag(GalleryFragment);
-//
-//                System.out.println(currentFragment);
-//                FragmentManager fragmentManager = getFragmentManager();
-//
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//
-//                fragmentTransaction.detach(currentFragment);
-//                fragmentTransaction.attach(currentFragment);
             }
         });
         return root;
