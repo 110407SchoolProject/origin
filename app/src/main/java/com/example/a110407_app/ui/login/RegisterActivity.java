@@ -33,14 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     private final String DB_NAME = "MyDairy.db";
     private final String TABLE_NAME = "Profile";
-    private final int DB_VERSION = 5;
+    private final int DB_VERSION = 13;
     SQLiteDBHelper mHelper;
     //private  String TABLE_NAME_CATEGORY = "Category";
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

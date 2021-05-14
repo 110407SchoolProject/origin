@@ -61,7 +61,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
     //建立SQLite DataBase
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 5;
+    private final int DB_VERSION = 13;
     SQLiteDBHelper mHelper;
     private String category = "未分類";
     private String score = "5";

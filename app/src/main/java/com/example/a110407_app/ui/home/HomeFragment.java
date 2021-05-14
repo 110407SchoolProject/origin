@@ -36,8 +36,9 @@ public class HomeFragment extends Fragment {
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 5;
+    private final int DB_VERSION = 13;
     private ArrayList<HashMap<String, String>> diaryTitleList;
+
 
     public void openActivityShowDiary(String diaryId){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
@@ -65,7 +66,7 @@ public class HomeFragment extends Fragment {
         final ArrayList idArrayList = new ArrayList();
         final ArrayList newestTitleArrayList = new ArrayList();
         final ArrayList newestIdArrayList = new ArrayList();
-
+        /*
         for(int i = 0;i<=256;i++){
             String id = Integer.toString(i);
             String diaryId = "";
@@ -86,6 +87,8 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
+
+         */
 
 
         System.out.println(newestIdArrayList.size());

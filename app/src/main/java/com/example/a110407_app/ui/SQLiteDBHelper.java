@@ -25,14 +25,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         /*
-        String SQLTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "Title TEXT, " +
-                "Content TEXT" +
-                ");";
-        db.execSQL(SQLTable);
-         */
-        /*
         String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "userTrueName TEXT, " +
@@ -42,29 +34,22 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.execSQL(RegisterTable);
 
          */
+        db.execSQL("ALTER TABLE UserPassword ADD COLUMN IfSetLock TEXT");
 
-        String CategoryTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "Category TEXT " +
-                ");";
-        db.execSQL(CategoryTable);
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //final String SQL = "DROP TABLE " + TableName;
         //db.execSQL(SQL);
-
         //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
         if (newVersion > oldVersion){
             System.out.println("有吃到");
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 4:
-
-                    System.out.println("幹你娘");
+                case 12:
+                    System.out.println("有吃到");
                     /*新增Profile資料表
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -74,19 +59,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                             ");";
                     db.execSQL(RegisterTable);
                      */
-                    //新增Date欄位在Dairy 表裡面
-                    //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Date TEXT");
-                    //新增Category欄位在Dairy表裡面
-                    //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Category TEXT");
-                    //新增Score欄位在Dairy表裡面
-                    //db.execSQL("ALTER TABLE MyDairy ADD COLUMN Score FLOAT");
-                    //新增Category資料表
-
-                    db.execSQL("CREATE TABLE IF NOT EXISTS CategoryTable ( " +
-                            "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            "Category TEXT " +
+                    //增加密碼表
+                    /*
+                    db.execSQL("CREATE TABLE IF NOT EXISTS UserPassword ( " +
+                            "Password TEXT, " +
+                            "Date TEXT " +
                             ")");
-
+                     */
+                    //密碼表新增確認欄位
+                    db.execSQL("ALTER TABLE UserPassword ADD COLUMN IfSetLock TEXT");
 
                     success = true;
                     break;
@@ -104,6 +85,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     }
 
+
+    //新增螢幕鎖密碼
+    public void addPassword(String password, String date){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Password",password);
+        values.put("Date",date);
+        db.insert(TableName,null,values);
+    }
 
     //新增分類項
     public void addCategory(String category){

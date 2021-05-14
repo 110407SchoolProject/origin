@@ -2,12 +2,16 @@ package com.example.a110407_app;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,12 +26,15 @@ import android.widget.Toast;
 
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
+import com.example.a110407_app.ui.login.LoginActivity;
 import com.facebook.stetho.Stetho;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -55,7 +62,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 10;
+    private final int DB_VERSION = 13;
 
     //分類
     private Button chooseCategory;
@@ -72,6 +79,9 @@ public class EditDiaryActivity extends AppCompatActivity {
     private  SQLiteDBHelper CategoryDBHelper;
     public final String TABLE_CATEGORY = "CategoryTable";
 
+    private Notification notification;
+    private NotificationManager manager;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
 
     @Override
@@ -79,7 +89,8 @@ public class EditDiaryActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
-        Calendar mCalendar = Calendar.getInstance();
+        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
         //連結Facebook 開發的stetho資料庫工具
         Stetho.initializeWithDefaults(this);
         //初始化日記表資料庫
@@ -118,7 +129,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                 getTitle = editTextTitle.getText().toString();
                 getContent = editTextContent.getText().toString();
                 category=showCategory.getText().toString();
-                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
+                //mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
                 openActivityShowDiary();
@@ -275,7 +286,35 @@ public class EditDiaryActivity extends AppCompatActivity {
             }
 
         });
+
+        //呼叫提醒功能
+        Notify();
     }
+
+    //提醒功能
+    public void Notify(){
+        Intent intent = new Intent(EditDiaryActivity.this, LoginActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(EditDiaryActivity.this,0,intent,0);
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentText("寫日記時間到了 !")
+                .setContentTitle("他媽的")
+                //.setWhen(when)
+                .setSmallIcon(R.drawable.exciting)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        Notification notification = builder.build();
+        notificationManager.cancel(0); // 移除id值為0的通知
+        notificationManager.notify(0, notification);
+    }
+
+
+
+
+
 
 //當使用者儲存完畢，可以馬上顯示出這筆日記
     public void openActivityShowDiary(){
@@ -307,7 +346,6 @@ public class EditDiaryActivity extends AppCompatActivity {
 
             showCategory.setText(sel);
         }
-
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
