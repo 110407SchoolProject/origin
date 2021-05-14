@@ -19,9 +19,24 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        mHandler.sendEmptyMessageAtTime(GOTO_LOGIN_ACTIVITY,1000);
+
+
         image = (ImageView) findViewById(R.id.welcomeView);
         image.setImageResource(R.drawable.cat_welcome);
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                    startActivity(new Intent().setClass(WelcomeActivity.this,LoginActivity.class));
+                    mHandler.sendEmptyMessageAtTime(GOTO_LOGIN_ACTIVITY,1000);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void FadeOutAndHideImage(final ImageView image){
@@ -74,6 +89,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private static final int GOTO_LOGIN_ACTIVITY = 0;
+
     private Handler mHandler =  new Handler(){
         public void handleMessage(android.os.Message msg){
             switch (msg.what){

@@ -21,8 +21,8 @@
         <activity
             android:name=".ShowDiaryActivity"
             android:parentActivityName=".EditDiaryActivity" />
-        <activity android:name=".ui.ShowDiaryActivity" />
         <activity android:name=".EditDiaryActivity" />
+
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
         <activity android:name=".ui.login.RegisterActivity" />
         <activity
             android:name=".ui.login.LoginActivity"

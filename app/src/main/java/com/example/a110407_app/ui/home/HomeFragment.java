@@ -26,6 +26,7 @@ import com.example.a110407_app.ui.SQLiteDBHelper;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
@@ -36,9 +37,19 @@ public class HomeFragment extends Fragment {
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 5;
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
+    private TextView inspiringSentence;
+
+    private String[] inspiringSentences=
+            {"寧可失敗在你喜歡的事情上，也不要成功在你所憎惡的事情上。",
+            "勤學的人，總是感到時間過得太快；懶惰的人，卻總是埋怨時間跑得太慢。",
+            "思路決定出路，氣度決定高度，細節決定成敗，性格決定命運。",
+            "心有多大，世界就有多大！",
+            "不如意的時候不要盡往悲傷里鑽，想想有笑聲的日子吧。",
+            "勤奮可以彌補聰明的不足，但聰明無法彌補懶惰的缺陷。",
+            "改變自我，挑戰自我，從現在開始。"};
 
     public void openActivityShowDiary(String diaryId){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
@@ -57,6 +68,16 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
 
+
+        inspiringSentence=(TextView)root.findViewById(R.id.inspiringSentence);
+
+        int random = (int) (Math.random()*6);
+        System.out.println(inspiringSentences[random]);
+
+        String inspiringSentenceText=inspiringSentences[random];
+        inspiringSentence.setText(inspiringSentenceText);
+
+
         mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
 
         String title="";
@@ -66,7 +87,7 @@ public class HomeFragment extends Fragment {
         final ArrayList idArrayList = new ArrayList();
         final ArrayList newestTitleArrayList = new ArrayList();
         final ArrayList newestIdArrayList = new ArrayList();
-        /*
+
         for(int i = 0;i<=256;i++){
             String id = Integer.toString(i);
             String diaryId = "";
@@ -87,8 +108,6 @@ public class HomeFragment extends Fragment {
                 }
             }
         }
-
-         */
 
 
         System.out.println(newestIdArrayList.size());
