@@ -129,9 +129,6 @@ public class ChangeDiaryActivity extends AppCompatActivity {
             }
         });
 
-
-
-
     }
 
     public void openActivityShowDiary(String id){

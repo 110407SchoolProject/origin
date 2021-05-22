@@ -32,16 +32,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 "Password TEXT" +
                 ");";
         db.execSQL(RegisterTable);
-
          */
         db.execSQL("ALTER TABLE UserPassword ADD COLUMN IfSetLock TEXT");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //final String SQL = "DROP TABLE " + TableName;
-        //db.execSQL(SQL);
         //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
         if (newVersion > oldVersion){
             System.out.println("有吃到");
@@ -86,6 +82,30 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     }
 
 
+    //更新是否上鎖欄位
+    public void setlock(String lock){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Lock", lock);
+        db.insert(TableName, null,values);
+    }
+
+
+    //撈密碼表的密碼
+    public ArrayList<HashMap<String, String>> showAllPassword() {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT * FROM " + TableName, null);
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        while (c.moveToNext()) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            String password = c.getString(0);
+            hashMap.put("Password", password);
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+
+
     //新增螢幕鎖密碼
     public void addPassword(String password, String date){
         SQLiteDatabase db = getWritableDatabase();
@@ -94,6 +114,37 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         values.put("Date",date);
         db.insert(TableName,null,values);
     }
+
+    //更新密碼鎖
+    public void resetPassword(String oldpassword,String newpassword){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Password", newpassword);
+        db.update(TableName, values, "Password= " + oldpassword, null);
+    }
+
+    //撈出是否上鎖欄位
+    public  ArrayList<HashMap<String, String>> showLock(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery(" SELECT * FROM " + TableName, null);
+        ArrayList<HashMap<String, String>> arrayList = new ArrayList<>();
+        while (c.moveToNext()) {
+            HashMap<String, String> hashMap = new HashMap<>();
+            String setlock = c.getString(2);
+            hashMap.put("IfSetLock", setlock);
+            arrayList.add(hashMap);
+        }
+        return arrayList;
+    }
+    //更新是否上鎖欄位
+    public void updateLock(String password,String lock){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("IfSetLock", lock);
+        db.update(TableName, values, "Password= " + password, null);
+    }
+
+
 
     //新增分類項
     public void addCategory(String category){
