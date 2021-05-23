@@ -40,12 +40,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
         if (newVersion > oldVersion){
-            System.out.println("有吃到");
+            System.out.println("幹幹幹");
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 12:
-                    System.out.println("有吃到");
+                case 5:
+                    System.out.println("幹幹幹");
                     /*新增Profile資料表
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
                             "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -56,15 +56,18 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                     db.execSQL(RegisterTable);
                      */
                     //增加密碼表
-                    /*
+
                     db.execSQL("CREATE TABLE IF NOT EXISTS UserPassword ( " +
                             "Password TEXT, " +
-                            "Date TEXT " +
+                            "Date TEXT, " +
+                            "IfSetLock TEXT" +
                             ")");
-                     */
+
                     //密碼表新增確認欄位
+                    /*
                     db.execSQL("ALTER TABLE UserPassword ADD COLUMN IfSetLock TEXT");
 
+                     */
                     success = true;
                     break;
             }

@@ -49,7 +49,7 @@ public class GalleryFragment extends Fragment {
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 6;
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
     private EditText getPassword;
