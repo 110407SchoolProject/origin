@@ -55,7 +55,7 @@ public class ProfileFragment extends Fragment {
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 6;
     private ArrayList<HashMap<String, String>> diaryList;
 
     private Button editprofile;
@@ -102,13 +102,13 @@ public class ProfileFragment extends Fragment {
         image = (ImageView) getView().findViewById(R.id.profileImage);
         image.setImageResource(R.drawable.ic_menu_camera);
         name = (TextView) getView().findViewById(R.id.profileName);
-        name.setText("Gary Wang");
+        name.setText("Pony Weng");
         username = (TextView) getView().findViewById(R.id.profileUsername);
-        username.setText("guanyu0827");
+        username.setText("pony1306");
         email = (TextView) getView().findViewById(R.id.profileEmail);
-        email.setText("garywang0827@gmail.com");
+        email.setText("10746026@ntub.edu.tw");
         birthday = (TextView) getView().findViewById(R.id.profileBirhtday);
-        birthday.setText("20000827");
+        birthday.setText("1999/12/07");
 
         diaryNumbers=getView().findViewById(R.id.currentDiaryNumbers);
         diaryPoints=getView().findViewById(R.id.currentDiaryPoints);
@@ -198,7 +198,7 @@ public class ProfileFragment extends Fragment {
                     AlertDialog.Builder setpassword = new AlertDialog.Builder(getActivity());
                     final View view = getLayoutInflater().inflate(R.layout.setpassword, null);
                     setpassword.setView(view);
-                    setpassword.setTitle("設定螢幕密碼");
+                    setpassword.setTitle("設定日記密碼");
                     Integer date = 0;
                     Date mDate = new Date();
                     date = mDate.getDate();

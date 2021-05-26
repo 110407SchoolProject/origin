@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private final String DB_NAME = "MyDairy.db";
     private final String TABLE_NAME = "Profile";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 6;
     SQLiteDBHelper mHelper;
     //private  String TABLE_NAME_CATEGORY = "Category";
     @Override

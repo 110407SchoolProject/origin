@@ -8,7 +8,7 @@
     tools:context=".ChangeDiaryActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayoutChangeDiary"
         android:layout_width="413dp"
         android:layout_height="737dp"
         android:orientation="vertical"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageViewCalandarInChangeDiary"
             android:layout_width="match_parent"
             android:layout_height="206dp"
 
@@ -28,7 +28,8 @@
             android:id="@+id/changeTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:textColor="#FCFCFC"
+            android:maxLength="16"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:ems="10"
@@ -53,10 +54,59 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
                     android:ems="10"
+                    android:textColor="#FCFCFC"
                     android:gravity="clip_horizontal"
                     android:hint="今天過得如何呢"
+                    android:textColorHint="#7B7B7B"
                     android:inputType="textPersonName"
                     android:keepScreenOn="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/CategoryHintTextInChangeDiary"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="24dp"
+                        android:layout_weight="1"
+                        android:text="分類"
+                        android:gravity="center|top"
+                        android:textColor="#FCFCFC" />
+
+                    <TextView
+                        android:id="@+id/CategoryTextViewInChangeDiary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:ems="10"
+                        android:gravity="left|top"
+                        android:keepScreenOn="true"
+                        android:text="未分類"
+
+                        android:textColor="#8E8E8E"></TextView>
+
+                    <TextView
+                        android:id="@+id/MoodHintTextInChangeDiary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="心情"
+                        android:gravity="center|top"
+                        android:textColor="#FCFCFC" />
+
+                    <ImageView
+                        android:id="@+id/currentMoodImageViewInChangeDiary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="40dp"
+                        app:srcCompat="@drawable/exciting" />
+                </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
@@ -64,53 +114,62 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp">
+            android:layout_marginRight="12dp"
+            android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btnCrying"
+                android:id="@+id/btnCryingInChangeDiary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@drawable/crying" />
 
             <ImageButton
-                android:id="@+id/btnSad"
+                android:id="@+id/btnSadInChangeDiary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@drawable/sad" />
 
             <ImageButton
-                android:id="@+id/bntNormal"
+                android:id="@+id/bntNormalInChangeDiary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@drawable/normal" />
 
             <ImageButton
-                android:id="@+id/btnSmiling"
+                android:id="@+id/btnSmilingInChangeDiary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@drawable/smiling" />
 
             <ImageButton
-                android:id="@+id/btnExciting"
+                android:id="@+id/btnExcitingInChangeDiary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                app:srcCompat="@drawable/exciting" />
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnSaveDiary"
+            android:id="@+id/chooseCategoryInChangeDiary"
+            android:layout_width="200dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:text="選擇日記分類"></Button>
+
+        <Button
+            android:id="@+id/btnSaveDiaryInChangeDiary"
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:layout_marginBottom="32dp"
             android:text="儲存日記" />
 
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

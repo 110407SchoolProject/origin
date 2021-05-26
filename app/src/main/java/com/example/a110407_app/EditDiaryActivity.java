@@ -62,7 +62,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 6;
 
     //分類
     private Button chooseCategory;
@@ -129,7 +129,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                 getTitle = editTextTitle.getText().toString();
                 getContent = editTextContent.getText().toString();
                 category=showCategory.getText().toString();
-                //mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
+                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
                 openActivityShowDiary();
@@ -288,28 +288,28 @@ public class EditDiaryActivity extends AppCompatActivity {
         });
 
         //呼叫提醒功能
-        Notify();
+
     }
 
     //提醒功能
-    public void Notify(){
-        Intent intent = new Intent(EditDiaryActivity.this, LoginActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(EditDiaryActivity.this,0,intent,0);
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentText("寫日記時間到了 !")
-                .setContentTitle("他媽的")
-                //.setWhen(when)
-                .setSmallIcon(R.drawable.exciting)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
-        Notification notification = builder.build();
-        notificationManager.cancel(0); // 移除id值為0的通知
-        notificationManager.notify(0, notification);
-    }
+//    public void Notify(){
+//        Intent intent = new Intent(EditDiaryActivity.this, LoginActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(EditDiaryActivity.this,0,intent,0);
+//
+//        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//        builder.setContentText("寫日記時間到了 !")
+//                .setContentTitle("他媽的")
+//                //.setWhen(when)
+//                .setSmallIcon(R.drawable.exciting)
+//                .setDefaults(Notification.DEFAULT_ALL)
+//                .setAutoCancel(true)
+//                .setContentIntent(pendingIntent)
+//                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+//        Notification notification = builder.build();
+//        notificationManager.cancel(0); // 移除id值為0的通知
+//        notificationManager.notify(0, notification);
+//    }
 
 
 
