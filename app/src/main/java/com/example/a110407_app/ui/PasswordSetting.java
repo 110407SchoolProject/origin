@@ -17,6 +17,7 @@ import com.example.a110407_app.R;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import android.view.KeyEvent;
 
 public class PasswordSetting extends AppCompatActivity {
     SQLiteDBHelper TableUserPassword;
@@ -26,10 +27,9 @@ public class PasswordSetting extends AppCompatActivity {
 
     private Switch openorclosePassword;
     private Button  btnresetPassword, btnnewPassword;
-    private String p;//從Arraylist中撈密碼
+    private String p, lock;//從Arraylist中撈密碼
     private String strOpenPassword, strPassword,strConfirmPassword,strDate, strOldPassword, strresetPassword, strresetConfirmPassword;
     private EditText getOpenClosePassword,getPassword, getConfirmPassword, getOldPassword, getresetPassword, getresetConfirmPassword;
-
 
 
     @Override
@@ -51,19 +51,29 @@ public class PasswordSetting extends AppCompatActivity {
         final String strYear = year.toString();
         strDate = strYear + "/"+strMonth;
 
+        //判斷密碼鎖是否開啟
+        for(HashMap<String,String> data:TableUserPassword.showLock()){
+            lock = data.get("IfSetLock");
+        }
+        if(lock.equals("1")){
+            openorclosePassword.setChecked(true);
+            btnnewPassword.setEnabled(true);
+            btnresetPassword.setEnabled(true);
+        }else {
+            openorclosePassword.setChecked(false);
+            btnresetPassword.setEnabled(false);
+            btnnewPassword.setEnabled(false);
+        }
 
         // 密碼鎖Switch
         openorclosePassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AlertDialog.Builder inputOpenClosePasswordDialog = new AlertDialog.Builder(PasswordSetting.this);
+                AlertDialog.Builder inputOpenClosePasswordDialog = new AlertDialog.Builder(PasswordSetting.this, R.style.AlertDialogTheme);
                 View view = getLayoutInflater().inflate(R.layout.openclosepassword, null);
                 inputOpenClosePasswordDialog.setView(view);
-                inputOpenClosePasswordDialog.setTitle("輸入密碼");
-
                 //判斷Switch是否被打開
-                if (buttonView.isChecked()==true){
+                if (buttonView.isChecked()){
                     inputOpenClosePasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -99,6 +109,7 @@ public class PasswordSetting extends AppCompatActivity {
 
                 }else{//Switch關閉密碼鎖
                     inputOpenClosePasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getOpenClosePassword = view.findViewById(R.id.inputOpcnClosePassword);
@@ -126,7 +137,9 @@ public class PasswordSetting extends AppCompatActivity {
         resetPassword();
         //設定新密碼
         setnewPassword();
+
     }
+
 
 
     //新增密碼method
@@ -142,10 +155,9 @@ public class PasswordSetting extends AppCompatActivity {
                     System.out.println(ArraylistuserPassword);
                     Toast.makeText(PasswordSetting.this,"已設定密碼",Toast.LENGTH_LONG).show();
                 }else{//arraylist大小等於0，需設定新密碼
-                    AlertDialog.Builder newPasswordDialog = new AlertDialog.Builder(PasswordSetting.this);
+                    AlertDialog.Builder newPasswordDialog = new AlertDialog.Builder(PasswordSetting.this,R.style.AlertDialogTheme);
                     View view = getLayoutInflater().inflate(R.layout.setnewpassword, null);
                     newPasswordDialog.setView(view);
-                    newPasswordDialog.setTitle("新增密碼");
                     newPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -179,10 +191,9 @@ public class PasswordSetting extends AppCompatActivity {
         btnresetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder inputOldPasswordDialog = new AlertDialog.Builder(PasswordSetting.this);
+                AlertDialog.Builder inputOldPasswordDialog = new AlertDialog.Builder(PasswordSetting.this,R.style.AlertDialogTheme);
                 View view = getLayoutInflater().inflate(R.layout.inputoldpassword, null);
                 inputOldPasswordDialog.setView(view);
-                inputOldPasswordDialog.setTitle("輸入舊密碼");
                 inputOldPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -196,10 +207,9 @@ public class PasswordSetting extends AppCompatActivity {
                         if(strOldPassword.equals(p) == false){
                             Toast.makeText(PasswordSetting.this, "密碼錯誤", Toast.LENGTH_SHORT).show();
                         }else{//密碼一致
-                            AlertDialog.Builder resetPasswordDialog = new AlertDialog.Builder(PasswordSetting.this);
+                            AlertDialog.Builder resetPasswordDialog = new AlertDialog.Builder(PasswordSetting.this,R.style.AlertDialogTheme);
                             View view = getLayoutInflater().inflate(R.layout.setnewpassword, null);//與設置新密碼共用Layout
                             resetPasswordDialog.setView(view);
-                            resetPasswordDialog.setTitle("重設密碼");
                             resetPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -229,5 +239,9 @@ public class PasswordSetting extends AppCompatActivity {
             }
         });
     }
+
+
+
+
 
 }
