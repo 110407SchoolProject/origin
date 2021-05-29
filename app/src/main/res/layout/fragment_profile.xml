@@ -252,13 +252,12 @@
 
                     <TextView
                         android:id="@+id/remindtext"
-                        android:layout_width="200dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
+                        android:layout_marginTop="8dp"
                         android:textColor="#FCFCFC"
-                        android:textSize="16dp">
-                    </TextView>
+                        android:textSize="16dp"></TextView>
 
                     <Switch
                         android:id="@+id/remind"

@@ -169,7 +169,7 @@ public class ProfileFragment extends Fragment {
         btnPasswordsetting = getView().findViewById(R.id.btnPasswordsetting);
         remind = getView().findViewById(R.id.remind);
         remindtext = getView().findViewById(R.id.remindtext);
-        remindtext.setText("提醒");
+        remindtext.setText("設置日記提醒");
 
         //以下為 Gary 5/28 寫的
         //初始化 TableUser資料庫
