@@ -4,7 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.method.KeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -13,13 +16,14 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.a110407_app.R;
+import com.example.a110407_app.ui.profile.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import android.view.KeyEvent;
 
-public class PasswordSetting extends AppCompatActivity {
+public class PasswordSetting extends AppCompatActivity  {
     SQLiteDBHelper TableUserPassword;
     private final String DB_NAME = "MyDairy.db";
     private String PASSWORD_TABLE_NAME = "UserPassword";
@@ -28,10 +32,8 @@ public class PasswordSetting extends AppCompatActivity {
     private Switch openorclosePassword;
     private Button  btnresetPassword, btnnewPassword;
     private String p, lock;//從Arraylist中撈密碼
-    private String strOpenPassword, strPassword,strConfirmPassword,strDate, strOldPassword, strresetPassword, strresetConfirmPassword;
-    private EditText getOpenClosePassword,getPassword, getConfirmPassword, getOldPassword, getresetPassword, getresetConfirmPassword;
-
-
+    private String  strPassword,strConfirmPassword,strDate, strOldPassword, strresetPassword, strresetConfirmPassword;
+    private EditText getPassword, getConfirmPassword, getOldPassword, getresetPassword, getresetConfirmPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,85 +53,32 @@ public class PasswordSetting extends AppCompatActivity {
         final String strYear = year.toString();
         strDate = strYear + "/"+strMonth;
 
-        //判斷密碼鎖是否開啟
+        //以下為 Gary 5/27、28 寫的
+        //判斷密碼鎖是否開啟(自動抓取目前狀態)
         for(HashMap<String,String> data:TableUserPassword.showLock()){
             lock = data.get("IfSetLock");
         }
         if(lock.equals("1")){
             openorclosePassword.setChecked(true);
-            btnnewPassword.setEnabled(true);
-            btnresetPassword.setEnabled(true);
         }else {
             openorclosePassword.setChecked(false);
-            btnresetPassword.setEnabled(false);
-            btnnewPassword.setEnabled(false);
         }
+
+
 
         // 密碼鎖Switch
         openorclosePassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                AlertDialog.Builder inputOpenClosePasswordDialog = new AlertDialog.Builder(PasswordSetting.this, R.style.AlertDialogTheme);
-                View view = getLayoutInflater().inflate(R.layout.openclosepassword, null);
-                inputOpenClosePasswordDialog.setView(view);
+                //抓密碼表的密碼
+                for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
+                    p = data.get("Password");
+                }
                 //判斷Switch是否被打開
                 if (buttonView.isChecked()){
-                    inputOpenClosePasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getOpenClosePassword = view.findViewById(R.id.inputOpcnClosePassword);
-                            strOpenPassword = getOpenClosePassword.getText().toString();
-                            //從資料表中抓密碼出來(與下方的可同步)
-                            ArrayList passwordArraylist = new ArrayList();
-                            passwordArraylist = TableUserPassword.showAllPassword();
-                            //如果密碼表為空，設置新密碼
-                            if(passwordArraylist.size()==0){
-                                setnewPassword();
-                            }else{//否則，進入判斷
-                                for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
-                                    p = data.get("Password");
-                                }
-                                //判斷開啟密碼鎖的密碼，是否等於資料表中儲存的密碼
-                                if(strOpenPassword.equals(p)){
-                                    btnnewPassword.setEnabled(true);//開啟新增密碼的button
-                                    btnresetPassword.setEnabled(true);//開啟重設密碼的button
-                                    Toast.makeText(PasswordSetting.this,"成功開啟",Toast.LENGTH_LONG).show();
-                                    TableUserPassword.updateLock(strOpenPassword,"1");////Set是否上鎖欄為1(已上鎖)
-                                }else{
-                                    btnnewPassword.setEnabled(false);//關閉新增密碼的button
-                                    btnresetPassword.setEnabled(false);//關閉重設密碼的button
-                                    buttonView.setChecked(false); //關閉Switch
-                                    Toast.makeText(PasswordSetting.this,"密碼不符,請重新輸入",Toast.LENGTH_LONG).show();
-                                }
-                            }
-
-                        }
-                    });
-                    inputOpenClosePasswordDialog.show();
-
+                    TableUserPassword.updateLock(p, "1");//打開更新為1
                 }else{//Switch關閉密碼鎖
-                    inputOpenClosePasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getOpenClosePassword = view.findViewById(R.id.inputOpcnClosePassword);
-                            strOpenPassword = getOpenClosePassword.getText().toString();
-                            for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
-                                p = data.get("Password");
-                            }
-                            //判斷關閉密碼鎖的密碼，是否等於資料表中儲存的密碼
-                            if(strOpenPassword.equals(p)){
-                                btnnewPassword.setEnabled(false);//關閉新增密碼的button
-                                btnresetPassword.setEnabled(false);//關閉重設密碼的button
-                                //buttonView.setChecked(false);
-                                TableUserPassword.updateLock(strOpenPassword,"0");//Set是否上鎖欄為0(未上鎖)
-                                Toast.makeText(PasswordSetting.this,"成功關閉",Toast.LENGTH_LONG).show();
-                            }else{
-                                Toast.makeText(PasswordSetting.this,"密碼不符,未能成功關閉",Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                    inputOpenClosePasswordDialog.show();
+                    TableUserPassword.updateLock(p,"0");//關閉更新為0
                 }
             }
         });
@@ -139,8 +88,6 @@ public class PasswordSetting extends AppCompatActivity {
         setnewPassword();
 
     }
-
-
 
     //新增密碼method
     public void setnewPassword(){
@@ -152,7 +99,6 @@ public class PasswordSetting extends AppCompatActivity {
                 ArraylistuserPassword = TableUserPassword.showAllPassword();
                 //如果arraylist大小大於0(已設定過密碼)
                 if(ArraylistuserPassword.size() > 0){
-                    System.out.println(ArraylistuserPassword);
                     Toast.makeText(PasswordSetting.this,"已設定密碼",Toast.LENGTH_LONG).show();
                 }else{//arraylist大小等於0，需設定新密碼
                     AlertDialog.Builder newPasswordDialog = new AlertDialog.Builder(PasswordSetting.this,R.style.AlertDialogTheme);
@@ -187,27 +133,33 @@ public class PasswordSetting extends AppCompatActivity {
     }
 
     //重設密碼method
-    public void resetPassword(){
+    public void resetPassword() {
         btnresetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder inputOldPasswordDialog = new AlertDialog.Builder(PasswordSetting.this,R.style.AlertDialogTheme);
+                AlertDialog.Builder inputOldPasswordDialog = new AlertDialog.Builder(PasswordSetting.this, R.style.AlertDialogTheme);
                 View view = getLayoutInflater().inflate(R.layout.inputoldpassword, null);
                 inputOldPasswordDialog.setView(view);
+                inputOldPasswordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //
+                    }
+                });
                 inputOldPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         getOldPassword = view.findViewById(R.id.inputOldPassword);
                         strOldPassword = getOldPassword.getText().toString();
                         //取得資料表中的密碼
-                        for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
+                        for (HashMap<String, String> data : TableUserPassword.showAllPassword()) {
                             p = data.get("Password");
                         }
                         //如果輸入的舊密碼不等於資料表中的密碼
-                        if(strOldPassword.equals(p) == false){
+                        if (strOldPassword.equals(p) == false) {
                             Toast.makeText(PasswordSetting.this, "密碼錯誤", Toast.LENGTH_SHORT).show();
-                        }else{//密碼一致
-                            AlertDialog.Builder resetPasswordDialog = new AlertDialog.Builder(PasswordSetting.this,R.style.AlertDialogTheme);
+                        } else {//密碼一致
+                            AlertDialog.Builder resetPasswordDialog = new AlertDialog.Builder(PasswordSetting.this, R.style.AlertDialogTheme);
                             View view = getLayoutInflater().inflate(R.layout.setnewpassword, null);//與設置新密碼共用Layout
                             resetPasswordDialog.setView(view);
                             resetPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
@@ -218,15 +170,15 @@ public class PasswordSetting extends AppCompatActivity {
                                     strresetPassword = getresetPassword.getText().toString();
                                     strresetConfirmPassword = getresetConfirmPassword.getText().toString();
                                     //判斷密碼與確認密碼是否一致
-                                    if(strresetPassword.equals(strresetConfirmPassword)== false){
-                                        Toast.makeText(PasswordSetting.this,"密碼不一致",Toast.LENGTH_LONG).show();
-                                    }else{
-                                        if(strresetPassword.equals(strOldPassword)){//判斷是否和舊密碼相同
-                                            Toast.makeText(PasswordSetting.this,"密碼不可和舊密碼相同",Toast.LENGTH_LONG).show();
+                                    if (strresetPassword.equals(strresetConfirmPassword) == false) {
+                                        Toast.makeText(PasswordSetting.this, "密碼不一致", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        if (strresetPassword.equals(strOldPassword)) {//判斷是否和舊密碼相同
+                                            Toast.makeText(PasswordSetting.this, "密碼不可和舊密碼相同", Toast.LENGTH_LONG).show();
 
-                                        }else{//更新成功
-                                            TableUserPassword.resetPassword(strOldPassword,strresetPassword);
-                                            Toast.makeText(PasswordSetting.this,"更新成功",Toast.LENGTH_LONG).show();
+                                        } else {//更新成功
+                                            TableUserPassword.resetPassword(strOldPassword, strresetPassword);
+                                            Toast.makeText(PasswordSetting.this, "更新成功", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
@@ -239,9 +191,5 @@ public class PasswordSetting extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
+    //以上為 Gary 5/27、28 寫的
 }

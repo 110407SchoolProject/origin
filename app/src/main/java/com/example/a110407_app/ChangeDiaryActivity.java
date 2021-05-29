@@ -63,7 +63,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 6;
+    private final int DB_VERSION = 13;
 
     //分類
     private Button chooseCategory;
@@ -329,10 +329,6 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         //呼叫提醒功能
 
     }
-
-
-
-        intent.putExtra("id",id);
 
 
 

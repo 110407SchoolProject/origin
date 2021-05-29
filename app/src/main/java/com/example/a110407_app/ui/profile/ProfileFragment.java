@@ -1,15 +1,12 @@
 package com.example.a110407_app.ui.profile;
 
-import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -28,17 +25,10 @@ import com.example.a110407_app.R;
 import com.example.a110407_app.ui.PasswordSetting;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.lang.Math;
-
-import static androidx.core.content.ContextCompat.getSystemService;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,10 +42,11 @@ public class ProfileFragment extends Fragment {
     private TextView diaryPoints;
     private ImageView recentMood;
 
+    //建立日記資料表
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 6;
+    private final int DB_VERSION = 13;
     private ArrayList<HashMap<String, String>> diaryList;
 
     private Button editprofile;
@@ -74,10 +65,12 @@ public class ProfileFragment extends Fragment {
 
 
     //建立存放密碼資料表
-    //SQLiteDBHelper TableUserPassword;
-    //private String PASSWORD_TABLE_NAME = "UserPassword";
-    private TimePickerDialog timePickerDialog;
-
+    SQLiteDBHelper TableUserPassword;
+    private String PASSWORD_TABLE_NAME = "UserPassword";
+    private String strlock;//抓是否上鎖
+    private EditText getOpenClosePassword; //抓輸入密碼的EditText上的文字
+    private String strOpenPassword; //接EditText的文字轉成string的String
+    private String p;// 抓密碼表密碼
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -95,6 +88,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
 
 
         // 必須先呼叫getView()取得程式畫面物件，然後才能呼叫它的
@@ -176,81 +171,59 @@ public class ProfileFragment extends Fragment {
         remindtext = getView().findViewById(R.id.remindtext);
         remindtext.setText("提醒");
 
-        // 初始化 TableUser資料庫
-        //TableUserPassword = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,PASSWORD_TABLE_NAME);
-        //TableUserPassword.getWritableDatabase();
-
+        //以下為 Gary 5/28 寫的
+        //初始化 TableUser資料庫
+        TableUserPassword = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,PASSWORD_TABLE_NAME);
+        TableUserPassword.getWritableDatabase();
 
         //導向密碼設置Activity
         btnPasswordsetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PasswordSetting.class);
-                startActivity(intent);
-            }
-        });
-
-        /*
-        setpassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
-                    AlertDialog.Builder setpassword = new AlertDialog.Builder(getActivity());
-                    final View view = getLayoutInflater().inflate(R.layout.setpassword, null);
-                    setpassword.setView(view);
-                    setpassword.setTitle("設定日記密碼");
-                    Integer date = 0;
-                    Date mDate = new Date();
-                    date = mDate.getDate();
-                    stringDate = date.toString();
-
-
-
-                    setpassword.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+                //初始化AlertDialog.Builder(記得要初始化在Button內，避免第二次點選時跳錯誤)
+                AlertDialog.Builder PasswordDialog = new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme);
+                View view = getLayoutInflater().inflate(R.layout.openclosepassword, null);
+                PasswordDialog.setView(view);
+                PasswordDialog.setCancelable(false);//禁止按返回鍵(禁止取消AlertDialog)
+                //撈出目前是否上鎖
+                for(HashMap<String,String> data:TableUserPassword.showLock()){
+                    strlock = data.get("IfSetLock");
+                }
+                if(strlock.equals("1")){//目前為上鎖狀態
+                    PasswordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            getpassword = (EditText) view.findViewById(R.id.editsetpassword);
-                            getconfirmpassword = (EditText) view.findViewById(R.id.confirmeditsetpassword);
-                            //判斷不得為空值
-                            if(getpassword.getText().toString().matches("")||getconfirmpassword.getText().toString().matches("")){
-                                Toast.makeText(getActivity(),"密碼不得為空值",Toast.LENGTH_LONG).show();
-                                buttonView.setChecked(false);
-                            }
-                            strpassword = getpassword.getText().toString();
-                            strconfirmpassword = getconfirmpassword.getText().toString();
-                            if(strpassword.equals(strconfirmpassword)){
-                                if(strpassword.length() > 5){
-                                    for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
-                                        String p =data.get("Password");
-                                        if(strpassword.equals(p)) {
-                                            Toast.makeText(getActivity(), "密碼不可重複", Toast.LENGTH_LONG).show();
-                                            buttonView.setChecked(false);
-                                            break;
-                                        }
-                                    }
-                                    Toast.makeText(getActivity(),"設置成功",Toast.LENGTH_LONG).show();
-                                    buttonView.setChecked(true);
-                                    TableUserPassword.addPassword(strpassword,stringDate);
-                                }
-                            }else{
-                                Toast.makeText(getActivity(),"密碼不相符",Toast.LENGTH_LONG).show();
-                                buttonView.setChecked(false);
-                            }
-
+                            //返回密碼設置Actiivty
                         }
                     });
-                    setpassword.show();
-                }
-                else {
-                    Toast.makeText(getActivity(),"關閉螢幕鎖",Toast.LENGTH_LONG).show();
-                }
 
+                    PasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            getOpenClosePassword = view.findViewById(R.id.inputOpcnClosePassword);
+                            strOpenPassword = getOpenClosePassword.getText().toString();
+                            for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
+                                p = data.get("Password");
+                            }
+                            if(strOpenPassword.equals(p)){//密碼吻合，開啟密碼設置Activity
+                                Intent intent = new Intent(getActivity(), PasswordSetting.class);
+                                startActivity(intent);
+
+                            }else{//錯誤跳重新輸入Toast
+                                Toast.makeText(getActivity(),"密碼錯誤，請重新輸入!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    PasswordDialog.show();
+
+                }else{//目前為無上鎖狀態
+                    Intent intent = new Intent(getActivity(), PasswordSetting.class);
+                    startActivity(intent);
+                }
             }
 
         });
-         */
-
-
+        //以上為 Gary 5/28 寫的
 
         remind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -282,6 +255,8 @@ public class ProfileFragment extends Fragment {
         });
 
     }
+
+
 
 
 }
