@@ -63,7 +63,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 14;
 
     //分類
     private Button chooseCategory;
@@ -141,8 +141,6 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         }else if(moodScore.equals("5")){
             currentMood.setImageResource(R.drawable.exciting);
         }
-
-
         changeTextTitle = (EditText) findViewById(R.id.changeTextTitle);
         changeTextContent= (EditText) findViewById(R.id.changeTextContent);
 
@@ -151,14 +149,17 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         changeTextContent.setText(contentText,TextView.BufferType.EDITABLE);
 
         //抓取今天的日期設定到標題
+        Integer year = 0;
         Integer month = 0;
         Integer date = 0;
         Date mDate = new Date();
+        year = mDate.getYear() + 2000 - 100;
         month = mDate.getMonth() + 1;
         date = mDate.getDate();
+        final String stringYear = year.toString();
         final String stringDate = date.toString();
         final String stringMonth = month.toString();
-        final String todayDate = stringMonth + stringDate;
+        final String todayDate =  stringYear + "/" + stringMonth + "/" + stringDate;
 
         //抓取輸入的內文，下面要在寫入data base
 
@@ -319,7 +320,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                 getNewTitle = changeTextTitle.getText().toString();
                 getNewContent = changeTextContent.getText().toString();
                 getNewCategory=showCategory.getText().toString();
-                mHelper.modifyEZ(id,getNewTitle, getNewContent, todayDate, getNewCategory, moodScore);
+                mHelper.modifyEZ(id,getNewTitle, getNewContent, getNewCategory, moodScore,todayDate);
 
                 Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
                 openActivityShowDiary(id);

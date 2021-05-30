@@ -27,7 +27,7 @@ public class PasswordSetting extends AppCompatActivity  {
     SQLiteDBHelper TableUserPassword;
     private final String DB_NAME = "MyDairy.db";
     private String PASSWORD_TABLE_NAME = "UserPassword";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 14;
 
     private Switch openorclosePassword;
     private Button  btnresetPassword, btnnewPassword;

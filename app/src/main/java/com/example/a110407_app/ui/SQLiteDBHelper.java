@@ -44,7 +44,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 5:
+                case 13:
                     System.out.println("幹幹幹");
                     /*新增Profile資料表
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
@@ -56,18 +56,17 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                     db.execSQL(RegisterTable);
                      */
                     //增加密碼表
-
+                    /*
                     db.execSQL("CREATE TABLE IF NOT EXISTS UserPassword ( " +
                             "Password TEXT, " +
                             "Date TEXT, " +
                             "IfSetLock TEXT" +
                             ")");
 
-                    //密碼表新增確認欄位
-                    /*
-                    db.execSQL("ALTER TABLE UserPassword ADD COLUMN IfSetLock TEXT");
-
                      */
+
+                    //密碼表新增確認欄位
+                    db.execSQL("ALTER TABLE MyDairy ADD COLUMN UpdateDate TEXT");
                     success = true;
                     break;
             }
@@ -345,15 +344,16 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return arrayList;
     }
 
-    //修改資料(簡單)
-    public void modifyEZ(String id, String title, String content,String date, String category,String score) {
+    //修改資料(簡單)(修改日記)
+    public void modifyEZ(String id, String title, String content, String category,String score, String updateDate) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("title", title);
         values.put("content", content);
-        values.put("Date",date);
+        //values.put("Date",date);
         values.put("Category",category);
         values.put("Score",score);
+        values.put("UpdateDate", updateDate);
         System.out.println(id+title+content);
         db.update(TableName, values, "_id = " + id, null);
     }

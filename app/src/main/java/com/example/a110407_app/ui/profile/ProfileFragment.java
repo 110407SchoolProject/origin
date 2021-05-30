@@ -346,10 +346,7 @@ public class ProfileFragment extends Fragment {
             image.setImageBitmap(bitmap);
         }
     }
-
-
-
-
+    
     public void getPermissionCamera(){
         if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);

@@ -62,7 +62,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 13;
+    private final int DB_VERSION = 14;
 
     //分類
     private Button chooseCategory;
@@ -101,14 +101,17 @@ public class EditDiaryActivity extends AppCompatActivity {
         CategoryDBHelper.getWritableDatabase();
 
         //抓取今天的日期設定到標題
+        Integer year = 0;
         Integer month = 0;
         Integer date = 0;
         Date mDate = new Date();
+        year = mDate.getYear() + 2000 - 100;
         month = mDate.getMonth() + 1;
         date = mDate.getDate();
         final String stringDate = date.toString();
+        final String stringyear = year.toString();
         final String stringMonth = month.toString();
-        final String todayDate = stringMonth + stringDate;
+        final String todayDate = stringyear + "/" + stringMonth + "/" + stringDate;
         editTextTitle = (EditText) findViewById(R.id.editTextTitle);
         editTextTitle.setText(month + "月" + date + "號的日記");
 
@@ -122,7 +125,6 @@ public class EditDiaryActivity extends AppCompatActivity {
 
         //儲存日記
         btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
-
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
