@@ -51,9 +51,9 @@
             <ImageView
                 android:id="@+id/moodImage"
                 android:layout_width="116dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_height="54dp"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
 
                 app:srcCompat="@drawable/crying" />
 

@@ -102,10 +102,10 @@
 
                     <ImageView
                         android:id="@+id/currentMoodImageView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_width="42dp"
+                        android:layout_height="40dp"
                         android:layout_marginRight="40dp"
+                        android:layout_weight="1"
                         app:srcCompat="@drawable/exciting" />
                 </LinearLayout>
 
@@ -124,35 +124,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/crying" />
+                app:srcCompat="@drawable/crying_small" />
 
             <ImageButton
                 android:id="@+id/btnSad"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/sad" />
+                app:srcCompat="@drawable/sad_small" />
 
             <ImageButton
                 android:id="@+id/bntNormal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/normal" />
+                app:srcCompat="@drawable/normal_small" />
 
             <ImageButton
                 android:id="@+id/btnSmiling"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/smiling" />
+                app:srcCompat="@drawable/smiling_small" />
 
             <ImageButton
                 android:id="@+id/btnExciting"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/exciting" />
+                app:srcCompat="@drawable/exciting_small" />
         </LinearLayout>
 
         <Button
