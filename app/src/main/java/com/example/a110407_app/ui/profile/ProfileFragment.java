@@ -276,11 +276,11 @@ public class ProfileFragment extends Fragment {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //getPermissionCamera();
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, PHOTO);
+                getPermissionCamera();
+                //Intent intent = new Intent();
+                //intent.setType("image/*");
+                //intent.setAction(Intent.ACTION_GET_CONTENT);
+                //startActivityForResult(intent, PHOTO);
             }
         });
 
@@ -346,15 +346,24 @@ public class ProfileFragment extends Fragment {
             image.setImageBitmap(bitmap);
         }
     }
-    
+
+    //取得手機權限(必須要先詢問使用者權限)
     public void getPermissionCamera(){
         if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
+            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("取得相簿權限")
+                        .setPositiveButton("確認", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
+                            }
+                        })
+                        .show();
+            }
 
+        }else{
+            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
         }
     }
-
-
-
-
 }

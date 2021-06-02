@@ -20,5 +20,9 @@
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="心情分析" />
+        <item
+            android:id="@+id/nav_tree"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="心情樹" />
     </group>
 </menu>

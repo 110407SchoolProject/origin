@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.tree.tree">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:id="@+id/tvtree"
+            android:layout_width="match_parent"
+            android:text="以下為您過去寫日記的所有文字"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_height="50dp">
+
+        </TextView>
+
+        <ImageView
+            android:id="@+id/tree"
+            android:layout_width="match_parent"
+            android:layout_height="194dp"
+            android:src="@drawable/tree">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/treebone"
+            android:layout_width="match_parent"
+            android:layout_height="194dp"
+            android:src="@drawable/pizza">
+        </ImageView>
+
+
+        <Button
+            android:id="@+id/btnCreateTree"
+            android:layout_width="match_parent"
+            android:text="產生心情樹"
+            android:textColor="#000000"
+            android:layout_height="60dp">
+        </Button>
+
+    </LinearLayout>
+
+</FrameLayout>

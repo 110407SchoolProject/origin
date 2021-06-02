@@ -43,6 +43,12 @@
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.example.a110407_app.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
+        android:label="心情分析"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_tree"
+        android:name="com.example.a110407_app.ui.tree.tree"
+        android:label="心情樹"
+        tools:layout="@layout/tree_fragment2" />
+
 </navigation>
