@@ -49,7 +49,7 @@ public class GalleryFragment extends Fragment {
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 14;
+    private final int DB_VERSION = 7;
     private ArrayList<HashMap<String, String>> diaryTitleList;
 
     private EditText getPassword;
@@ -101,6 +101,7 @@ public class GalleryFragment extends Fragment {
             AlertDialog.Builder GalleryPasswordDialog = new AlertDialog.Builder(getActivity());
             View view = getLayoutInflater().inflate(R.layout.openclosepassword, null);//共用密碼設置開啟與關閉的Layout
             GalleryPasswordDialog.setView(view);
+            GalleryPasswordDialog.setCancelable(false);
             GalleryPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -119,7 +120,6 @@ public class GalleryFragment extends Fragment {
                         //日記標題清單
                         //標題
                         String title="";
-
                         //抓取日記標題
                         final ArrayList titleArrayList = new ArrayList();
                         final ArrayList idArrayList = new ArrayList();
@@ -172,6 +172,14 @@ public class GalleryFragment extends Fragment {
                         startActivity(intent);
                     }
 
+                }
+            });
+            // 按取消回到Home
+            GalleryPasswordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
                 }
             });
             GalleryPasswordDialog.show();

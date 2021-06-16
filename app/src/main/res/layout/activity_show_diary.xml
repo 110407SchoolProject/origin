@@ -42,7 +42,7 @@
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="160dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="18dp"
                 android:layout_weight="1"
                 android:gravity="top|center"
                 android:text="心情："
@@ -52,7 +52,7 @@
                 android:id="@+id/moodImage"
                 android:layout_width="116dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="10dp"
+
                 android:layout_weight="1"
 
                 app:srcCompat="@drawable/crying" />
@@ -61,7 +61,7 @@
                 android:id="@+id/textShowCategory"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="18dp"
                 android:layout_marginRight="27dp"
                 android:gravity="right"
                 android:hint="顯示分類"

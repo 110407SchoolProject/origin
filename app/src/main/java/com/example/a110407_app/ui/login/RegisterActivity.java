@@ -41,8 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Stetho.initializeWithDefaults(this);
-        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
-        mHelper.getWritableDatabase();
+//        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
+//        mHelper.getWritableDatabase();
 
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);

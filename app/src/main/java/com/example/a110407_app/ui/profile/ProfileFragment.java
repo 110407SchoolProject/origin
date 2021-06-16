@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
     SQLiteDBHelper mHelper;
     private final String DB_NAME = "MyDairy.db";
     private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 14;
+    private final int DB_VERSION = 7;
     private ArrayList<HashMap<String, String>> diaryList;
 
     private Button editprofile;
@@ -122,7 +122,7 @@ public class ProfileFragment extends Fragment {
         birthday.setText("1999/12/07");
 
         diaryNumbers=getView().findViewById(R.id.currentDiaryNumbers);
-        diaryPoints=getView().findViewById(R.id.currentDiaryPoints);
+//        diaryPoints=getView().findViewById(R.id.currentDiaryPoints);
         recentMood=getView().findViewById(R.id.recentMoodImageView);
 
         mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
@@ -176,8 +176,8 @@ public class ProfileFragment extends Fragment {
                 break;
         }
 
-        int diaryPoint = countDiaryNumber*5;
-        diaryPoints.setText(Integer.toString(diaryPoint));
+//        int diaryPoint = countDiaryNumber*5;
+//        diaryPoints.setText(Integer.toString(diaryPoint));
 
 
         editprofile = getView().findViewById(R.id.editprofile);

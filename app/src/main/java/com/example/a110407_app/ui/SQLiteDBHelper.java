@@ -44,7 +44,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
-                case 13:
+                case 6:
                     System.out.println("幹幹幹");
                     /*新增Profile資料表
                     String RegisterTable = "CREATE TABLE IF NOT EXISTS " + TableName + "( " +
@@ -64,7 +64,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                             ")");
 
                      */
-
                     //密碼表新增確認欄位
                     db.execSQL("ALTER TABLE MyDairy ADD COLUMN UpdateDate TEXT");
                     success = true;

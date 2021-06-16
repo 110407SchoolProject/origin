@@ -21,9 +21,10 @@
 
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_email"
+        android:textColorHint="#ADADAD"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
-        android:text="pony1306"
+        android:text=""
         android:textColor="#FCFCFC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +42,8 @@
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
-        android:text="pony1306"
+        android:textColorHint="#ADADAD"
+        android:text=""
         android:textColor="#FCFCFC"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,30 +80,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="371dp"
-        android:layout_height="92dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <TextView
-            android:id="@+id/Text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="20dp"
-            android:text="測試" />
-
-        <Button
-            android:id="@+id/getData"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="GetDataTest" />
-    </LinearLayout>
-
     <ProgressBar
         android:id="@+id/loading"
         android:layout_width="wrap_content"
@@ -127,5 +105,5 @@
         app:layout_constraintHorizontal_bias="0.607"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/calandar" />
+        app:srcCompat="@drawable/heartpencil" />
 </androidx.constraintlayout.widget.ConstraintLayout>

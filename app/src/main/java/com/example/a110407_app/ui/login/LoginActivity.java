@@ -50,15 +50,15 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        text = (TextView) findViewById(R.id.Text);
-        getData = (Button) findViewById(R.id.getData);
-        getData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Thread thread = new Thread(multiThread);
-                thread.start();
-            }
-        });
+//        text = (TextView) findViewById(R.id.Text);
+//        getData = (Button) findViewById(R.id.getData);
+//        getData.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Thread thread = new Thread(multiThread);
+//                thread.start();
+//            }
+//        });
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
