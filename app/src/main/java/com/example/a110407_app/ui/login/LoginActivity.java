@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.btnLogin);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        registerButton = (Button)findViewById(R.id.btnRegister);
+        registerButton = (Button) findViewById(R.id.btnRegister);
         registerButton.setOnClickListener(btnRegisterOnClickListner);
 
 
