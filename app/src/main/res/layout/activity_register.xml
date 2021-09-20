@@ -4,26 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
     tools:context=".ui.login.RegisterActivity">
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="363dp"
+        android:layout_height="217dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/heart_pencil" />
 
     <TextView
         android:id="@+id/userTrueNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="真實姓名"
-        app:layout_constraintBottom_toTopOf="@+id/userTrueName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.835" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     <EditText
         android:id="@+id/userTrueName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="104dp"
         android:layout_marginEnd="24dp"
 
         android:hint="@string/userTrueName"
@@ -32,24 +41,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/userTrueNameText" />
 
     <Button
         android:id="@+id/btnRegisterInRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
         android:layout_gravity="start"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        android:layout_marginBottom="64dp"
+        android:background="@drawable/mainbtnpink"
         android:enabled="true"
-        android:text="@string/action_Register"
+        android:text="註冊"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
-        app:layout_constraintVertical_bias="0.248" />
+        app:layout_constraintVertical_bias="0.275" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -67,71 +76,58 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
+
     <TextView
         android:id="@+id/userAccountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="帳號"
-        app:layout_constraintBottom_toTopOf="@+id/userNameEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/genderMale" />
 
     <TextView
         android:id="@+id/genderText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="4dp"
         android:text="性別"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/userBirthdayEditText" />
 
     <EditText
         android:id="@+id/userNameEditText"
-        android:layout_width="0dp"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
 
-        android:layout_marginTop="176dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userTrueName" />
+        app:layout_constraintTop_toBottomOf="@+id/userAccountText" />
 
     <EditText
         android:id="@+id/passwordConfirmEditText"
-        android:layout_width="0dp"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
 
-        android:layout_marginEnd="24dp"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPasswordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmText" />
 
     <EditText
         android:id="@+id/userPasswordEditText"
-        android:layout_width="0dp"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="24dp"
 
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
@@ -139,85 +135,73 @@
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordText" />
 
-    <RadioGroup
-        android:id="@+id/genderRadioGroup"
-        android:layout_width="307dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="36dp"
-        android:orientation="horizontal"
+
+    <RadioButton
+        android:id="@+id/genderMale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="男生"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genderText" />
+
+    <RadioButton
+        android:id="@+id/genderFemale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="女生"
+        app:layout_constraintBottom_toBottomOf="@+id/genderMale"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userBirthdayEditText">
-
-        <RadioButton
-            android:id="@+id/genderMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-
-            android:text="男生" />
-
-        <RadioButton
-            android:id="@+id/genderFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="女生" />
-    </RadioGroup>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/genderMale"
+        app:layout_constraintTop_toTopOf="@+id/genderMale"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/userPasswordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="密碼"
-        app:layout_constraintBottom_toTopOf="@+id/userPasswordEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userNameEditText"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
 
     <TextView
         android:id="@+id/userPasswordConfirmText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:text="確認密碼"
-        app:layout_constraintBottom_toTopOf="@+id/passwordConfirmEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPasswordEditText"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordEditText" />
 
     <TextView
         android:id="@+id/userBirthdayTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="156dp"
         android:text="生日"
-        app:layout_constraintBottom_toBottomOf="@+id/userBirthdayEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.037" />
+        app:layout_constraintTop_toBottomOf="@+id/userTrueName" />
 
     <EditText
         android:id="@+id/userBirthdayEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
         android:ems="10"
         android:hint="Ex:1999/12/07"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintHorizontal_bias="0.119"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/userBirthdayTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
