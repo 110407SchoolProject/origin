@@ -17,12 +17,14 @@
     <string name="userTrueName">王小明</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">登入</string>
-    <string name="action_Register">註冊</string>
+    <string name="action_Register">Click here to <u>註冊</u></string>
     <string name="action_sign_in_short">登入</string>
     <string name="welcome">"歡迎回來!"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="remember_me">記得我</string>
+    <string name="forget_password">忘記密碼？</string>
 
     <string-array name="diary">
         <item>目前沒有日記唷！趕快來新增日記吧！</item>
