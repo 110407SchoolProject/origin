@@ -4,93 +4,109 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
     tools:context=".ui.home.HomeFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="208dp"
+        android:layout_height="181dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/calandar2"
+        app:layout_constraintBottom_toBottomOf="@+id/DateTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/DateTextView"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <TextView
+        android:id="@+id/DateTextView"
+        android:layout_width="134dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:text="Date"
+        android:textColor="#FCFCFC"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_home" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="387dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/mainbtnpink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-        <TextView
-            android:id="@+id/text_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="#FCFCFC"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/text_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
+        android:textColor="#FCFCFC"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/DateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
-            android:textSize="30sp"
-            android:text="TextView"
-            android:textColor="#FCFCFC" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="心情小語"
+        android:textColor="#FF8E8E"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="599dp"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/inspiringSentence"
+        android:layout_width="356dp"
+        android:layout_height="56dp"
+        android:text="每天寫下日記，有助於放鬆身心，將自己所發生的點點滴滴記錄起來，何嘗不是種享受呢？"
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="match_parent"
-                android:layout_height="194dp"
-                android:src="@drawable/calandar" />
+        android:textColor="#FCFCFC"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="@+id/imageView8"
+        app:layout_constraintStart_toStartOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="心情小語"
-                android:textColor="#FFD0FF"
-                android:textSize="22dp" />
+    <TextView
+        android:id="@+id/newestDiaryText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="最新日記"
+        android:textColor="#FF8E8E"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
-            <TextView
-                android:id="@+id/inspiringSentence"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:text="每天寫下日記，有助於放鬆身心，將自己所發生的點點滴滴記錄起來，何嘗不是種享受呢？"
+    <ListView
+        android:id="@+id/diaryListViewInHome"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="32dp"
+        android:entries="@array/diary"
+        android:textColor="#FCFCFC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newestDiaryText" />
 
-                android:textColor="#FCFCFC"
-                android:textSize="16dp" />
 
-            <TextView
-                android:id="@+id/newestDiaryText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-
-                android:layout_marginTop="8dp"
-                android:text="最新日記"
-
-                android:textColor="#FFD0FF"
-                android:textSize="22dp" />
-
-            <ListView
-                android:id="@+id/diaryListViewInHome"
-                android:layout_width="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="16dp"
-                android:layout_height="200dp"
-                android:entries="@array/diary"
-                android:textColor="#FCFCFC" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
