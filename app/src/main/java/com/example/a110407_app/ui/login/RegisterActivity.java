@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         //真實姓名
         userTrueNameEditText =(EditText) findViewById(R.id.userTrueName);
         //性別選取欄位
-        genderRadioGroup =(RadioGroup)findViewById(R.id.genderRadioGroup);
+        
         genderButtonMale=(RadioButton)findViewById(R.id.genderMale);
         genderButtonFemale=(RadioButton)findViewById(R.id.genderFemale);
         genderRadioGroup.setOnCheckedChangeListener(radioButtonGenderOnCheckedChange);
