@@ -14,8 +14,8 @@
 <!--test-->
     <EditText
         android:id="@+id/userNameEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="333dp"
+        android:layout_height="21dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
@@ -32,8 +32,8 @@
 
     <EditText
         android:id="@+id/userPasswordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="331dp"
+        android:layout_height="18dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
 
@@ -60,6 +60,7 @@
         android:text="@string/action_sign_in"
         android:textColor="#ffffff"
         android:textSize="22sp"
+        android:gravity="center_vertical|center_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"

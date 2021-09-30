@@ -28,7 +28,7 @@
         android:baselineAligned="false"
         android:gravity="center_horizontal"
         android:text="Date"
-        android:textColor="#FCFCFC"
+        android:textColor="#C8C8C8"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.301"
@@ -101,10 +101,11 @@
         android:id="@+id/diaryListViewInHome"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="4dp"
         android:entries="@array/diary"
-        android:textColor="#FCFCFC"
+        android:textColor="#C8C8C8"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newestDiaryText" />
 
