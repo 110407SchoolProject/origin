@@ -52,11 +52,11 @@ public class ChangeDiaryActivity extends AppCompatActivity {
     private String getNewContent;
     //心情按鈕
 
-    private ImageButton btnCryingMood;
-    private ImageButton btnSadMood;
-    private ImageButton btnNormalMood;
-    private ImageButton btnSmilingMood;
-    private ImageButton btnExcitingMood;
+    private ImageView btnCryingMood;
+    private ImageView btnSadMood;
+    private ImageView btnNormalMood;
+    private ImageView btnSmilingMood;
+    private ImageView btnExcitingMood;
     private ImageView currentMood;
 
     //建立日記表的資料庫
@@ -169,11 +169,11 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         btnSaveDiary = findViewById(R.id.btnSaveDiaryInChangeDiary);
         //儲存日記
         //心情選取欄位
-        btnCryingMood =(ImageButton)findViewById(R.id.btnCryingInChangeDiary);
-        btnSadMood =(ImageButton)findViewById(R.id.btnSadInChangeDiary);
-        btnNormalMood =(ImageButton)findViewById(R.id.bntNormalInChangeDiary);
-        btnSmilingMood =(ImageButton)findViewById(R.id.btnSmilingInChangeDiary);
-        btnExcitingMood =(ImageButton)findViewById(R.id.btnExcitingInChangeDiary);
+        btnCryingMood =(ImageView) findViewById(R.id.btnCryingInChangeDiary);
+        btnSadMood =(ImageView)findViewById(R.id.btnSadInChangeDiary);
+        btnNormalMood =(ImageView)findViewById(R.id.bntNormalInChangeDiary);
+        btnSmilingMood =(ImageView)findViewById(R.id.btnSmilingInChangeDiary);
+        btnExcitingMood =(ImageView)findViewById(R.id.btnExcitingInChangeDiary);
         //顯示目錄
         showCategory = (TextView) findViewById(R.id.CategoryTextViewInChangeDiary);
         btnCryingMood.setOnClickListener(new View.OnClickListener() {
