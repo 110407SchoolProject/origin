@@ -30,7 +30,7 @@
             android:layout_width="100dp"
             android:layout_height="28dp"
             android:layout_marginTop="68dp"
-            android:layout_weight="10dp"
+
             android:gravity="center|top"
             android:text="日記篇數"
             android:textColor="#c8c8c8"
@@ -79,7 +79,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="68dp"
-            android:layout_weight=""
+
             android:gravity="center|top"
             android:text="最近心情"
             android:textColor="#C8C8C8"
