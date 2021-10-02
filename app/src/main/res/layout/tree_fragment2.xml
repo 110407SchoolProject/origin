@@ -1,61 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/parkforest1"
     tools:context=".ui.tree.tree">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/tvtree"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
+        android:text="過去日記所寫下的所有文字"
+        android:textColor="#c8c8c8"
+        android:textSize="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/tree"
+        android:layout_width="335dp"
+        android:layout_height="194dp"
+        android:src="@drawable/tree"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/treebone"
+        app:layout_constraintStart_toStartOf="@+id/treebone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.662" />
+
+    <ImageView
+        android:id="@+id/treebone"
+        android:layout_width="287dp"
+        android:layout_height="243dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/treebone03"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tree"
+        app:layout_constraintVertical_bias="0.072" />
+
+    <Button
+        android:id="@+id/btnCreateTree"
+        android:layout_width="306dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/mainbtnforest"
+        android:text="產生我的心情樹"
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-        <TextView
-            android:id="@+id/tvtree"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
-            android:text="過去日記所寫下的所有文字"
-            android:textColor="#FFFFFF"
-            android:textSize="20dp">
-
-        </TextView>
-
-        <ImageView
-            android:id="@+id/tree"
-            android:layout_width="match_parent"
-            android:layout_height="194dp"
-            android:src="@drawable/tree">
-        </ImageView>
-
-        <ImageView
-            android:id="@+id/treebone"
-            android:layout_width="match_parent"
-            android:layout_height="194dp"
-            android:layout_marginTop="-115dp"
-            android:src="@drawable/treebone03">
-        </ImageView>
-
-
-        <Button
-            android:id="@+id/btnCreateTree"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
-            android:text="產生我的心情樹"
-            android:textSize="16dp"
-            android:textColor="#000000"></Button>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp">
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
