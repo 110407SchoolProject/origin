@@ -42,16 +42,20 @@
 
         <TextView
             android:id="@+id/currentDiaryNumbers"
-            android:layout_width="59dp"
-            android:layout_height="21dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="58dp"
+            android:layout_height="34dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginRight="40dp"
             android:layout_weight="30"
             android:gravity="center|top"
             android:text="12"
             android:textColor="#C8C8C8"
-            android:textSize="20sp"
-            app:layout_constraintTop_toBottomOf="@+id/textView7"
-            tools:layout_editor_absoluteX="201dp" />
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/recentMoodImageView"
+            app:layout_constraintHorizontal_bias="0.981"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <ImageView
             android:id="@+id/recentMoodImageView"
@@ -61,8 +65,12 @@
             android:layout_marginTop="8dp"
             android:layout_weight="1"
             android:src="@drawable/exciting"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.879"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentDiaryNumbersText"
-            tools:layout_editor_absoluteX="305dp" />
+            app:layout_constraintVertical_bias="0.001" />
 
         <TextView
             android:id="@+id/textView7"
@@ -186,6 +194,7 @@
             android:enabled="true"
             android:gravity="center_vertical|center_horizontal"
             android:text="密碼設置"
+            android:textStyle="bold"
             android:textColor="#ffffff"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -204,6 +213,7 @@
             android:enabled="true"
             android:gravity="center_vertical|center_horizontal"
             android:text="編輯個人設置"
+            android:textStyle="bold"
             android:textColor="#ffffff"
 
             android:textSize="22sp"
@@ -220,7 +230,7 @@
             android:layout_marginRight="100dp"
             android:text="設置日記提醒"
             android:textColor="#C8C8C8"
-            android:textSize="16dp"
+            android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/remind"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
