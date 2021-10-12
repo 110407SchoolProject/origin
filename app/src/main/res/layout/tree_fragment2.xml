@@ -12,7 +12,7 @@
         android:id="@+id/tvtree"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="過去日記所寫下的所有文字"
         android:textColor="#c8c8c8"
