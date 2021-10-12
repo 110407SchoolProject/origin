@@ -33,7 +33,7 @@
 
             android:gravity="center|top"
             android:text="日記篇數"
-            android:textColor="#c8c8c8"
+            android:textColor="#66000000"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -50,7 +50,7 @@
             android:layout_weight="30"
             android:gravity="center|top"
             android:text="12"
-            android:textColor="#C8C8C8"
+            android:textColor="#66000000"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/recentMoodImageView"
             app:layout_constraintHorizontal_bias="0.981"
@@ -82,7 +82,7 @@
 
             android:gravity="center|top"
             android:text="最近心情"
-            android:textColor="#C8C8C8"
+            android:textColor="#66000000"
             android:textSize="22sp"
             app:layout_constraintStart_toEndOf="@+id/profileImage"
             app:layout_constraintTop_toTopOf="parent" />
@@ -92,7 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="37dp"
             android:text="name here"
-            android:textColor="#C8C8C8"
+            android:textColor="#66000000"
 
             android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="@+id/profileImage"
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="nick name"
-                    android:textColor="#C8C8C8"
+                    android:textColor="#66000000"
                     android:textSize="16sp" />
 
                 <TextView
@@ -134,7 +134,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:text="username"
-                    android:textColor="#C8C8C8"
+                    android:textColor="#66000000"
                     android:textSize="16dp" />
             </TableRow>
 
@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="@string/prompt_email"
-                    android:textColor="#C8C8C8" />
+                    android:textColor="#66000000" />
 
                 <TextView
                     android:id="@+id/profileEmail"
@@ -156,7 +156,7 @@
                     android:layout_height="30dp"
                     android:layout_marginLeft="20dp"
                     android:text="email"
-                    android:textColor="#C8C8C8"
+                    android:textColor="#66000000"
                     android:textSize="16dp" />
 
             </TableRow>
@@ -171,7 +171,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="birthday"
-                    android:textColor="#C8C8C8" />
+                    android:textColor="#66000000" />
 
                 <TextView
                     android:id="@+id/profileBirhtday"
@@ -179,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="birthdate"
-                    android:textColor="#C8C8C8"
+                    android:textColor="#66000000"
                     android:textSize="16dp" />
 
             </TableRow>
@@ -229,7 +229,7 @@
             android:layout_marginEnd="100dp"
             android:layout_marginRight="100dp"
             android:text="設置日記提醒"
-            android:textColor="#C8C8C8"
+            android:textColor="#66000000"
             android:textSize="20sp"
             app:layout_constraintEnd_toStartOf="@+id/remind"
             app:layout_constraintHorizontal_bias="1.0"

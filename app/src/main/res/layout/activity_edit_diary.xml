@@ -25,7 +25,7 @@
             android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#c8c8c8"
+
             android:maxLength="16"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
@@ -128,7 +128,7 @@
                     android:layout_weight="1"
                     android:gravity="center|top"
                     android:text="分類"
-                    android:textColor="#c8c8c8" />
+                     />
 
                 <TextView
                     android:id="@+id/CategoryTextView"
@@ -142,7 +142,7 @@
                     android:keepScreenOn="true"
                     android:text="未分類"
 
-                    android:textColor="#8E8E8E"/>
+                    />
 
                 <TextView
                     android:id="@+id/MoodHintText"
@@ -151,7 +151,7 @@
                     android:layout_weight="1"
                     android:gravity="center|top"
                     android:text="心情"
-                    android:textColor="#c8c8c8" />
+                     />
 
                 <ImageView
                     android:id="@+id/currentMoodImageView"

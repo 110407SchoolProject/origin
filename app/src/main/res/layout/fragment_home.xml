@@ -28,7 +28,7 @@
         android:baselineAligned="false"
         android:gravity="center_horizontal"
         android:text="Date"
-        android:textColor="#C8C8C8"
+        android:textColor="#66000000"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintHorizontal_bias="0.8"

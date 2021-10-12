@@ -9,7 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:hint="請輸入新分類的名稱">
+        android:hint="請輸入新分類的名稱"
+        android:textColor="#66000000"
+        android:textColorHint="#66000000"
+        android:backgroundTint="#66000000">
 
     </EditText>
 
