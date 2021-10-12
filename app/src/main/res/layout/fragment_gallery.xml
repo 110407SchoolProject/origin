@@ -32,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="680dp"
                     android:entries="@array/diary"
-                    android:textColor="#FCFCFC">
+                    android:textColor="#171717">
 
 
                 </ListView>

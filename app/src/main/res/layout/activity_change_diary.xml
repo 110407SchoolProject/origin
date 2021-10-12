@@ -28,7 +28,6 @@
         android:inputType="textPersonName"
         android:maxLength="16"
         android:text=""
-        android:textColor="#c8c8c8"
         app:layout_constraintBottom_toTopOf="@+id/scrollView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +78,7 @@
                     android:layout_weight="1"
                     android:gravity="center|top"
                     android:text="分類"
-                    android:textColor="#c8c8c8" />
+                    />
 
                 <TextView
                     android:id="@+id/CategoryTextViewInChangeDiary"
@@ -93,7 +92,7 @@
                     android:keepScreenOn="true"
                     android:text="未分類"
 
-                    android:textColor="#c8c8c8"/>
+                    />
 
                 <TextView
                     android:id="@+id/MoodHintTextInChangeDiary"
@@ -102,7 +101,7 @@
                     android:layout_weight="1"
                     android:gravity="center|top"
                     android:text="心情"
-                    android:textColor="#c8c8c8" />
+                     />
 
                 <ImageView
                     android:id="@+id/currentMoodImageViewInChangeDiary"
