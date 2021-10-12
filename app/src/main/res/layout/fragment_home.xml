@@ -12,26 +12,26 @@
         android:id="@+id/imageView4"
         android:layout_width="208dp"
         android:layout_height="181dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:src="@drawable/calandar2"
         app:layout_constraintBottom_toBottomOf="@+id/DateTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/DateTextView"
-        app:layout_constraintVertical_bias="0.503" />
+        app:layout_constraintTop_toTopOf="@+id/DateTextView" />
 
     <TextView
         android:id="@+id/DateTextView"
-        android:layout_width="134dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
+        android:layout_width="172dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="24dp"
         android:baselineAligned="false"
         android:gravity="center_horizontal"
         android:text="Date"
         android:textColor="#C8C8C8"
         android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.301"
+        app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
