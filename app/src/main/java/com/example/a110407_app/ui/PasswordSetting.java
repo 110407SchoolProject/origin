@@ -122,6 +122,7 @@ public class PasswordSetting extends AppCompatActivity  {
                                     strPassword = getPassword.getText().toString();
                                     TableUserPassword.addPassword(strPassword,strDate);
 
+
                                 }
                             }
                         }
@@ -177,8 +178,10 @@ public class PasswordSetting extends AppCompatActivity  {
                                             Toast.makeText(PasswordSetting.this, "密碼不可和舊密碼相同", Toast.LENGTH_LONG).show();
 
                                         } else {//更新成功
+                                            System.out.println(strOldPassword+strresetPassword);
                                             TableUserPassword.resetPassword(strOldPassword, strresetPassword);
-                                            Toast.makeText(PasswordSetting.this, "更新成功", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(PasswordSetting.this, "密碼更新成功", Toast.LENGTH_LONG).show();
+                                            System.out.println("成功寫入");
                                         }
                                     }
                                 }
