@@ -40,7 +40,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //檢查目前資料庫的版本，更新資料庫(用版本號來決定是否要更新)(只有在要在舊表新增欄位或是新增一個表的時候需要用到)
         if (newVersion > oldVersion){
-            System.out.println("幹幹幹");
+
             db.beginTransaction();
             boolean success = false;
             switch (oldVersion){
@@ -121,7 +121,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Password", newpassword);
-        db.update(TableName, values, "Password= " + oldpassword, null);
+        db.update(TableName, values, "rowid= " + "1", null);
     }
 
     //撈出是否上鎖欄位
@@ -140,6 +140,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     //更新是否上鎖欄位
     public void updateLock(String password,String lock){
         SQLiteDatabase db = getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put("IfSetLock", lock);
         db.update(TableName, values, "Password= " + password, null);
@@ -353,7 +354,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         values.put("Category",category);
         values.put("Score",score);
         values.put("UpdateDate", updateDate);
-        System.out.println(id+title+content);
         db.update(TableName, values, "_id = " + id, null);
     }
 
