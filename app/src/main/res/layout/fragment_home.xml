@@ -22,8 +22,10 @@
 
     <TextView
         android:id="@+id/DateTextView"
-        android:layout_width="172dp"
-        android:layout_height="150dp"
+        android:layout_width="151dp"
+        android:layout_height="142dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="24dp"
         android:baselineAligned="false"
         android:gravity="center_horizontal"
@@ -58,8 +60,10 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="388dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="28dp"
         android:text="心情小語"
         android:textColor="#FF8E8E"
@@ -85,8 +89,10 @@
 
     <TextView
         android:id="@+id/newestDiaryText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="388dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:text="最新日記"
         android:textColor="#FF8E8E"
