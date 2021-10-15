@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.Token;
 import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
@@ -56,6 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         Stetho.initializeWithDefaults(this);
 //        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
 //        mHelper.getWritableDatabase();
+
+
 
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);
