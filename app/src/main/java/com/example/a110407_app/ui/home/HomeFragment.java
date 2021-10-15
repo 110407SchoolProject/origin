@@ -19,10 +19,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.a110407_app.EditDiaryActivity;
+import com.example.a110407_app.Model.Token;
 import com.example.a110407_app.R;
 import com.example.a110407_app.ShowDiaryActivity;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import java.util.Random;
 
 public class HomeFragment extends Fragment {
 
+    private String userToken;
     private HomeViewModel homeViewModel;
     private TextView dateTimeText;
 
@@ -68,6 +71,12 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
 
+        Intent intent = getActivity().getIntent();
+
+        userToken =intent.getStringExtra("userToken");
+
+        System.out.println("從Home接到userToken:    "+userToken);
+
 
         inspiringSentence=(TextView)root.findViewById(R.id.inspiringSentence);
 
@@ -81,6 +90,8 @@ public class HomeFragment extends Fragment {
         mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
 
         String title="";
+
+
 
         //抓取日記標題
         final ArrayList titleArrayList = new ArrayList();
