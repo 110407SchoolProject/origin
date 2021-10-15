@@ -12,8 +12,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,7 +26,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a110407_app.MainActivity;
+import com.example.a110407_app.Model.Token;
+import com.example.a110407_app.Model.User;
+import com.example.a110407_app.Model.UserLogin;
 import com.example.a110407_app.R;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,14 +42,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class LoginActivity extends AppCompatActivity {
-    String result;
-    TextView text;
-    Button getData;
+
+    APIService ourAPIService;
+
+
+
+    String userToken;
 
     private String userNameServer="";
     private String userPasswordServer="";
     private String userTrueName="";
+
+
     private LoginViewModel loginViewModel;
     private Button registerButton;
 
@@ -50,20 +66,13 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        text = (TextView) findViewById(R.id.Text);
-//        getData = (Button) findViewById(R.id.getData);
-//        getData.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Thread thread = new Thread(multiThread);
-//                thread.start();
-//            }
-//        });
+
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = findViewById(R.id.userNameEditText);
-        final EditText passwordEditText = findViewById(R.id.userPasswordEditText);
+
+        EditText usernameEditText = findViewById(R.id.userNameEditText);
+        EditText passwordEditText = findViewById(R.id.userPasswordEditText);
         final Button loginButton = findViewById(R.id.btnLogin);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
@@ -142,114 +151,60 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-                openActivityHome();
+//                loadingProgressBar.setVisibility(View.VISIBLE);
+//                loginViewModel.login(usernameEditText.getText().toString(),
+//                        passwordEditText.getText().toString());
 
-//                Thread thread = new Thread(multiThread);
-//                thread.start();
-//                try {
-//                    thread.sleep(150);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                System.out.println("伺服器端:"+userNameServer);
-//                System.out.println("伺服器端:"+userPasswordServer);
-//                if(userNameServer.equals(usernameEditText.getText().toString())){
-//                    if(userPasswordServer.equals(passwordEditText.getText().toString())){
-//                        //登入成功才會導入首頁
-//                        openActivityHome();
-//                        //歡迎文字
-//                        String welcome = getString(R.string.welcome) + userTrueName;
-//                        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-//                    }else{
-//                        String loginFail = "使用者密碼可能有誤";
-//                        Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
-//                        System.out.println("密碼錯誤");
-//                        openLoginView();
-//                    }
-//                }else{
-//                    String loginFail = "帳號不存在";
-//                    Toast.makeText(getApplicationContext(), loginFail, Toast.LENGTH_LONG).show();
-//                    System.out.println("帳號不存在");
-//                    openLoginView();
-//                }
+                ourAPIService = RetrofitManager.getInstance().getAPI();
+
+                String username= usernameEditText.getText().toString();
+                String userPassword= passwordEditText.getText().toString();
 
 
 
+                UserLogin userLogin = new UserLogin(username,userPassword);
+
+                Call<UserLogin> callLogin = ourAPIService.postUserAccountAndPassword(userLogin);
+
+                callLogin.enqueue(new Callback<UserLogin>() {
+                    @Override
+                    public void onResponse(Call<UserLogin> call, Response<UserLogin> response) {
+                        System.out.println("伺服器有回應");
+
+                        String token = response.body().getToken();
+
+                        userToken = token;
+
+                        if(token.length()==0){
+                            System.out.println("沒接收到Token，可能是帳密錯誤或是不存在");
+                            String loginFailMessage ="帳號或密碼可能有誤";
+                            Toast.makeText(getApplicationContext(), loginFailMessage, Toast.LENGTH_LONG).show();
+
+                        }else {
+                            System.out.println("有接收到Toke，登入成功");
+                            String loginSuccessMessage ="登入成功";
+                            Toast.makeText(getApplicationContext(), loginSuccessMessage, Toast.LENGTH_LONG).show();
+
+                            openActivityHome(userToken);
+
+                            System.out.println("Token:"+token);
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<UserLogin> call, Throwable t) {
+                        System.out.println("伺服器連線失敗");
+                        Log.d("HKT", "response: " + t.toString());
+                    }
+                });
             }
-
         });
     }
 
-    private final Runnable multiThread = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                URL url = new URL("http://172.18.100.17/GetUserData.php");
-                //開始宣告 HTTP 連線需要的物件，這邊通常都是一綑的
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                // 建立 Google 比較挺的 HttpURLConnection 物件
-                connection.setRequestMethod("POST");
-                // 設定連線方式為 POST
-                connection.setDoOutput(true); // 允許輸出
-                connection.setDoInput(true); // 允許讀入
-                connection.setUseCaches(false); // 不使用快取
-                connection.connect(); // 開始連線
-                int responseCode =
-                        connection.getResponseCode();
-                // 建立取得回應的物件
-                if(responseCode ==
-                        HttpURLConnection.HTTP_OK){
-                    // 如果 HTTP 回傳狀態是 OK ，而不是 Error
-                    InputStream inputStream =
-                            connection.getInputStream();
-                    // 取得輸入串流
-                    BufferedReader bufReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"), 8);
-                    // 讀取輸入串流的資料
-                    String line = ""; // 宣告讀取用的字串
-                    while((line = bufReader.readLine()) != null) {
-                        JSONArray datajson = new JSONArray(line);
-                        int i = datajson.length()-1;
-                        JSONObject info = datajson.getJSONObject(i);
-                        String name = info.getString("userName");
-                        String password = info.getString("userPassword");
-                        String trueName =info.getString("userTrueName");
-                        System.out.println(trueName);
-                        System.out.println(name);
-                        System.out.println(password);
-
-                        userNameServer =name;
-                        userPasswordServer =password;
-                        userTrueName=trueName;
-
-                    }
-                    inputStream.close(); // 關閉輸入串流
-                }
-                // 讀取輸入串流並存到字串的部分
-                // 取得資料後想用不同的格式
-                // 例如 Json 等等，都是在這一段做處理
-            }catch(Exception e){
-                result = e.toString();
-            }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        text.setText(result);
-
-                    }
-                });
-        }
-    };
-
-    public void openActivityHome(){
+    public void openActivityHome(String userToken){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("userToken", userToken);
         startActivity(intent);
-
     }
-
-
 
     public void openLoginView(){
         Intent intent = new Intent(this, LoginActivity.class);
