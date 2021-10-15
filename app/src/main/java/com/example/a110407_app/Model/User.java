@@ -9,6 +9,7 @@ public class User {
     private String gender;
     private String birthday;
 
+    private String message;
     private String result;
 
     public User(String username, String password, String truename, String nickname, String gender, String birthday) {
@@ -48,4 +49,6 @@ public class User {
     }
 
     public String getResult(){return result; }
+
+    public String getMessage(){return message;}
 }
