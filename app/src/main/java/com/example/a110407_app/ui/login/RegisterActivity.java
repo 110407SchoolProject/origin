@@ -136,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("日期格式錯誤");
                 checkData-=1;
             }
-            System.out.println(checkData);
+            System.out.println(checkData); //生日格式若不包"-"目前會報錯
 
             if(checkData==6){
 
