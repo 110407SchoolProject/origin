@@ -131,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("密碼不一致");
                 checkData-=1;
             }
-            if((userBirthday.length()<10)) {
+            if((userBirthday.length()!=10)) {
                 message="日期格式錯誤";
                 System.out.println("日期格式錯誤");
                 checkData-=1;
