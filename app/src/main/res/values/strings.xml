@@ -37,7 +37,7 @@
     <string name="make_password">密碼</string>
     <string name="reenter_password">確認密碼</string>
     <string name="input_birthday">生日</string>
-    <string name="input_birthday_hint">Ex:1999/12/07</string>
+    <string name="input_birthday_hint">Ex:1999-12-07</string>
 
     <string-array name="diary">
         <item>目前沒有日記唷！趕快來新增日記吧！</item>
