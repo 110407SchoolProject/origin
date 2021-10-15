@@ -60,7 +60,6 @@ public class RegisterActivity extends AppCompatActivity {
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);
         registerInRegister.setOnClickListener(registerInRegisterOnclick);
-
         //真實姓名
         userTrueNameEditText =(EditText) findViewById(R.id.userTrueName);
         //性別選取欄位
@@ -93,7 +92,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     };
-
 
     public View.OnClickListener registerInRegisterOnclick = new View.OnClickListener() {
         @Override
@@ -133,12 +131,13 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("密碼不一致");
                 checkData-=1;
             }
-            if((userBirthday.length()<=10)) {
+            if((userBirthday.length()<10)) {
                 message="日期格式錯誤";
                 System.out.println("日期格式錯誤");
                 checkData-=1;
             }
             System.out.println(checkData);
+
             if(checkData==6){
 
                 User user = new User(
@@ -156,23 +155,24 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         //result是伺服器的回傳訊息 ok才是註冊成功
-                        String result = response.body().getResult();
-                        System.out.println(result);
+
+                        try {
+                            String result  = response.body().getResult();
+                            System.out.println(result);
+                            String registerSuccess ="註冊成功";
+                            // TODO : initiate successful logged in experience
+                            Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
+                            openLoginActivity();
+                        }catch (Exception e){
+                            System.out.println("帳號已被註冊");
+                            Toast.makeText(getApplicationContext(), "Email已被註冊", Toast.LENGTH_LONG).show();
+                        }
                         System.out.println("伺服器有成功回應");
-
-                        //是否成功，取決於result是不是OK，因為有可能帳號被重復註冊
-
-                        String registerSuccess ="註冊成功";
-                        // TODO : initiate successful logged in experience
-                        Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
-                        openLoginActivity();
                     }
-
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
                         System.out.println("Fail");
                         Log.d("HKT", "response: " + t.toString());
-
                     }
                 });
 
