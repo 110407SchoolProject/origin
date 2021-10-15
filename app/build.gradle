@@ -48,4 +48,8 @@ dependencies {
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
 
     implementation 'com.applandeo:material-calendar-view:1.7.0'
+
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
 }

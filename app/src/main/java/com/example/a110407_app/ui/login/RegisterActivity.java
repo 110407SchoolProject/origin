@@ -1,9 +1,11 @@
 package com.example.a110407_app.ui.login;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,12 +14,23 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.a110407_app.R;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.facebook.stetho.Stetho;
+
+import com.example.a110407_app.Model.User;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT="com.example.application.example.EXTRA_TEXT";
     public static final String EXTRA_TEXT2="com.example.application.example.EXTRA_TEXT2";
+
+    APIService ourAPIService;
+
     private Button registerInRegister  ;
     private RadioGroup genderRadioGroup ;
     private RadioButton genderButtonMale;
@@ -51,21 +64,18 @@ public class RegisterActivity extends AppCompatActivity {
         //真實姓名
         userTrueNameEditText =(EditText) findViewById(R.id.userTrueName);
         //性別選取欄位
-        
         genderButtonMale=(RadioButton)findViewById(R.id.genderMale);
         genderButtonFemale=(RadioButton)findViewById(R.id.genderFemale);
+        genderRadioGroup=(RadioGroup)findViewById(R.id.genderRadioGroup);
         genderRadioGroup.setOnCheckedChangeListener(radioButtonGenderOnCheckedChange);
         //(生日)
-        //userBirthdayEditText=(EditText) findViewById(R.id.userBirthdayEditText);
-        //帳號(使用者名稱)
+        userBirthdayEditText=(EditText) findViewById(R.id.userBirthdayEditText);
+        //帳號(使用者名稱 Email)
         userNameEditText =(EditText)findViewById(R.id.userNameEditText);
         //密碼
         userPasswordEditText = (EditText)findViewById(R.id.userPasswordEditText);
         //確認密碼
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
-
-
-
 
     }
     public RadioGroup.OnCheckedChangeListener radioButtonGenderOnCheckedChange= new RadioGroup.OnCheckedChangeListener() {
@@ -95,48 +105,80 @@ public class RegisterActivity extends AppCompatActivity {
             userPassword = userPasswordEditText.getText().toString();
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
 
+            String message="";
             int checkData =5;
 
             if(userTrueName.length()==0) {
+                message="請檢察真實姓名欄位";
                 System.out.println("名字太短");
                 checkData-=1;
             }
             if(userGender.length()==0){
+                message="請檢察性別欄位";
                 System.out.println("沒有選取性別");
                 checkData-=1;
             }
             if(userName.length()<=5) {
+                message="帳號不得少於五個字";
                 System.out.println("帳號不得少於五個字");
                 checkData-=1;
             }
             if(userPassword.length()<=5) {
+                message="密碼不得少於五個字";
                 System.out.println("密碼不得少於五個字");
                 checkData-=1;
             }
             if(!(userPassword.equals(userPasswordConfirm))) {
+                message="密碼與確認密碼不一致";
                 System.out.println("密碼不一致");
                 checkData-=1;
             }
             System.out.println(checkData);
             if(checkData==5){
-                String registerSuccess ="Register your Account Successfully";
-                // TODO : initiate successful logged in experience
-                Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
-                mHelper.addProfileData(userTrueName, userName,userPassword);
-                System.out.println(mHelper.showAll());
-                openLoginActivity();
 
+                User user = new User(
+                        userName,
+                        userPassword,
+                        userTrueName,
+                        userName,
+                        userGender,
+                        userBirthday);
 
+                ourAPIService = RetrofitManager.getInstance().getAPI();
+                Call<User> callRegister = ourAPIService.postUser(user);
+
+                callRegister.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        //result是伺服器的回傳訊息 ok才是註冊成功
+                        String result = response.body().getResult();
+                        System.out.println(result);
+                        System.out.println("伺服器有成功回應");
+
+                        //是否成功，取決於result是不是OK，因為有可能帳號被重復註冊
+
+                        String registerSuccess ="註冊成功";
+                        // TODO : initiate successful logged in experience
+                        Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
+                        openLoginActivity();
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        System.out.println("Fail");
+                        Log.d("HKT", "response: " + t.toString());
+
+                    }
+                });
 
             }else{
-                String registerFail ="Register your Account Fail 請仔細檢查上面是否填寫";
+
                 // TODO : initiate successful logged in experience
-                Toast.makeText(getApplicationContext(), registerFail, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
 
         }
     };
-
     public void openLoginActivity(){
         Intent intent  = new Intent(this,LoginActivity.class);
         startActivity(intent);
