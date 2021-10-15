@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
 
             String message="";
-            int checkData =5;
+            int checkData =6;
 
             if(userTrueName.length()==0) {
                 message="請檢察真實姓名欄位";
@@ -133,8 +133,13 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("密碼不一致");
                 checkData-=1;
             }
+            if((userBirthday.length()<=10)) {
+                message="日期格式錯誤";
+                System.out.println("日期格式錯誤");
+                checkData-=1;
+            }
             System.out.println(checkData);
-            if(checkData==5){
+            if(checkData==6){
 
                 User user = new User(
                         userName,
