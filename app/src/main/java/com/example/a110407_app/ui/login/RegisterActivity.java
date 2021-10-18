@@ -7,6 +7,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -63,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     static final int DATE_DIALOG_ID = 0;
+
     SQLiteDBHelper mHelper;
     //private  String TABLE_NAME_CATEGORY = "Category";
     @Override
@@ -94,13 +97,17 @@ public class RegisterActivity extends AppCompatActivity {
         userNameEditText =(EditText)findViewById(R.id.userNameEditText);
         //密碼
         userPasswordEditText = (EditText)findViewById(R.id.userPasswordEditText);
+
         //確認密碼
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
+
+
         myDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog(DATE_DIALOG_ID);
             }
+
         });
         //get the current date
         final Calendar c = Calendar.getInstance();
@@ -109,6 +116,8 @@ public class RegisterActivity extends AppCompatActivity {
         mDay = c.get(Calendar.DAY_OF_MONTH);
         //display the current date
         updateDisplay();
+
+
 
 
     }
@@ -168,8 +177,9 @@ public class RegisterActivity extends AppCompatActivity {
             userName = userNameEditText.getText().toString();
             userBirthday =userBirthdayEditText.getText().toString();
             userPassword = userPasswordEditText.getText().toString();
+            userPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
-
+            userPasswordConfirmEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             String message="";
             int checkData =6;
 

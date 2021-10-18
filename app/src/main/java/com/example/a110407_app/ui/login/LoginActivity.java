@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -72,7 +73,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         EditText usernameEditText = findViewById(R.id.userNameEditText);
+
         EditText passwordEditText = findViewById(R.id.userPasswordEditText);
+
         final Button loginButton = findViewById(R.id.btnLogin);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
@@ -136,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
+        passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
@@ -198,6 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
 
     public void openActivityHome(String userToken){
