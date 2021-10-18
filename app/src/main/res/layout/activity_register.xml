@@ -266,9 +266,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:backgroundTint="#c8c8c8"
+        android:editable="false"
         android:ems="10"
         android:hint="@string/input_birthday_hint"
         android:inputType="date"
@@ -278,5 +279,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userBirthdayTextView" />
+
+    <ImageView
+        android:id="@+id/myDatePicker"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="@+id/userBirthdayEditText"
+        app:layout_constraintHorizontal_bias="0.964"
+        app:layout_constraintStart_toStartOf="@+id/userBirthdayEditText"
+        app:layout_constraintTop_toTopOf="@+id/userBirthdayEditText"
+        app:srcCompat="@drawable/calendaricon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

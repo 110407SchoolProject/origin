@@ -3,12 +3,16 @@ package com.example.a110407_app.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -21,6 +25,8 @@ import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.facebook.stetho.Stetho;
 
 import com.example.a110407_app.Model.User;
+
+import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioButton genderButtonFemale;
 
     private EditText userBirthdayEditText;
+    private ImageView myDatePicker;
     private EditText userTrueNameEditText ;
     private EditText userNameEditText;
     private EditText userPasswordEditText;
@@ -48,6 +55,14 @@ public class RegisterActivity extends AppCompatActivity {
     private final String DB_NAME = "MyDairy.db";
     private final String TABLE_NAME = "Profile";
     private final int DB_VERSION = 6;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+
+
+
+
+    static final int DATE_DIALOG_ID = 0;
     SQLiteDBHelper mHelper;
     //private  String TABLE_NAME_CATEGORY = "Category";
     @Override
@@ -70,16 +85,65 @@ public class RegisterActivity extends AppCompatActivity {
         genderButtonFemale=(RadioButton)findViewById(R.id.genderFemale);
         genderRadioGroup=(RadioGroup)findViewById(R.id.genderRadioGroup);
         genderRadioGroup.setOnCheckedChangeListener(radioButtonGenderOnCheckedChange);
-        //(生日)
+        //(生日)(NON EDITABLE(DISPLAY ONLY!))
         userBirthdayEditText=(EditText) findViewById(R.id.userBirthdayEditText);
+        //(生日 DATE PICKER BUTTON)
+        myDatePicker=(ImageView) findViewById(R.id.myDatePicker);
+
         //帳號(使用者名稱 Email)
         userNameEditText =(EditText)findViewById(R.id.userNameEditText);
         //密碼
         userPasswordEditText = (EditText)findViewById(R.id.userPasswordEditText);
         //確認密碼
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
+        myDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(DATE_DIALOG_ID);
+            }
+        });
+        //get the current date
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+        //display the current date
+        updateDisplay();
+
 
     }
+
+    private void updateDisplay() {
+        this.userBirthdayEditText.setText(
+                new StringBuilder()
+                        // Month is 0 based so add 1
+
+                        .append(mYear).append("-")
+                        .append(mMonth + 1 ).append("-")
+                        .append(mDay).append(" "));
+    }
+    private DatePickerDialog.OnDateSetListener mDateSetListener =
+            new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker view, int year,
+                                      int monthOfYear, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                    updateDisplay();
+                }
+            };
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                return new DatePickerDialog(this,
+                        mDateSetListener,
+                        mYear, mMonth, mDay);
+        }
+        return null;
+    }
+
     public RadioGroup.OnCheckedChangeListener radioButtonGenderOnCheckedChange= new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
