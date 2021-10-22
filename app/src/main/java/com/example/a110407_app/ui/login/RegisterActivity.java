@@ -221,7 +221,12 @@ public class RegisterActivity extends AppCompatActivity {
                 message="密碼必須包括至少一個英文字母";
                 System.out.println("密碼必須包括至少一個英文字母");
                 checkData-=1;
+            }else if(lCount+dCount != userPassword.length()) {
+                message="密碼不得包含英、數字以外字元";
+                System.out.println("密碼不得包含英、數字以外字元");
+                checkData-=1;
             }
+
             if(!(userPassword.equals(userPasswordConfirm))) {
                 message="密碼與確認密碼不一致";
                 System.out.println("密碼不一致");
