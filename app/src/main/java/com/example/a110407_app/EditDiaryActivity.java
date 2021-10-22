@@ -11,8 +11,10 @@ import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +31,7 @@ import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.example.a110407_app.ui.login.LoginActivity;
 import com.facebook.stetho.Stetho;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -89,6 +93,30 @@ public class EditDiaryActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
+        //tag category bottom dialogVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+        Button tagCategory = findViewById(R.id.tagCategory);
+        tagCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
+                        EditDiaryActivity.this,R.style.BottomSheetTheme
+                );
+                View bottomSheetView = LayoutInflater.from(getApplicationContext())
+                        .inflate(
+                                R.layout.bottom_dialog_tag,
+                                (LinearLayout)findViewById(R.id.bottom_layout_tag)
+                        );
+                bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"CHOSEN",Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+            }
+        });
+        //TAG CATEGORY ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         //連結Facebook 開發的stetho資料庫工具
@@ -137,6 +165,9 @@ public class EditDiaryActivity extends AppCompatActivity {
                 openActivityShowDiary();
                 finish();
             }
+
+
+
         });
 
         //心情選取欄位
