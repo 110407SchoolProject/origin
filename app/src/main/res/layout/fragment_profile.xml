@@ -44,33 +44,33 @@
             android:id="@+id/currentDiaryNumbers"
             android:layout_width="58dp"
             android:layout_height="34dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginLeft="44dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="43dp"
+            android:layout_marginRight="43dp"
             android:layout_weight="30"
             android:gravity="center|top"
             android:text="12"
             android:textColor="#66000000"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/recentMoodImageView"
-            app:layout_constraintHorizontal_bias="0.981"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recentMoodImageView"
+            app:layout_constraintTop_toBottomOf="@+id/currentDiaryNumbersText" />
 
         <ImageView
             android:id="@+id/recentMoodImageView"
             android:layout_width="63dp"
             android:layout_height="65dp"
             android:layout_gravity="center|top"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="27dp"
+            android:layout_marginLeft="27dp"
+            android:layout_marginBottom="48dp"
             android:layout_weight="1"
             android:src="@drawable/exciting"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.879"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/currentDiaryNumbersText"
-            app:layout_constraintVertical_bias="0.001" />
+            app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+            app:layout_constraintStart_toEndOf="@+id/profileImage"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
             android:id="@+id/textView7"
@@ -194,9 +194,9 @@
             android:enabled="true"
             android:gravity="center_vertical|center_horizontal"
             android:text="密碼設置"
-            android:textStyle="bold"
             android:textColor="#ffffff"
             android:textSize="22sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
@@ -213,10 +213,10 @@
             android:enabled="true"
             android:gravity="center_vertical|center_horizontal"
             android:text="編輯個人設置"
-            android:textStyle="bold"
             android:textColor="#ffffff"
-
             android:textSize="22sp"
+
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/remindtext" />
