@@ -25,89 +25,94 @@
         android:layout_marginTop="10dp"
         />
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+        android:padding="5dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginTop="10dp"
-            app:riv_corner_radius="10dp"
-            android:background="@drawable/mainbtnpink"
-            />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="test"
-                android:gravity="center"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginLeft="20dp">
+            android:orientation="vertical">
+
             <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
-                app:riv_corner_radius="10dp"
                 android:background="@drawable/mainbtnpink"
-                />
+                app:riv_corner_radius="10dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="test"
                 android:gravity="center"
-                />
+                android:text="test" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:layout_marginLeft="20dp">
+            android:orientation="vertical">
+
             <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
-                app:riv_corner_radius="10dp"
                 android:background="@drawable/mainbtnpink"
-                />
+                app:riv_corner_radius="10dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="test"
                 android:gravity="center"
-                />
+                android:text="test" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginLeft="20dp"
             android:gravity="center"
-            android:layout_marginLeft="20dp">
+            android:orientation="vertical">
+
             <com.makeramen.roundedimageview.RoundedImageView
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
-                app:riv_corner_radius="10dp"
                 android:background="@drawable/mainbtnpink"
-                />
+                app:riv_corner_radius="10dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="test"
                 android:gravity="center"
-                />
+                android:text="test" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/mainbtnpink"
+                app:riv_corner_radius="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="test" />
         </LinearLayout>
 
 
@@ -119,7 +124,9 @@
         android:background="@drawable/background_transparent"
         android:layout_marginTop="10dp"
         />
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -208,6 +215,8 @@
 
 
     </LinearLayout>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -215,6 +224,7 @@
         android:background="@drawable/background_transparent"
         android:layout_marginTop="10dp"
         />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
