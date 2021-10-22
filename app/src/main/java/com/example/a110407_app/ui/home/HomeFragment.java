@@ -2,6 +2,7 @@ package com.example.a110407_app.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,14 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.a110407_app.EditDiaryActivity;
+import com.example.a110407_app.Model.MoodTalk;
 import com.example.a110407_app.Model.Token;
 import com.example.a110407_app.R;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ShowDiaryActivity;
 import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.google.gson.JsonObject;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -30,7 +35,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragment extends Fragment {
+
+    APIService ourAPIService;
 
     private String userToken;
     private HomeViewModel homeViewModel;
@@ -72,19 +83,41 @@ public class HomeFragment extends Fragment {
         final TextView textView = root.findViewById(R.id.text_home);
 
         Intent intent = getActivity().getIntent();
-
         userToken =intent.getStringExtra("userToken");
-
         System.out.println("從Home接到userToken:    "+userToken);
-
-
         inspiringSentence=(TextView)root.findViewById(R.id.inspiringSentence);
+
+
+        ourAPIService = RetrofitManager.getInstance().getAPI();
+
+        //心情小語
+        Call<MoodTalk> callMoodTalk = ourAPIService.getMoodTalk();
+        callMoodTalk.enqueue(new Callback<MoodTalk>() {
+            @Override
+            public void onResponse(Call<MoodTalk> call, Response<MoodTalk> response) {
+                System.out.println("伺服器有回應");
+//                String result= response.body().getResult();
+                JsonObject sentenceJsonObject= response.body().getSentence();
+                String sentence = sentenceJsonObject.get("sentence").toString();
+                sentence =sentence.substring(1,sentence.length()-1);
+                inspiringSentence.setText(sentence);
+
+            }
+
+            @Override
+            public void onFailure(Call<MoodTalk> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
+
 
         int random = (int) (Math.random()*6);
         System.out.println(inspiringSentences[random]);
 
         String inspiringSentenceText=inspiringSentences[random];
-        inspiringSentence.setText(inspiringSentenceText);
+
 
 
         mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
