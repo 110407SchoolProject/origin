@@ -34,6 +34,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.lang.String;
+import java.lang.Character;
+
 public class RegisterActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT="com.example.application.example.EXTRA_TEXT";
     public static final String EXTRA_TEXT2="com.example.application.example.EXTRA_TEXT2";
@@ -181,7 +184,9 @@ public class RegisterActivity extends AppCompatActivity {
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
             userPasswordConfirmEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             String message="";
-            int checkData =6;
+            int dCount = 0;
+            int lCount = 0;
+            int checkData =7;
 
             if(userTrueName.length()==0) {
                 message="請檢察真實姓名欄位";
@@ -198,9 +203,23 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("帳號不得少於五個字");
                 checkData-=1;
             }
-            if(userPassword.length()<=5) {
-                message="密碼不得少於五個字";
-                System.out.println("密碼不得少於五個字");
+            if(userPassword.length()<8) {
+                message="密碼不得低於8字元";
+                System.out.println("密碼不得低於8字元");
+                checkData-=1;
+            }
+            for (int i=0; i<=userPassword.length()-1; i++) {
+                char c=userPassword.charAt(i);
+                if(Character.isLetter(c)) {
+                    lCount++; //計算文字數量
+                }
+                else if(Character.isDigit(c)) {
+                    dCount++; //計算數字數量
+                }
+            }
+            if (lCount ==0 | dCount ==0){ //文字數量或數字數量其一等於0為無效
+                message="密碼必須包括至少一個英文字母";
+                System.out.println("密碼必須包括至少一個英文字母");
                 checkData-=1;
             }
             if(!(userPassword.equals(userPasswordConfirm))) {
@@ -215,7 +234,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             System.out.println(checkData); //生日格式若不包"-"目前會報錯
 
-            if(checkData==6){
+            if(checkData==7){
 
                 User user = new User(
                         userName,
@@ -261,6 +280,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     };
+
+
     public void openLoginActivity(){
         Intent intent  = new Intent(this,LoginActivity.class);
         startActivity(intent);
