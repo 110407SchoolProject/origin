@@ -186,7 +186,7 @@ public class RegisterActivity extends AppCompatActivity {
             String message="";
             int dCount = 0;
             int lCount = 0;
-            int checkData =7;
+            int checkData =6;
 
             if(userTrueName.length()==0) {
                 message="請檢察真實姓名欄位";
@@ -232,14 +232,11 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("密碼不一致");
                 checkData-=1;
             }
-            if((userBirthday.length()!=10)) {
-                message="日期格式錯誤";
-                System.out.println("日期格式錯誤");
-                checkData-=1;
-            }
-            System.out.println(checkData); //生日格式若不包"-"目前會報錯
 
-            if(checkData==7){
+            userBirthday=userBirthday.substring(0,userBirthday.length()-1);
+            System.out.println(userBirthday.length());
+
+            if(checkData==6){
 
                 User user = new User(
                         userName,
