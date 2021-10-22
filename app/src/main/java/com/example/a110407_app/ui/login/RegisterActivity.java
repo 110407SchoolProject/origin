@@ -2,12 +2,10 @@ package com.example.a110407_app.ui.login;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -18,22 +16,16 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import com.example.a110407_app.Model.Token;
 import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.facebook.stetho.Stetho;
-
 import com.example.a110407_app.Model.User;
-
 import java.util.Calendar;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 import java.lang.String;
 import java.lang.Character;
 
@@ -47,7 +39,6 @@ public class RegisterActivity extends AppCompatActivity {
     private RadioGroup genderRadioGroup ;
     private RadioButton genderButtonMale;
     private RadioButton genderButtonFemale;
-
     private EditText userBirthdayEditText;
     private ImageView myDatePicker;
     private EditText userTrueNameEditText ;
@@ -64,9 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
     private int mMonth;
     private int mDay;
 
-
-
-
     static final int DATE_DIALOG_ID = 0;
 
     SQLiteDBHelper mHelper;
@@ -78,8 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
         Stetho.initializeWithDefaults(this);
 //        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
 //        mHelper.getWritableDatabase();
-
-
 
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);
@@ -95,15 +81,12 @@ public class RegisterActivity extends AppCompatActivity {
         userBirthdayEditText=(EditText) findViewById(R.id.userBirthdayEditText);
         //(生日 DATE PICKER BUTTON)
         myDatePicker=(ImageView) findViewById(R.id.myDatePicker);
-
         //帳號(使用者名稱 Email)
         userNameEditText =(EditText)findViewById(R.id.userNameEditText);
         //密碼
         userPasswordEditText = (EditText)findViewById(R.id.userPasswordEditText);
-
         //確認密碼
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
-
 
         myDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,9 +102,6 @@ public class RegisterActivity extends AppCompatActivity {
         mDay = c.get(Calendar.DAY_OF_MONTH);
         //display the current date
         updateDisplay();
-
-
-
 
     }
 
@@ -168,7 +148,6 @@ public class RegisterActivity extends AppCompatActivity {
                 System.out.println("男");
                 userGender="男";
            }
-
         }
     };
 
@@ -186,26 +165,22 @@ public class RegisterActivity extends AppCompatActivity {
             String message="";
             int dCount = 0;
             int lCount = 0;
-            int checkData =7;
+            int checkData =6;
 
             if(userTrueName.length()==0) {
                 message="請檢察真實姓名欄位";
-                System.out.println("名字太短");
                 checkData-=1;
             }
             if(userGender.length()==0){
                 message="請檢察性別欄位";
-                System.out.println("沒有選取性別");
                 checkData-=1;
             }
             if(userName.length()<=5) {
                 message="帳號不得少於五個字";
-                System.out.println("帳號不得少於五個字");
                 checkData-=1;
             }
             if(userPassword.length()<8) {
                 message="密碼不得低於8字元";
-                System.out.println("密碼不得低於8字元");
                 checkData-=1;
             }
             for (int i=0; i<=userPassword.length()-1; i++) {
@@ -219,22 +194,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
             if (lCount ==0 | dCount ==0){ //文字數量或數字數量其一等於0為無效
                 message="密碼必須包括至少一個英文字母";
-                System.out.println("密碼必須包括至少一個英文字母");
+                checkData-=1;
+            }else if(lCount+dCount != userPassword.length()) {
+                message="密碼不得包含英、數字以外字元";
                 checkData-=1;
             }
-            if(!(userPassword.equals(userPasswordConfirm))) {
-                message="密碼與確認密碼不一致";
-                System.out.println("密碼不一致");
-                checkData-=1;
-            }
-            if((userBirthday.length()!=10)) {
-                message="日期格式錯誤";
-                System.out.println("日期格式錯誤");
-                checkData-=1;
-            }
-            System.out.println(checkData); //生日格式若不包"-"目前會報錯
 
-            if(checkData==7){
+            if(!(userPassword.equals(userPasswordConfirm))) {
+                message="密碼不一致";
+                checkData-=1;
+            }
+
+            userBirthday=userBirthday.substring(0,userBirthday.length()-1);
+
+            if(checkData==6){
 
                 User user = new User(
                         userName,
@@ -260,7 +233,6 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), registerSuccess, Toast.LENGTH_LONG).show();
                             openLoginActivity();
                         }catch (Exception e){
-                            System.out.println("帳號已被註冊");
                             Toast.makeText(getApplicationContext(), "Email已被註冊", Toast.LENGTH_LONG).show();
                         }
                         System.out.println("伺服器有成功回應");
@@ -280,7 +252,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     };
-
 
     public void openLoginActivity(){
         Intent intent  = new Intent(this,LoginActivity.class);
