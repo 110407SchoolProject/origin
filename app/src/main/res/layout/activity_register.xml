@@ -276,7 +276,7 @@
         android:focusableInTouchMode="false"
 
         android:hint="@string/input_birthday_hint"
-        android:inputType="Date"
+        android:inputType="date"
         android:textColor="#c8c8c8"
         android:textColorHint="#c8c8c8"
         android:textSize="16sp"
