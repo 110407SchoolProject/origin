@@ -47,23 +47,14 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private TextView dateTimeText;
 
-    private ListView diaryListView;
-    SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 7;
-    private ArrayList<HashMap<String, String>> diaryTitleList;
+//    private ListView diaryListView;
+//    SQLiteDBHelper mHelper;
+//    private final String DB_NAME = "MyDairy.db";
+//    private String TABLE_NAME = "MyDairy";
+//    private final int DB_VERSION = 7;
+//    private ArrayList<HashMap<String, String>> diaryTitleList;
 
     private TextView inspiringSentence;
-
-    private String[] inspiringSentences=
-            {"寧可失敗在你喜歡的事情上，也不要成功在你所憎惡的事情上。",
-            "勤學的人，總是感到時間過得太快；懶惰的人，卻總是埋怨時間跑得太慢。",
-            "思路決定出路，氣度決定高度，細節決定成敗，性格決定命運。",
-            "心有多大，世界就有多大！",
-            "不如意的時候不要盡往悲傷里鑽，想想有笑聲的日子吧。",
-            "勤奮可以彌補聰明的不足，但聰明無法彌補懶惰的缺陷。",
-            "改變自我，挑戰自我，從現在開始。"};
 
     public void openActivityShowDiary(String diaryId){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
@@ -86,10 +77,7 @@ public class HomeFragment extends Fragment {
         userToken =intent.getStringExtra("userToken");
         System.out.println("從Home接到userToken:    "+userToken);
         inspiringSentence=(TextView)root.findViewById(R.id.inspiringSentence);
-
-
         ourAPIService = RetrofitManager.getInstance().getAPI();
-
         //心情小語
         Call<MoodTalk> callMoodTalk = ourAPIService.getMoodTalk();
         callMoodTalk.enqueue(new Callback<MoodTalk>() {
@@ -101,9 +89,7 @@ public class HomeFragment extends Fragment {
                 String sentence = sentenceJsonObject.get("sentence").toString();
                 sentence =sentence.substring(1,sentence.length()-1);
                 inspiringSentence.setText(sentence);
-
             }
-
             @Override
             public void onFailure(Call<MoodTalk> call, Throwable t) {
                 System.out.println("伺服器連線失敗");
@@ -111,120 +97,102 @@ public class HomeFragment extends Fragment {
             }
         });
 
+//        int random = (int) (Math.random()*6);
+//        System.out.println(inspiringSentences[random]);
+//        String inspiringSentenceText=inspiringSentences[random];
+//        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
+//
+//        String title="";
+//        //抓取日記標題
+//        final ArrayList titleArrayList = new ArrayList();
+//        final ArrayList idArrayList = new ArrayList();
+//        final ArrayList newestTitleArrayList = new ArrayList();
+//        final ArrayList newestIdArrayList = new ArrayList();
 
-
-        int random = (int) (Math.random()*6);
-        System.out.println(inspiringSentences[random]);
-
-        String inspiringSentenceText=inspiringSentences[random];
-
-
-
-        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
-
-        String title="";
-
-
-
-        //抓取日記標題
-        final ArrayList titleArrayList = new ArrayList();
-        final ArrayList idArrayList = new ArrayList();
-        final ArrayList newestTitleArrayList = new ArrayList();
-        final ArrayList newestIdArrayList = new ArrayList();
-
-        for(int i = 0;i<=256;i++){
-            String id = Integer.toString(i);
-            String diaryId = "";
-            diaryTitleList= new ArrayList<>();
-            diaryTitleList =mHelper.searchById(id);
-
-            if(diaryTitleList.size()==0){
-                continue;
-            }else{
-                for(HashMap<String,String> data:diaryTitleList){
-                    title=data.get("Title");
-                    diaryId=data.get("id");
-                    if(title==null){
-                        title="無標題";
-                    }
-                    titleArrayList.add(title);
-                    idArrayList.add(diaryId);
-                }
-            }
-        }
-
-
-        System.out.println(newestIdArrayList.size());
-        if(titleArrayList.size()>=2){
-            for(int i = 1 ; i<3;i++){
-                newestTitleArrayList.add(titleArrayList.get(titleArrayList.size()-i));
-                newestIdArrayList.add(idArrayList.get((titleArrayList.size()-i)));
-
-                diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
-                ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,newestTitleArrayList);
-                diaryListView.setAdapter(adapter);
-
-                diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(getActivity(),"開啟日記"+(id+1),
-
-                                Toast.LENGTH_LONG).show();
-                        //點入看日記的頁面
-                        int idByInt =(int)id;
-
-                        String diaryId =(String)newestIdArrayList.get(idByInt);
-                        openActivityShowDiary(diaryId);
-
-                    }
-                });
-            }
-        }else if(titleArrayList.size()==1){
-
-            newestTitleArrayList.add(titleArrayList.get(titleArrayList.size()-1));
-            newestIdArrayList.add(idArrayList.get((titleArrayList.size()-1)));
-            diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
-            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,newestTitleArrayList);
-            diaryListView.setAdapter(adapter);
-
-            diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(getActivity(),"開啟日記"+(id+1),
-
-                            Toast.LENGTH_LONG).show();
-                    //點入看日記的頁面
-                    int idByInt =(int)id;
-
-                    String diaryId =(String)newestIdArrayList.get(idByInt);
-                    openActivityShowDiary(diaryId);
-
-                }
-            });
-        }else{
-            newestTitleArrayList.add("目前沒有日記喔！點擊我來紀錄新的日記吧！");
-            diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
-            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,newestTitleArrayList);
-            diaryListView.setAdapter(adapter);
-
-            diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    openActivityEditDiary();
-                }
-            });
-        }
-
-
-
-
-
-
-
-
+//        for(int i = 0;i<=256;i++){
+//            String id = Integer.toString(i);
+//            String diaryId = "";
+//            diaryTitleList= new ArrayList<>();
+//            diaryTitleList =mHelper.searchById(id);
+//
+//            if(diaryTitleList.size()==0){
+//                continue;
+//            }else{
+//                for(HashMap<String,String> data:diaryTitleList){
+//                    title=data.get("Title");
+//                    diaryId=data.get("id");
+//                    if(title==null){
+//                        title="無標題";
+//                    }
+//                    titleArrayList.add(title);
+//                    idArrayList.add(diaryId);
+//                }
+//            }
+//        }
+//
+//
+//        System.out.println(newestIdArrayList.size());
+//        if(titleArrayList.size()>=2){
+//            for(int i = 1 ; i<3;i++){
+//                newestTitleArrayList.add(titleArrayList.get(titleArrayList.size()-i));
+//                newestIdArrayList.add(idArrayList.get((titleArrayList.size()-i)));
+//
+//                diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
+//                ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,newestTitleArrayList);
+//                diaryListView.setAdapter(adapter);
+//
+//                diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Toast.makeText(getActivity(),"開啟日記"+(id+1),
+//
+//                                Toast.LENGTH_LONG).show();
+//                        //點入看日記的頁面
+//                        int idByInt =(int)id;
+//
+//                        String diaryId =(String)newestIdArrayList.get(idByInt);
+//                        openActivityShowDiary(diaryId);
+//
+//                    }
+//                });
+//            }
+//        }else if(titleArrayList.size()==1){
+//
+//            newestTitleArrayList.add(titleArrayList.get(titleArrayList.size()-1));
+//            newestIdArrayList.add(idArrayList.get((titleArrayList.size()-1)));
+//            diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
+//            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,newestTitleArrayList);
+//            diaryListView.setAdapter(adapter);
+//
+//            diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Toast.makeText(getActivity(),"開啟日記"+(id+1),
+//
+//                            Toast.LENGTH_LONG).show();
+//                    //點入看日記的頁面
+//                    int idByInt =(int)id;
+//
+//                    String diaryId =(String)newestIdArrayList.get(idByInt);
+//                    openActivityShowDiary(diaryId);
+//
+//                }
+//            });
+//        }else{
+//            newestTitleArrayList.add("目前沒有日記喔！點擊我來紀錄新的日記吧！");
+//            diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
+//            ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,newestTitleArrayList);
+//            diaryListView.setAdapter(adapter);
+//
+//            diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    openActivityEditDiary();
+//                }
+//            });
+//        }
 
         dateTimeText=(TextView)root.findViewById(R.id.DateTextView);
-
 
         Integer month = 0;
         Integer date = 0;
@@ -242,11 +210,6 @@ public class HomeFragment extends Fragment {
         final String stringYear = Year.toString();
 
         dateTimeText.setText(Year+"年 "+month+"月"+date+"日 "+"星期"+weekday[day]);
-
-
-
-
-
         return root;
     }
 }
