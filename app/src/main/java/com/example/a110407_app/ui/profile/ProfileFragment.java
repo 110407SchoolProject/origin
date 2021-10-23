@@ -55,11 +55,11 @@ public class ProfileFragment extends Fragment {
     private ImageView recentMood;
 
     //建立日記資料表
-    SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 7;
-    private ArrayList<HashMap<String, String>> diaryList;
+//    SQLiteDBHelper mHelper;
+//    private final String DB_NAME = "MyDairy.db";
+//    private String TABLE_NAME = "MyDairy";
+//    private final int DB_VERSION = 7;
+//    private ArrayList<HashMap<String, String>> diaryList;
 
     private Button editprofile;
     //private Switch setpassword;
@@ -125,56 +125,56 @@ public class ProfileFragment extends Fragment {
 //        diaryPoints=getView().findViewById(R.id.currentDiaryPoints);
         recentMood=getView().findViewById(R.id.recentMoodImageView);
 
-        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
+//        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
 
 
 
 
-        final ArrayList allMoodScoreList = new ArrayList();
+//        final ArrayList allMoodScoreList = new ArrayList();
+//
+//        Integer countDiaryNumber=0;
+//        for(HashMap<String,String> data:mHelper.showAll()){
+//            countDiaryNumber+=1;
+//            String score =data.get("Score");
+//            allMoodScoreList.add(score);
+//        }
 
-        Integer countDiaryNumber=0;
-        for(HashMap<String,String> data:mHelper.showAll()){
-            countDiaryNumber+=1;
-            String score =data.get("Score");
-            allMoodScoreList.add(score);
-        }
-
-        diaryNumbers.setText(Integer.toString(countDiaryNumber));
-        float totalMoodScore=0;
-        float averageMoodScore=0;
-
-        for(int i = 0 ; i<= allMoodScoreList.size()-1;i++){
-            float MoodScore =Float.parseFloat((String) allMoodScoreList.get(i));
-            totalMoodScore+=MoodScore;
-        }
-
-        averageMoodScore=totalMoodScore/allMoodScoreList.size();
-        int roundAverageMoodScore = (int)Math.round(averageMoodScore);
-
-        System.out.println(averageMoodScore);
-
-        switch(roundAverageMoodScore) {
-            case 1:
-                System.out.println("Crying");
-                recentMood.setImageResource(R.drawable.crying);
-                break;
-            case 2:
-                System.out.println("Sad");
-                recentMood.setImageResource(R.drawable.sad);
-                break;
-            case 3:
-                System.out.println("Normal");
-                recentMood.setImageResource(R.drawable.normal);
-                break;
-            case 4:
-                System.out.println("Smiling");
-                recentMood.setImageResource(R.drawable.smiling);
-                break;
-            case 5:
-                System.out.println("Exciting");
-                recentMood.setImageResource(R.drawable.exciting);
-                break;
-        }
+//        diaryNumbers.setText(Integer.toString(countDiaryNumber));
+//        float totalMoodScore=0;
+//        float averageMoodScore=0;
+//
+//        for(int i = 0 ; i<= allMoodScoreList.size()-1;i++){
+//            float MoodScore =Float.parseFloat((String) allMoodScoreList.get(i));
+//            totalMoodScore+=MoodScore;
+//        }
+//
+//        averageMoodScore=totalMoodScore/allMoodScoreList.size();
+//        int roundAverageMoodScore = (int)Math.round(averageMoodScore);
+//
+//        System.out.println(averageMoodScore);
+//
+//        switch(roundAverageMoodScore) {
+//            case 1:
+//                System.out.println("Crying");
+//                recentMood.setImageResource(R.drawable.crying);
+//                break;
+//            case 2:
+//                System.out.println("Sad");
+//                recentMood.setImageResource(R.drawable.sad);
+//                break;
+//            case 3:
+//                System.out.println("Normal");
+//                recentMood.setImageResource(R.drawable.normal);
+//                break;
+//            case 4:
+//                System.out.println("Smiling");
+//                recentMood.setImageResource(R.drawable.smiling);
+//                break;
+//            case 5:
+//                System.out.println("Exciting");
+//                recentMood.setImageResource(R.drawable.exciting);
+//                break;
+//        }
 
 //        int diaryPoint = countDiaryNumber*5;
 //        diaryPoints.setText(Integer.toString(diaryPoint));
@@ -191,8 +191,8 @@ public class ProfileFragment extends Fragment {
 
         //以下為 Gary 5/28 寫的
         //初始化 TableUser資料庫
-        TableUserPassword = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,PASSWORD_TABLE_NAME);
-        TableUserPassword.getWritableDatabase();
+//        TableUserPassword = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,PASSWORD_TABLE_NAME);
+//        TableUserPassword.getWritableDatabase();
 
         //導向密碼設置Activity
         btnPasswordsetting.setOnClickListener(new View.OnClickListener() {

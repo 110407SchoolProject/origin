@@ -63,10 +63,10 @@ public class EditDiaryActivity extends AppCompatActivity {
     private ImageView currentMood;
 
     //建立日記表的資料庫
-    private SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 7;
+//    private SQLiteDBHelper mHelper;
+//    private final String DB_NAME = "MyDairy.db";
+//    private String TABLE_NAME = "MyDairy";
+//    private final int DB_VERSION = 7;
 
     //分類
     private Button chooseCategory;
@@ -120,13 +120,13 @@ public class EditDiaryActivity extends AppCompatActivity {
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         //連結Facebook 開發的stetho資料庫工具
-        Stetho.initializeWithDefaults(this);
-        //初始化日記表資料庫
-        mHelper = new SQLiteDBHelper(this, DB_NAME, null, DB_VERSION, TABLE_NAME);
-        mHelper.getWritableDatabase();
-        //初始化分類表的資料庫
-        CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
-        CategoryDBHelper.getWritableDatabase();
+//        Stetho.initializeWithDefaults(this);
+//        //初始化日記表資料庫
+////        mHelper = new SQLiteDBHelper(this, DB_NAME, null, DB_VERSION, TABLE_NAME);
+////        mHelper.getWritableDatabase();
+//        //初始化分類表的資料庫
+//        CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
+//        CategoryDBHelper.getWritableDatabase();
 
         //抓取今天的日期設定到標題
         Integer year = 0;
@@ -151,24 +151,24 @@ public class EditDiaryActivity extends AppCompatActivity {
         editTextContent.setSingleLine(false);
         btnSaveDiary = findViewById(R.id.btnSaveDiary);
 
-        //儲存日記
-        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
-        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getTitle = editTextTitle.getText().toString();
-                getContent = editTextContent.getText().toString();
-                category=showCategory.getText().toString();
-                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
-
-                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
-                openActivityShowDiary();
-                finish();
-            }
-
-
-
-        });
+//        //儲存日記
+//        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
+//        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getTitle = editTextTitle.getText().toString();
+//                getContent = editTextContent.getText().toString();
+//                category=showCategory.getText().toString();
+//                mHelper.addData(getTitle, getContent, todayDate, category, moodScore);
+//
+//                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
+//                openActivityShowDiary();
+//                finish();
+//            }
+//
+//
+//
+//        });
 
         //心情選取欄位
         currentMood= (ImageView)findViewById(R.id.currentMoodImageView);
@@ -344,38 +344,35 @@ public class EditDiaryActivity extends AppCompatActivity {
 //        notificationManager.notify(0, notification);
 //    }
 
-
-
-
-
-
 //當使用者儲存完畢，可以馬上顯示出這筆日記
-    public void openActivityShowDiary(){
-        //先將所有日記都讀出來，意味著抓到的是剛剛最新的那筆日記資料
-        //可能會有效能問題，先測試看看，目前可以
-        ArrayList<HashMap<String, String>> diaryArrayList;
-
-        Intent intent = new Intent(this, ShowDiaryActivity.class);
-        final ArrayList idArrayList = new ArrayList();
-        diaryArrayList=mHelper.showAll();
-        String id ="";
-        String diaryId;
-        for(HashMap<String,String> data:diaryArrayList){
-            id=data.get("id");
-            idArrayList.add(id);
-        }
-        int size =idArrayList.size();
-        diaryId= (String) idArrayList.get(size-1);
-        //把此篇的日記id搬運過去
-        intent.putExtra("id",diaryId);
-        startActivity(intent);
-    }
+//    public void openActivityShowDiary(){
+//        //先將所有日記都讀出來，意味著抓到的是剛剛最新的那筆日記資料
+//        //可能會有效能問題，先測試看看，目前可以
+//        ArrayList<HashMap<String, String>> diaryArrayList;
+//
+//        Intent intent = new Intent(this, ShowDiaryActivity.class);
+//        final ArrayList idArrayList = new ArrayList();
+//        diaryArrayList=mHelper.showAll();
+//        String id ="";
+//        String diaryId;
+//        for(HashMap<String,String> data:diaryArrayList){
+//            id=data.get("id");
+//            idArrayList.add(id);
+//        }
+//        int size =idArrayList.size();
+//        diaryId= (String) idArrayList.get(size-1);
+//        //把此篇的日記id搬運過去
+//        intent.putExtra("id",diaryId);
+//        startActivity(intent);
+//    }
 
     //判斷Spinner選到哪一個選項
     private Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String sel = parent.getSelectedItem().toString();
+            System.out.println("123");
+
 
             showCategory.setText(sel);
         }
