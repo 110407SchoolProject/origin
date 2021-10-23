@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/parkforest1"
+    android:backgroundTint="#2AFFFFFF"
+
+    android:backgroundTintMode="src_over"
     tools:context=".ui.tree.tree">
 
 
