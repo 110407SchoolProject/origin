@@ -225,14 +225,12 @@
             android:id="@+id/remindtext"
             android:layout_width="154dp"
             android:layout_height="34dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginLeft="21dp"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
             android:text="設置日記提醒"
             android:textColor="#66000000"
             android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/remind"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tableLayout"></TextView>
 
@@ -240,16 +238,18 @@
             android:id="@+id/remind"
             android:layout_width="47dp"
             android:layout_height="15dp"
-            android:layout_marginEnd="76dp"
-            android:layout_marginRight="76dp"
+            android:layout_marginStart="147dp"
+            android:layout_marginLeft="147dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="43dp"
+            android:layout_marginRight="43dp"
             android:gravity="center_vertical|center_horizontal"
             android:textOff="關閉"
             android:textOn="打開"
             android:theme="@style/SCBSwitch"
-            app:layout_constraintBottom_toBottomOf="@+id/remindtext"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/remindtext"
-            app:layout_constraintVertical_bias="0.368" />
+            app:layout_constraintStart_toEndOf="@+id/remindtext"
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

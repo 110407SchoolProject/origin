@@ -29,7 +29,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="1dp"
         android:padding="5dp">
 
         <LinearLayout
@@ -131,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="1dp"
         android:layout_marginTop="5dp">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -234,11 +234,20 @@
             android:layout_width="260dp"
             android:layout_height="40dp"
             android:text="choose"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
             android:background="@drawable/mainbtnpink"
             android:id="@+id/chosen_tag_from_bottomSheet"
             />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/background_transparent"
+        android:layout_marginTop="10dp"
+        />
 
 
 </LinearLayout>
