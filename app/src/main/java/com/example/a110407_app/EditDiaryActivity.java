@@ -27,6 +27,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.User;
+import com.example.a110407_app.Model.UserDiary;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.example.a110407_app.ui.login.LoginActivity;
@@ -43,16 +47,31 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EditDiaryActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
     public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
     private GalleryFragment GalleryFragment;
+
+    String authHeader;
+
+    private APIService ourAPIService;
     //日記項
     private EditText editTextTitle;
     private EditText editTextContent;
     private Button btnSaveDiary;
     private String getTitle;
     private String getContent;
+
+    private String textTitle;
+    private String textContent;
+    private String tag;
+    private String tag1;
+    private String tag2;
+    private int moodScoreInt;
     //心情按鈕
 
     private ImageView btnCryingMood;
@@ -62,22 +81,12 @@ public class EditDiaryActivity extends AppCompatActivity {
     private ImageView btnExcitingMood;
     private ImageView currentMood;
 
-    //建立日記表的資料庫
-//    private SQLiteDBHelper mHelper;
-//    private final String DB_NAME = "MyDairy.db";
-//    private String TABLE_NAME = "MyDairy";
-//    private final int DB_VERSION = 7;
-
-    //分類
     private Button chooseCategory;
     private String category = "未分類";
     private String moodScore = "5";
-
-    //pony
     private ArrayList<HashMap<String, String>> categoryList ;
     private ArrayList<HashMap<String, String>> categoryAllList;
     private TextView showCategory;
-
 
     //建立分類的資料表
     private  SQLiteDBHelper CategoryDBHelper;
@@ -93,6 +102,11 @@ public class EditDiaryActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
+
+        Intent intent = getIntent();
+        authHeader = intent.getStringExtra("userToken");
+        System.out.println("從EditDiary抓到Token： "+authHeader);
+
         //tag category bottom dialogVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
         Button tagCategory = findViewById(R.id.tagCategory);
         tagCategory.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +132,8 @@ public class EditDiaryActivity extends AppCompatActivity {
         });
         //TAG CATEGORY ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+
 
         //連結Facebook 開發的stetho資料庫工具
 //        Stetho.initializeWithDefaults(this);
@@ -149,8 +165,55 @@ public class EditDiaryActivity extends AppCompatActivity {
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editTextContent.setGravity(Gravity.TOP);
         editTextContent.setSingleLine(false);
-        btnSaveDiary = findViewById(R.id.btnSaveDiary);
 
+        ourAPIService = RetrofitManager.getInstance().getAPI();
+
+
+
+        btnSaveDiary = findViewById(R.id.btnSaveDiary);
+        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                textTitle =editTextTitle.getText().toString();
+                textContent=editTextContent.getText().toString();
+                moodScoreInt= Integer.parseInt(moodScore);
+
+                UserDiary userDiary =new UserDiary(
+                        textTitle,
+                        textContent,
+                        "標籤1",
+                        "標籤2",
+                        "標籤3",
+                        moodScoreInt
+                );
+
+                System.out.println("日記標題"+textTitle);
+                System.out.println("日記內文"+textContent);
+                System.out.println("Token: "+authHeader);
+
+
+                Call<UserDiary> callAddNewDiary = ourAPIService.postUserDiary("bearer "+authHeader,userDiary);
+                callAddNewDiary.enqueue(new Callback<UserDiary>() {
+                    @Override
+                    public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                        System.out.println("伺服器有回應");
+                        String result = response.message();
+                        System.out.println("Server:"+result);
+
+
+                        Toast.makeText(getApplicationContext(), "日記新增成功", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDiary> call, Throwable t) {
+                        System.out.println("無法連線到伺服器");
+                        Log.d("HKT", "response: " + t.toString());
+                    }
+                });
+
+            }
+        });
 //        //儲存日記
 //        btnSaveDiary = (Button) findViewById(R.id.btnSaveDiary);
 //        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
@@ -365,15 +428,12 @@ public class EditDiaryActivity extends AppCompatActivity {
 //        intent.putExtra("id",diaryId);
 //        startActivity(intent);
 //    }
-
     //判斷Spinner選到哪一個選項
     private Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             String sel = parent.getSelectedItem().toString();
             System.out.println("123");
-
-
             showCategory.setText(sel);
         }
 
