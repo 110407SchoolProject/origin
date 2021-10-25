@@ -2,10 +2,14 @@ package com.example.a110407_app;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.camera2.TotalCaptureResult;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -248,13 +252,36 @@ public class EditDiaryActivity extends AppCompatActivity {
 
         //用BERT預測心情
         moodPredictButton = (Button) findViewById(R.id.moodPredictButton);
-
-
-
-
         moodPredictButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ProgressDialog progressDialog=new ProgressDialog(EditDiaryActivity.this);
+                progressDialog.setMessage("預測中！可能會花上比較久的時間");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setIndeterminate(true);
+                progressDialog.show();
+
+
+
+                final int totalProgressTime = 100;
+                final Thread t =new Thread(){
+                    int jumpTime=0;
+                    @Override
+                    public void run() {
+
+                            while(jumpTime< totalProgressTime){
+                                try {
+                                    sleep(200);
+                                    jumpTime += 20;
+                                    progressDialog.setProgress(jumpTime);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                    }
+                };
+                t.start();
 
                 ourAPIService = RetrofitManager.getInstance().getAPI();
                 textContent=editTextContent.getText().toString();
@@ -264,34 +291,52 @@ public class EditDiaryActivity extends AppCompatActivity {
                 MoodPredict moodPredict = new MoodPredict(textContent);
                 System.out.println("抓日記內文："+moodPredict.getContent());
                 Call<MoodPredict> callMoodPredict = ourAPIService.postMoodPredict("bearer "+userToken, moodPredict);
-
                 callMoodPredict.enqueue(new Callback<MoodPredict>() {
                     @Override
                     public void onResponse(Call<MoodPredict> call, Response<MoodPredict> response) {
+
                         String result = response.message();
                             System.out.println("Server:"+result);
                         try {
                             ArrayList predictionArrayList= response.body().getScore();
                             String predictResult= predictionArrayList.get(0).toString();
                             System.out.println("結果"+predictResult);
-
-                            if (predictResult.equals("0")){
-                                Toast.makeText(getApplicationContext(), "你的心情看起來不太好呢", Toast.LENGTH_LONG).show();
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditDiaryActivity.this);
+                            if(predictResult.equals("0")){
                                 moodScore="2";
+                                alertDialog.setTitle("心情預測結果");
+                                alertDialog.setMessage("你的心情看起來不太好呢，是不是有些事情困擾著你，試著休息一會吧？");
+                                alertDialog.setIcon(R.drawable.sad);
+                                alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                alertDialog.setCancelable(true);
+                                alertDialog.show();
                                 System.out.println(moodScore);
                                 currentMood.setImageResource(R.drawable.sad);
                             }else{
-                                Toast.makeText(getApplicationContext(), "看起來您的心情還不賴！", Toast.LENGTH_LONG).show();
                                 moodScore="4";
+                                alertDialog.setTitle("心情預測結果");
+                                alertDialog.setIcon(R.drawable.smiling);
+                                alertDialog.setMessage("您的心情感覺還不賴，每天保持好心情的話對健康也是很有助益的喔！");
+                                alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                alertDialog.setCancelable(true);
+                                alertDialog.show();
                                 System.out.println(moodScore);
                                 currentMood.setImageResource(R.drawable.smiling);
                             }
+                            progressDialog.cancel();
                         }catch (Exception e){
                             System.out.println("預測失敗");
                         }
 
                     }
-
                     @Override
                     public void onFailure(Call<MoodPredict> call, Throwable t) {
                         System.out.println("無法連線到伺服器");
