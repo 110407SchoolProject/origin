@@ -1,5 +1,6 @@
 package com.example.a110407_app.RetrofitAPI;
 
+import com.example.a110407_app.Model.MoodPredict;
 import com.example.a110407_app.Model.MoodTalk;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
@@ -27,5 +28,9 @@ public interface APIService {
 
     @POST("/api/diary/diarys")
     Call<UserDiary>postUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary );
+
+    @POST("/api/bert/content")
+    Call<MoodPredict>postMoodPredict(@Header("Authorization")String authHeader, @Body MoodPredict moodPredict);
+
 
 }
