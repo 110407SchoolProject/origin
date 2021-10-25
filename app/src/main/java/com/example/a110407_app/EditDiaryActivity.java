@@ -39,7 +39,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
+import kotlin.text.Regex;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -256,11 +258,12 @@ public class EditDiaryActivity extends AppCompatActivity {
 
                 ourAPIService = RetrofitManager.getInstance().getAPI();
                 textContent=editTextContent.getText().toString();
+                //去除空白、英文、數字字元，過濾掉一些不重要的東西避免干擾預測
+                textContent=textContent.replace(" ","");
+                textContent=textContent.replaceAll("(?i)[a-zA-Z0-9]", "");
                 MoodPredict moodPredict = new MoodPredict(textContent);
                 System.out.println("抓日記內文："+moodPredict.getContent());
                 Call<MoodPredict> callMoodPredict = ourAPIService.postMoodPredict("bearer "+userToken, moodPredict);
-
-
 
                 callMoodPredict.enqueue(new Callback<MoodPredict>() {
                     @Override
@@ -269,9 +272,20 @@ public class EditDiaryActivity extends AppCompatActivity {
                             System.out.println("Server:"+result);
                         try {
                             ArrayList predictionArrayList= response.body().getScore();
-                            System.out.println(predictionArrayList);
-                            String prdictResult= predictionArrayList.get(0).toString();
-                            System.out.println("結果"+prdictResult);
+                            String predictResult= predictionArrayList.get(0).toString();
+                            System.out.println("結果"+predictResult);
+
+                            if (predictResult.equals("0")){
+                                Toast.makeText(getApplicationContext(), "你的心情看起來不太好呢", Toast.LENGTH_LONG).show();
+                                moodScore="2";
+                                System.out.println(moodScore);
+                                currentMood.setImageResource(R.drawable.sad);
+                            }else{
+                                Toast.makeText(getApplicationContext(), "看起來您的心情還不賴！", Toast.LENGTH_LONG).show();
+                                moodScore="4";
+                                System.out.println(moodScore);
+                                currentMood.setImageResource(R.drawable.smiling);
+                            }
                         }catch (Exception e){
                             System.out.println("預測失敗");
                         }
