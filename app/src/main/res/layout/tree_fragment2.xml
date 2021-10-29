@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/parkforest1"
-    android:backgroundTint="#2AFFFFFF"
-    android:backgroundTintMode="src_over"
+    android:background="@drawable/parkforest5"
+
     tools:context=".ui.tree.tree">
 
 
@@ -14,7 +13,7 @@
         android:id="@+id/tvtree"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:gravity="center"
         android:text="過去日記所寫下的所有文字"
         android:textColor="#66000000"
@@ -28,26 +27,26 @@
 
     <ImageView
         android:id="@+id/tree"
-        android:layout_width="335dp"
-        android:layout_height="194dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="88dp"
         android:src="@drawable/tree"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/treebone"
-        app:layout_constraintStart_toStartOf="@+id/treebone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintBottom_toBottomOf="@+id/treebone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/treebone"
-        android:layout_width="287dp"
-        android:layout_height="243dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/treebone03"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:src="@drawable/treebone4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tree"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.634" />
 
     <Button
         android:id="@+id/btnCreateTree"
