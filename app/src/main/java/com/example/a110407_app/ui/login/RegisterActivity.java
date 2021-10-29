@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -87,11 +88,11 @@ public class RegisterActivity extends AppCompatActivity {
         //密碼
         userPasswordEditText = (EditText)findViewById(R.id.userPasswordEditText);
         userPasswordEditText.setTypeface(Typeface.DEFAULT);
-        userPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        userPasswordEditText.setTransformationMethod(new PasswordTransformationMethod());
         //確認密碼
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
         userPasswordConfirmEditText.setTypeface(Typeface.DEFAULT);
-        userPasswordConfirmEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        userPasswordConfirmEditText.setTransformationMethod(new PasswordTransformationMethod());
 
 
         myDatePicker.setOnClickListener(new View.OnClickListener() {

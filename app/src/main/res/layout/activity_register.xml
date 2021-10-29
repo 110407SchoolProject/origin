@@ -7,25 +7,13 @@
     android:background="@drawable/mainbg"
     tools:context=".ui.login.RegisterActivity">
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="363dp"
-        android:layout_height="217dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.458"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.025"
-        app:srcCompat="@drawable/heart_pencil" />
-
     <TextView
         android:id="@+id/userTrueNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="230dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="316dp"
         android:layout_marginRight="316dp"
         android:text="@string/surname"
@@ -70,7 +58,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText"
-        app:layout_constraintVertical_bias="0.275" />
+        app:layout_constraintVertical_bias="0.12" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -139,17 +127,15 @@
         app:layout_constraintTop_toBottomOf="@+id/userAccountText" />
 
 
-
-
     <RadioGroup
         android:id="@+id/genderRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
 
+        android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
-        android:layout_marginEnd="261dp"
-        android:layout_marginRight="261dp"
+        android:layout_marginEnd="196dp"
+        android:layout_marginRight="196dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -172,6 +158,15 @@
             android:text="@string/input_gender_female"
             android:textColor="#c8c8c8"
             android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/genderOther"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="#C8C8C8"
+            android:text="其他"
+            android:textColor="#c8c8c8"
+            android:textSize="16sp" />
     </RadioGroup>
 
     <TextView
@@ -188,6 +183,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userNameEditText" />
+
+
 
     <TextView
         android:id="@+id/userPasswordConfirmText"
@@ -226,12 +223,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
         android:layout_marginLeft="23dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
         android:backgroundTint="#c8c8c8"
-        android:editable="false"
         android:clickable="false"
         android:cursorVisible="false"
+        android:editable="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:hint="@string/input_birthday_hint"
@@ -253,26 +250,6 @@
         app:layout_constraintTop_toTopOf="@+id/userBirthdayEditText"
         app:srcCompat="@drawable/calendaricon" />
 
-    <EditText
-        android:id="@+id/passwordConfirmEditText"
-        android:layout_width="363dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:backgroundTint="#c8c8c8"
-        android:hint="@string/reenter_prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-
-        android:selectAllOnFocus="true"
-        android:textColor="#c8c8c8"
-        android:textColorHint="#c8c8c8"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmText" />
 
     <EditText
         android:id="@+id/userPasswordEditText"
@@ -284,16 +261,36 @@
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:backgroundTint="#c8c8c8"
+        android:inputType="textPassword"
+        android:password="true"
         android:hint="@string/prompt_password"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
-
-        android:selectAllOnFocus="true"
         android:textColor="#c8c8c8"
         android:textColorHint="#c8c8c8"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userPasswordText" />
+    <EditText
+        android:id="@+id/passwordConfirmEditText"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:inputType="textPassword"
+        android:password="true"
+        android:backgroundTint="#c8c8c8"
+        android:hint="@string/reenter_prompt_password"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:textColor="#c8c8c8"
+        android:textColorHint="#c8c8c8"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
