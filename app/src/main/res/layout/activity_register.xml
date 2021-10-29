@@ -138,48 +138,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/userAccountText" />
 
-    <EditText
-        android:id="@+id/passwordConfirmEditText"
-        android:layout_width="363dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:backgroundTint="#c8c8c8"
-        android:hint="@string/reenter_prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:textColor="#c8c8c8"
-        android:textColorHint="#c8c8c8"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmText" />
 
-    <EditText
-        android:id="@+id/userPasswordEditText"
-        android:layout_width="363dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:backgroundTint="#c8c8c8"
-        android:hint="@string/prompt_password"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:textColor="#c8c8c8"
-        android:textColorHint="#c8c8c8"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPasswordText" />
+
 
     <RadioGroup
         android:id="@+id/genderRadioGroup"
@@ -292,5 +252,48 @@
         app:layout_constraintStart_toStartOf="@+id/userBirthdayEditText"
         app:layout_constraintTop_toTopOf="@+id/userBirthdayEditText"
         app:srcCompat="@drawable/calendaricon" />
+
+    <EditText
+        android:id="@+id/passwordConfirmEditText"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:backgroundTint="#c8c8c8"
+        android:hint="@string/reenter_prompt_password"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+
+        android:selectAllOnFocus="true"
+        android:textColor="#c8c8c8"
+        android:textColorHint="#c8c8c8"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordConfirmText" />
+
+    <EditText
+        android:id="@+id/userPasswordEditText"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:backgroundTint="#c8c8c8"
+        android:hint="@string/prompt_password"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+
+        android:selectAllOnFocus="true"
+        android:textColor="#c8c8c8"
+        android:textColorHint="#c8c8c8"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userPasswordText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

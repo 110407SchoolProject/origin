@@ -103,7 +103,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                 );
                 View bottomSheetView = LayoutInflater.from(getApplicationContext())
                         .inflate(
-                                R.layout.bottom_dialog_tag,
+                                R.layout.activity_bottom_dialog_tag,
                                 (LinearLayout)findViewById(R.id.bottom_layout_tag)
                         );
                 bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){

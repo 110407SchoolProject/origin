@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -85,8 +86,13 @@ public class RegisterActivity extends AppCompatActivity {
         userNameEditText =(EditText)findViewById(R.id.userNameEditText);
         //密碼
         userPasswordEditText = (EditText)findViewById(R.id.userPasswordEditText);
+        userPasswordEditText.setTypeface(Typeface.DEFAULT);
+        userPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
         //確認密碼
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
+        userPasswordConfirmEditText.setTypeface(Typeface.DEFAULT);
+        userPasswordConfirmEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
 
         myDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,9 +165,9 @@ public class RegisterActivity extends AppCompatActivity {
             userName = userNameEditText.getText().toString();
             userBirthday =userBirthdayEditText.getText().toString();
             userPassword = userPasswordEditText.getText().toString();
-            userPasswordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
-            userPasswordConfirmEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
             String message="";
             int dCount = 0;
             int lCount = 0;
@@ -250,7 +256,9 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
 
+
         }
+
     };
 
     public void openLoginActivity(){

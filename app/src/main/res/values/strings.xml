@@ -27,7 +27,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="remember_me">記得我</string>
     <string name="forget_password">忘記密碼？</string>
-<!-- activity_register  -->
+    <!-- activity_register  -->
     <string name="surname">真實姓名</string>
     <string name="make_register">註冊</string>
     <string name="input_email">帳號</string>
