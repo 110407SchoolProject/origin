@@ -40,8 +40,13 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private FloatingActionButton fab;
     private ImageButton imageButton;
+    private String userToken;
 
-    //public SQLiteDBHelper mHelper;
+
+
+
+
+//public SQLiteDBHelper mHelper;
     //private final String DB_NAME = "MyDairy.db";
     //private String TABLE_NAME = "MyDairy";
     //private final int DB_VERSION = 1;
@@ -51,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        userToken = intent.getStringExtra("userToken");
+        System.out.println("從Main抓到userToken： "+userToken);
+
         //setContentView(R.layout.content_main);
         Stetho.initializeWithDefaults(this);
 
@@ -66,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "新增日記", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 //新增日記
-                openActivityEditDiary();
+                openActivityEditDiary(userToken);
             }
         });
 
@@ -119,8 +129,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //開啟寫日記
-    public void openActivityEditDiary(){
+    public void openActivityEditDiary(String userToken){
         Intent intent = new Intent(this, EditDiaryActivity.class);
+        intent.putExtra("userToken", userToken);
         startActivity(intent);
     }
 

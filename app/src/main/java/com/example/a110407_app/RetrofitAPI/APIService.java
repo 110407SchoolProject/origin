@@ -1,12 +1,15 @@
 package com.example.a110407_app.RetrofitAPI;
 
+import com.example.a110407_app.Model.MoodPredict;
 import com.example.a110407_app.Model.MoodTalk;
 import com.example.a110407_app.Model.User;
+import com.example.a110407_app.Model.UserDiary;
 import com.example.a110407_app.Model.UserLogin;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface APIService {
@@ -22,6 +25,12 @@ public interface APIService {
 
     @POST("api/commonauth/tokens") // 用@Body表示要傳送Body資料
     Call<UserLogin> postUserAccountAndPassword(@Body UserLogin userLogin);
+
+    @POST("/api/diary/diarys")
+    Call<UserDiary>postUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary );
+
+    @POST("/api/bert/content")
+    Call<MoodPredict>postMoodPredict(@Header("Authorization")String authHeader, @Body MoodPredict moodPredict);
 
 
 }

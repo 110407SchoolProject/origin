@@ -75,6 +75,8 @@ public class HomeFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         userToken =intent.getStringExtra("userToken");
+
+
         System.out.println("從Home接到userToken:    "+userToken);
         inspiringSentence=(TextView)root.findViewById(R.id.inspiringSentence);
         ourAPIService = RetrofitManager.getInstance().getAPI();
