@@ -1,9 +1,13 @@
 package com.example.a110407_app.ui.slideshow;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,12 +18,18 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.a110407_app.R;
 
+import java.util.Calendar;
 
 //選擇起始日期跟結束日期的畫面  for 心情分析
 
 
 public class SlideshowFragment extends Fragment {
-
+    private ImageView myDatePicker;
+    private ImageView myDatePicker2;
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+    static final int DATE_DIALOG_ID = 0;
     private SlideshowViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -40,4 +50,6 @@ public class SlideshowFragment extends Fragment {
 
         return root;
     }
+
+
 }
