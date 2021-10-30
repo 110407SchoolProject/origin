@@ -14,6 +14,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.a110407_app.R;
 
+
+//選擇起始日期跟結束日期的畫面  for 心情分析
+
+
 public class SlideshowFragment extends Fragment {
 
     private SlideshowViewModel slideshowViewModel;
@@ -30,6 +34,10 @@ public class SlideshowFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        //按鈕 --> 送出日期
+        //切換到心情分析結果的畫面
+
         return root;
     }
 }

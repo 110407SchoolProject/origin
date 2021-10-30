@@ -287,7 +287,8 @@ public class EditDiaryActivity extends AppCompatActivity {
                 textContent=editTextContent.getText().toString();
                 //去除空白、英文、數字字元，過濾掉一些不重要的東西避免干擾預測
                 textContent=textContent.replace(" ","");
-                textContent=textContent.replaceAll("(?i)[a-zA-Z0-9]", "");
+                textContent=textContent.replaceAll("(?i)[a-zA-Z]", "");
+                textContent=textContent.replaceAll("\n", "");
                 MoodPredict moodPredict = new MoodPredict(textContent);
                 System.out.println("抓日記內文："+moodPredict.getContent());
                 Call<MoodPredict> callMoodPredict = ourAPIService.postMoodPredict("bearer "+userToken, moodPredict);
@@ -302,6 +303,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                             String predictResult= predictionArrayList.get(0).toString();
                             System.out.println("結果"+predictResult);
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditDiaryActivity.this);
+                            //dialog box edit here
                             if(predictResult.equals("0")){
                                 moodScore="2";
                                 alertDialog.setTitle("心情預測結果");
@@ -333,13 +335,39 @@ public class EditDiaryActivity extends AppCompatActivity {
                             }
                             progressDialog.cancel();
                         }catch (Exception e){
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditDiaryActivity.this);
+                            alertDialog.setTitle("預測失敗");
+                            alertDialog.setMessage("可能有些錯誤發生，\n所以導致預測失敗😭😭，\n請稍後再試");
+                            alertDialog.setIcon(R.drawable.crying);
+                            alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progressDialog.cancel();
+                                }
+                            });
+                            alertDialog.setCancelable(true);
+                            alertDialog.show();
                             System.out.println("預測失敗");
+
                         }
 
                     }
                     @Override
                     public void onFailure(Call<MoodPredict> call, Throwable t) {
                         System.out.println("無法連線到伺服器");
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditDiaryActivity.this);
+                        alertDialog.setTitle("連線逾時");
+                        alertDialog.setMessage("可能有些錯誤發生，\n所以導致預測失敗😭😭，\n請稍後再試");
+                        alertDialog.setIcon(R.drawable.crying);
+                        alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.cancel();
+                            }
+                        });
+                        alertDialog.setCancelable(true);
+                        alertDialog.show();
+                        System.out.println("預測失敗");
                         Log.d("HKT", "response: " + t.toString());
                     }
                 });
