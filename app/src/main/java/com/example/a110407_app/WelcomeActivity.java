@@ -22,7 +22,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
         image = (ImageView) findViewById(R.id.welcomeView);
-        image.setImageResource(R.drawable.cat_welcome);
+        image.setImageResource(R.drawable.heart_pencil);
 
 
         new Thread(new Runnable() {
