@@ -46,8 +46,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
-
     implementation 'com.applandeo:material-calendar-view:1.7.0'
+    //loading image from string URL
+    implementation 'com.squareup.picasso:picasso:2.8'
+
 
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
