@@ -19,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface APIService {
 
@@ -34,10 +35,13 @@ public interface APIService {
     @POST("api/commonauth/tokens") // 用@Body表示要傳送Body資料
     Call<UserLogin> postUserAccountAndPassword(@Body UserLogin userLogin);
 
-    @GET("/api/diary/diarys")//
+    @GET("/api/diary/diarys/{diaryId}")//回傳單篇日記
+    Call<UserDiary>getUserSingleDiary(@Header("Authorization")String authHeader, @Path("diaryId") String DiaryId);
+
+    @GET("/api/diary/diarys")//回傳所有日記
     Call<UserDiary>postUserAllDiary(@Header("Authorization")String authHeader);
 
-    @POST("/api/diary/diarys")//
+    @POST("/api/diary/diarys")//回傳新增日記
     Call<UserDiary>postUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary );
 
     @POST("/api/bert/content")
