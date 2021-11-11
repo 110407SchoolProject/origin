@@ -59,19 +59,7 @@ public class GalleryFragment extends Fragment {
     private String userToken;
     private ListView diaryListView;
     private GalleryViewModel galleryViewModel;
-
     APIService ourAPIService;
-
-    SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 7;
-    private ArrayList<HashMap<String, String>> diaryTitleList;
-
-    private EditText getPassword;
-    private String strPassword, p, lock;
-    SQLiteDBHelper TableUserPassword;
-    private String PASSWORD_TABLE_NAME = "UserPassword";
     ArrayList titleArrayList = new ArrayList();
     ArrayList diaryIdList = new ArrayList();
 
@@ -85,12 +73,6 @@ public class GalleryFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        //資料表初始化
-        TableUserPassword = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,PASSWORD_TABLE_NAME);
-        TableUserPassword.getWritableDatabase();
-        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
-        mHelper.getWritableDatabase();
-        // 初始化
         galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
@@ -109,7 +91,6 @@ public class GalleryFragment extends Fragment {
         ourAPIService = RetrofitManager.getInstance().getAPI();
 
         Call<UserDiary> callAllDiaryToList = ourAPIService.postUserAllDiary("bearer "+userToken);
-
         callAllDiaryToList.enqueue(new Callback<UserDiary>() {
             @Override
             public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
