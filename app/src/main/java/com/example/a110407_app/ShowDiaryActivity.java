@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -20,6 +21,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.UserDiary;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -55,21 +59,36 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.a110407_app.R;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShowDiaryActivity extends AppCompatActivity {
+
+    private String userToken;
+    APIService ourAPIService;
+
     private TextView showTitleText; //顯示日記標題
     private TextView showContentText; //顯示日記內文
     private TextView showCategory;//顯示日記分類
     private ImageView showImageMood;//顯示日記心情
 
-    private String titleText; //日記標題
-    private String contentText; //日記內文
-    private String categorytext;//日記分類
+    private String textTitle;
+    private String textContent;
+    private String tag;
+    private String tag2;
+    private String tag3;
+    private int moodScoreInt;
+    private String createDate;
+    private String modifiedDate;
+
     private String moodScore;
     private SQLiteDBHelper mHelper; //內部資料庫元件
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 7;
+
+
     private ArrayList<HashMap<String, String>> diaryTitleAndContent; //標題和內文的ArrayList
     private  Button btnDeleteDiary; //刪除按鈕
     private  Button btnEditDiary; //編輯按鈕
@@ -88,50 +107,91 @@ public class ShowDiaryActivity extends AppCompatActivity {
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         btnEditDiary = findViewById(R.id.btnEditDiary);
 
-        //抓使用者點選的日記id
-        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
-        //這是上個頁面傳過來的id
         Intent intent =getIntent();
         String id =intent.getStringExtra("id");
+        userToken = intent.getStringExtra("userToken");
+        System.out.println(id);
+        System.out.println(userToken);
 
+        ourAPIService = RetrofitManager.getInstance().getAPI();
 
-        //資料庫搜尋內容，用id搜尋
-        diaryTitleAndContent=mHelper.searchById(id);
-        for(HashMap<String,String> data:diaryTitleAndContent){
-            titleText=data.get("Title");
-            contentText=data.get("Content");
-            categorytext = data.get("Category");
-            moodScore=data.get("Score");
-        }
+        Call<UserDiary> callSingleDiary = ourAPIService.getUserSingleDiary("bearer "+userToken,id);
+        callSingleDiary.enqueue(new Callback<UserDiary>() {
+            @Override
+            public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                JsonArray diary = response.body().getDiaryList();
+                JsonObject singleDiaryJsonObject = (JsonObject) diary.get(0);
+
+                textTitle=singleDiaryJsonObject.get("title").toString();
+                textContent=singleDiaryJsonObject.get("content").toString();
+                tag=singleDiaryJsonObject.get("tag").toString();
+                tag2=singleDiaryJsonObject.get("tag2").toString();
+                tag3=singleDiaryJsonObject.get("tag3").toString();
+                moodScore=singleDiaryJsonObject.get("moodscore").toString();
+                createDate=singleDiaryJsonObject.get("create_date").toString();
+                modifiedDate=singleDiaryJsonObject.get("last_modified").toString();
+
+                textTitle=textTitle.substring(1,textTitle.length()-1);
+                textContent=textContent.substring(1,textContent.length()-1);
+
+                System.out.println(textTitle);
+                System.out.println(textContent);
+                System.out.println(tag);
+                System.out.println(tag2);
+                System.out.println(tag3);
+                System.out.println(moodScore);
+                System.out.println(createDate);
+                System.out.println(modifiedDate);
+
+                showTitleText.setText(textTitle);
+                showContentText.setText(textContent);
+
+                int score = (int)Float.parseFloat(moodScore);
+                System.out.println(score);
+                switch(score) {
+                    case 1:
+                        System.out.println("Crying");
+                        showImageMood.setImageResource(R.drawable.crying);
+                        break;
+                    case 2:
+                        System.out.println("Sad");
+                        showImageMood.setImageResource(R.drawable.sad);
+                        break;
+                    case 3:
+                        System.out.println("Normal");
+                        showImageMood.setImageResource(R.drawable.normal);
+                        break;
+                    case 4:
+                        System.out.println("Smiling");
+                        showImageMood.setImageResource(R.drawable.smiling);
+                        break;
+                    case 5:
+                        System.out.println("Exciting");
+                        showImageMood.setImageResource(R.drawable.exciting);
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserDiary> call, Throwable t) {
+                System.out.println("顯示日記失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+//        //資料庫搜尋內容，用id搜尋
+//        diaryTitleAndContent=mHelper.searchById(id);
+//        for(HashMap<String,String> data:diaryTitleAndContent){
+//            titleText=data.get("Title");
+//            contentText=data.get("Content");
+//            categorytext = data.get("Category");
+//            moodScore=data.get("Score");
+//        }
         //將標題和內容顯示出來
-        showTitleText.setText(titleText);
-        showContentText.setText(contentText);
-        showCategory.setText("目錄："+categorytext);
+//        showTitleText.setText(titleText);
+//        showContentText.setText(contentText);
+//        showCategory.setText("目錄："+categorytext);
 
-        int score = (int)Float.parseFloat(moodScore);
-        System.out.println(score);
-        switch(score) {
-            case 1:
-                System.out.println("Crying");
-                showImageMood.setImageResource(R.drawable.crying);
-                break;
-            case 2:
-                System.out.println("Sad");
-                showImageMood.setImageResource(R.drawable.sad);
-                break;
-            case 3:
-                System.out.println("Normal");
-                showImageMood.setImageResource(R.drawable.normal);
-                break;
-            case 4:
-                System.out.println("Smiling");
-                showImageMood.setImageResource(R.drawable.smiling);
-                break;
-            case 5:
-                System.out.println("Exciting");
-                showImageMood.setImageResource(R.drawable.exciting);
-                break;
-        }
+
 
         //刪除按鈕
         btnDeleteDiary.setOnClickListener(new View.OnClickListener() {
