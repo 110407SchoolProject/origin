@@ -15,6 +15,7 @@ import com.example.a110407_app.Model.UserLogin;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -38,10 +39,13 @@ public interface APIService {
     @GET("/api/diary/diarys/{diaryId}")//回傳單篇日記
     Call<UserDiary>getUserSingleDiary(@Header("Authorization")String authHeader, @Path("diaryId") String DiaryId);
 
+    @DELETE("/api/diary/diarys/{diaryId}")//刪除單篇日記
+    Call<UserDiary>deleteUserSingleDiary(@Header("Authorization")String authHeader, @Path("diaryId") String DiaryId);
+
     @GET("/api/diary/diarys")//回傳所有日記
     Call<UserDiary>postUserAllDiary(@Header("Authorization")String authHeader);
 
-    @POST("/api/diary/diarys")//回傳新增日記
+    @POST("/api/diary/diarys")//新增日記
     Call<UserDiary>postUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary );
 
     @POST("/api/bert/content")
