@@ -72,26 +72,19 @@ public class ShowDiaryActivity extends AppCompatActivity {
 
     private String userToken;
     APIService ourAPIService;
-
+    private String diaryId;
     private TextView showTitleText; //顯示日記標題
     private TextView showContentText; //顯示日記內文
     private TextView showCategory;//顯示日記分類
     private ImageView showImageMood;//顯示日記心情
-
     private String textTitle;
     private String textContent;
     private String tag;
     private String tag2;
     private String tag3;
-    private int moodScoreInt;
     private String createDate;
     private String modifiedDate;
-
     private String moodScore;
-    private SQLiteDBHelper mHelper; //內部資料庫元件
-
-
-    private ArrayList<HashMap<String, String>> diaryTitleAndContent; //標題和內文的ArrayList
     private  Button btnDeleteDiary; //刪除按鈕
     private  Button btnEditDiary; //編輯按鈕
 
@@ -110,14 +103,14 @@ public class ShowDiaryActivity extends AppCompatActivity {
         btnEditDiary = findViewById(R.id.btnEditDiary);
 
         Intent intent =getIntent();
-        String id =intent.getStringExtra("id");
+        diaryId =intent.getStringExtra("id");
         userToken = intent.getStringExtra("userToken");
-        System.out.println(id);
+        System.out.println(diaryId);
         System.out.println(userToken);
 
         ourAPIService = RetrofitManager.getInstance().getAPI();
 
-        Call<UserDiary> callSingleDiary = ourAPIService.getUserSingleDiary("bearer "+userToken,id);
+        Call<UserDiary> callSingleDiary = ourAPIService.getUserSingleDiary("bearer "+userToken,diaryId);
         callSingleDiary.enqueue(new Callback<UserDiary>() {
             @Override
             public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
@@ -230,19 +223,18 @@ public class ShowDiaryActivity extends AppCompatActivity {
         btnEditDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //取得本文的id
-                Intent intent =getIntent();
-                String id = intent.getStringExtra("id");
 
-                openActivityChangeDiaryById(id);
-                System.out.println(id);
+                openActivityChangeDiaryById(diaryId,userToken);
+                System.out.println("要傳到編輯日記的日記ID:"+diaryId);
+                System.out.println("要傳到編輯日記的日記userToken:"+userToken);
             }
         });
     }
 
-    public void openActivityChangeDiaryById(String Id){
+    public void openActivityChangeDiaryById(String Id,String userToken){
         Intent intent = new Intent(this, ChangeDiaryActivity.class);
         intent.putExtra("id",Id);
+        intent.putExtra("userToken",userToken);
         System.out.println("SHOW"+Id);
         startActivity(intent);
         finish();
