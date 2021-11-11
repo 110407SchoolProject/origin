@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,14 +22,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.MoodPredict;
+import com.example.a110407_app.Model.UserDiary;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.example.a110407_app.ui.login.LoginActivity;
 import com.facebook.stetho.Stetho;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -39,17 +49,28 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ChangeDiaryActivity extends AppCompatActivity {
-    public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
-    public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
-    private GalleryFragment GalleryFragment;
+    String userToken;
+    private APIService ourAPIService;
     //日記項
-    private EditText changeTextTitle;
-    private EditText changeTextContent;
-    private TextView showCategory;
+    private EditText editTextTitle;
+    private EditText editTextContent;
     private Button btnSaveDiary;
-    private String getNewTitle;
-    private String getNewContent;
+    private String getTitle;
+    private String getContent;
+
+    private String textTitle;
+    private String textContent;
+    private String tag;
+    private String tag2;
+    private String tag3;
+    private int moodScoreInt;
+    private String createDate;
+    private String modifiedDate;
     //心情按鈕
 
     private ImageView btnCryingMood;
@@ -59,127 +80,160 @@ public class ChangeDiaryActivity extends AppCompatActivity {
     private ImageView btnExcitingMood;
     private ImageView currentMood;
 
-    //建立日記表的資料庫
-    private SQLiteDBHelper mHelper;
-    private final String DB_NAME = "MyDairy.db";
-    private String TABLE_NAME = "MyDairy";
-    private final int DB_VERSION = 7;
 
-    //分類
-    private Button chooseCategory;
-    private String getNewCategory;
+    private Button moodPredictButton;
+    private String category = "未分類";
+    private String moodScore = "5";
 
-    private String moodScore;
-    private String titleText;
-    private String contentText;
-    private String categoryText;
-
-    //pony
-    private ArrayList<HashMap<String, String>> categoryList ;
-    private ArrayList<HashMap<String, String>> categoryAllList;
-
-
-    private ArrayList<HashMap<String, String>> diaryTitleAndContent; //標題和內文的ArrayList
-
-
-    //建立分類的資料表
-    private  SQLiteDBHelper CategoryDBHelper;
-    public final String TABLE_CATEGORY = "CategoryTable";
-
-    private Notification notification;
-    private NotificationManager manager;
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    private TextView showCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_diary);
-        manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        showCategory=findViewById(R.id.CategoryTextViewInChangeDiary);
-
-        //連結Facebook 開發的stetho資料庫工具
-        Stetho.initializeWithDefaults(this);
-        //初始化日記表資料庫
-        mHelper = new SQLiteDBHelper(this, DB_NAME, null, DB_VERSION, TABLE_NAME);
-        mHelper.getWritableDatabase();
-        //初始化分類表的資料庫
-        CategoryDBHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_CATEGORY);
-        CategoryDBHelper.getWritableDatabase();
 
         Intent intent =getIntent();
-        final String id =intent.getStringExtra("id");
-        System.out.println(id);
+        String diaryId =intent.getStringExtra("id");
+        userToken = intent.getStringExtra("userToken");
+        System.out.println("DiaryID:"+diaryId);
+        System.out.println("userToken:"+userToken);
+
+        Button tagCategory = findViewById(R.id.tagCategoryInChange);
+        tagCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(
+                        ChangeDiaryActivity.this,R.style.BottomSheetTheme
+                );
+                View bottomSheetView = LayoutInflater.from(getApplicationContext())
+                        .inflate(
+                                R.layout.activity_bottom_dialog_tag,
+                                (LinearLayout)findViewById(R.id.bottom_layout_tag)
+                        );
+                bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(ChangeDiaryActivity.this,"CHOSEN",Toast.LENGTH_SHORT).show();
+                        bottomSheetDialog.dismiss();
+                    }
+                });
+                bottomSheetDialog.setContentView(bottomSheetView);
+                bottomSheetDialog.show();
+            }
+        });
+        //TAG CATEGORY ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+//        editTextTitle.setText(month + "月" + date + "號的日記");
+        editTextTitle = (EditText) findViewById(R.id.editTextTitleInChange);
+        currentMood= (ImageView)findViewById(R.id.currentMoodImageViewInChange);
+        btnCryingMood =(ImageView)findViewById(R.id.btnCryingInChange);
+        btnSadMood =(ImageView)findViewById(R.id.btnSadInChange);
+        btnNormalMood =(ImageView)findViewById(R.id.bntNormalInChange);
+        btnSmilingMood =(ImageView)findViewById(R.id.btnSmilingInChange);
+        btnExcitingMood =(ImageView)findViewById(R.id.btnExcitingInChange);
+        editTextContent = findViewById(R.id.editTextContentInChange);
+        editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        editTextContent.setGravity(Gravity.TOP);
+        editTextContent.setSingleLine(false);
+
+        btnSaveDiary=findViewById(R.id.btnSaveDiaryInChange);
+
+        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textTitle =editTextTitle.getText().toString();
+                textContent=editTextContent.getText().toString();
+                moodScoreInt= Integer.parseInt(moodScore);
+                UserDiary userDiary =new UserDiary(
+                        textTitle,
+                        textContent,
+                        "標籤1",
+                        "標籤2",
+                        "標籤3",
+                        moodScoreInt
+                );
+                Call<UserDiary> callUpdateDiary = ourAPIService.putUserDiary("bearer "+userToken,userDiary,diaryId);
+                callUpdateDiary.enqueue(new Callback<UserDiary>() {
+                    @Override
+                    public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                        System.out.println("伺服器有回應");
+
+                        try {
+                            String result = response.message();
+                            System.out.println("Server:"+result);
+                            if(result.equals("OK")){
+                                Toast.makeText(getApplicationContext(), "日記更新成功", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "日記更新失敗", Toast.LENGTH_LONG).show();
+                            }
+                        }catch (Exception e){
+                            Toast.makeText(getApplicationContext(), "系通發生錯誤，日記更新失敗", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserDiary> call, Throwable t) {
+                        System.out.println("無法連線到伺服器");
+                        Log.d("HKT", "response: " + t.toString());
+                    }
+                });
+            }
+        });
 
 
-        diaryTitleAndContent=mHelper.searchById(id);
+        //先把所有日記內容抓下來
+        ourAPIService = RetrofitManager.getInstance().getAPI();
 
-        for(HashMap<String,String> data:diaryTitleAndContent){
-            titleText=data.get("Title");
-            contentText=data.get("Content");
-            categoryText = data.get("Category");
-            moodScore=data.get("Score");
-        }
-        System.out.println("標題"+titleText);
-        System.out.println("內文"+contentText);
-        System.out.println("目錄"+categoryText);
-        System.out.println("心情分數"+moodScore);
-        showCategory.setText(categoryText);
+        Call<UserDiary> callSingleDiary = ourAPIService.getUserSingleDiary("bearer "+userToken,diaryId);
 
-        currentMood= (ImageView)findViewById(R.id.currentMoodImageViewInChangeDiary);
+        callSingleDiary.enqueue(new Callback<UserDiary>() {
+            @Override
+            public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                JsonArray diary = response.body().getDiaryList();
+                System.out.println(diary);
 
-        if (moodScore.equals("1")){
-            currentMood.setImageResource(R.drawable.crying);
-        }else if(moodScore.equals("2")){
-            currentMood.setImageResource(R.drawable.sad);
-        }else if(moodScore.equals("3")){
-            currentMood.setImageResource(R.drawable.normal);
-        }else if(moodScore.equals("4")){
-            currentMood.setImageResource(R.drawable.smiling);
-        }else if(moodScore.equals("5")){
-            currentMood.setImageResource(R.drawable.exciting);
-        }
-        changeTextTitle = (EditText) findViewById(R.id.changeTextTitle);
-        changeTextContent= (EditText) findViewById(R.id.changeTextContent);
+                JsonObject singleDiaryJsonObject = (JsonObject) diary.get(0);
 
+                System.out.println(singleDiaryJsonObject.toString());
 
-        changeTextTitle.setText(titleText,TextView.BufferType.EDITABLE);
-        changeTextContent.setText(contentText,TextView.BufferType.EDITABLE);
+                textTitle=singleDiaryJsonObject.get("title").toString();
+                textContent=singleDiaryJsonObject.get("content").toString();
+                tag=singleDiaryJsonObject.get("tag").toString();
+                tag2=singleDiaryJsonObject.get("tag2").toString();
+                tag3=singleDiaryJsonObject.get("tag3").toString();
+                moodScore=singleDiaryJsonObject.get("moodscore").toString();
+                createDate=singleDiaryJsonObject.get("create_date").toString();
+                modifiedDate=singleDiaryJsonObject.get("last_modified").toString();
 
-        //抓取今天的日期設定到標題
-        Integer year = 0;
-        Integer month = 0;
-        Integer date = 0;
-        Date mDate = new Date();
-        year = mDate.getYear() + 2000 - 100;
-        month = mDate.getMonth() + 1;
-        date = mDate.getDate();
-        final String stringYear = year.toString();
-        final String stringDate = date.toString();
-        final String stringMonth = month.toString();
-        final String todayDate =  stringYear + "/" + stringMonth + "/" + stringDate;
+                textContent= textContent.substring(1,textContent.length()-1);
+                textTitle = textTitle.substring(1,textTitle.length()-1);
+                editTextTitle.setText(textTitle);
+                editTextContent.setText(textContent);
 
-        //抓取輸入的內文，下面要在寫入data base
+                if(moodScore.equals("1")){
+                    currentMood.setImageResource(R.drawable.crying);
+                }else if(moodScore.equals("2")){
+                    currentMood.setImageResource(R.drawable.sad);
+                }else if(moodScore.equals("3")){
+                    currentMood.setImageResource(R.drawable.normal);
+                }else if(moodScore.equals("4")){
+                    currentMood.setImageResource(R.drawable.smiling);
+                }else if(moodScore.equals("5")){
+                    currentMood.setImageResource(R.drawable.exciting);
+                }
 
-        changeTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        changeTextContent.setGravity(Gravity.TOP);
-        changeTextContent.setSingleLine(false);
-        btnSaveDiary = findViewById(R.id.btnSaveDiaryInChangeDiary);
-        //儲存日記
-        //心情選取欄位
-        btnCryingMood =(ImageView) findViewById(R.id.btnCryingInChangeDiary);
-        btnSadMood =(ImageView)findViewById(R.id.btnSadInChangeDiary);
-        btnNormalMood =(ImageView)findViewById(R.id.bntNormalInChangeDiary);
-        btnSmilingMood =(ImageView)findViewById(R.id.btnSmilingInChangeDiary);
-        btnExcitingMood =(ImageView)findViewById(R.id.btnExcitingInChangeDiary);
-        //顯示目錄
-        showCategory = (TextView) findViewById(R.id.CategoryTextViewInChangeDiary);
+            }
+            @Override
+            public void onFailure(Call<UserDiary> call, Throwable t) {
+                System.out.println("讀取日記失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
         btnCryingMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 moodScore="1";
+
                 System.out.println(moodScore);
                 currentMood.setImageResource(R.drawable.crying);
             }
@@ -217,143 +271,136 @@ public class ChangeDiaryActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-        //選擇日記分類
-        chooseCategory = (Button) findViewById(R.id.chooseCategoryInChangeDiary);
-        chooseCategory.setOnClickListener(new View.OnClickListener() {
+        //用BERT預測心情
+        moodPredictButton = (Button) findViewById(R.id.moodPredictButtonInChange);
+        moodPredictButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //跳出AlertDialog，用Spinner選擇分類，如果沒有想要的分類，就點選button新增分類
-                final AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangeDiaryActivity.this);
-                View view = getLayoutInflater().inflate(R.layout.activity_choose_category, null);
-                alertDialog.setView(view);
-                Button buttonCreateCategory = (Button) view.findViewById(R.id.buttonCreateCategory);
-                buttonCreateCategory.setText("新增一個新的分類");
-                alertDialog.setTitle("請選擇一個分類");
-                Spinner spinnerCategory = (Spinner) view.findViewById(R.id.spinnerCategory);
-
-
-                ArrayList categoryAllListToShow =new ArrayList();
-                categoryAllListToShow.add("未分類");
-                if(categoryAllListToShow.size()==0){
-
-                }
-
-                categoryAllList= CategoryDBHelper.selectAllCategory();
-                System.out.println(categoryAllList);
-                String categoryName ="";
-                for(HashMap<String,String> data:categoryAllList){
-                    categoryName=data.get("Category");
-                    categoryAllListToShow.add(categoryName);
-                }
-
-                ArrayAdapter<String> adaptertext = new ArrayAdapter<String>(ChangeDiaryActivity.this, android.R.layout.simple_spinner_item, categoryAllListToShow);
-
-                adaptertext.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                spinnerCategory.setAdapter(adaptertext);
-                spinnerCategory.setOnItemSelectedListener(spinnerListener);
-
-
-
-
-                //當點選"確認選擇此分類"，將此分類帶入文章的TextView中
-                alertDialog.setPositiveButton("確定分類", new DialogInterface.OnClickListener() {
+                ProgressDialog progressDialog=new ProgressDialog(ChangeDiaryActivity.this);
+                progressDialog.setMessage("預測中！可能會花上比較久的時間");
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                progressDialog.setIndeterminate(true);
+                progressDialog.show();
+                final int totalProgressTime = 100;
+                final Thread t =new Thread(){
+                    int jumpTime=0;
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showCategory.getText();
+                    public void run() {
+                        while(jumpTime< totalProgressTime){
+                            try {
+                                sleep(200);
+                                jumpTime += 20;
+                                progressDialog.setProgress(jumpTime);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
                     }
-                });
-                alertDialog.show();
+                };
+                t.start();
 
-                //點選Button新增分類，跳出AlertDialog，用EditText填入分類
-                buttonCreateCategory.setOnClickListener(new View.OnClickListener() {
+                textContent=editTextContent.getText().toString();
+                //去除空白、英文、數字字元，過濾掉一些不重要的東西避免干擾預測
+                textContent=textContent.replace(" ","");
+                textContent=textContent.replaceAll("(?i)[a-zA-Z]", "");
+                textContent=textContent.replaceAll("\n", "");
+                MoodPredict moodPredict = new MoodPredict(textContent);
+                System.out.println("抓日記內文："+moodPredict.getContent());
+
+                Call<MoodPredict> callMoodPredict = ourAPIService.postMoodPredict("bearer "+userToken, moodPredict);
+                callMoodPredict.enqueue(new Callback<MoodPredict>() {
                     @Override
-                    public void onClick(View v) {
-                        final AlertDialog.Builder NewCategory = new AlertDialog.Builder(ChangeDiaryActivity.this);
-                        final View view1 = getLayoutInflater().inflate(R.layout.newcategory, null);
-                        NewCategory.setView(view1);
-                        //NewCategory.show();
-                        final EditText EditTextNewCategory = (EditText) view1.findViewById(R.id.EditTextNewCategory);
+                    public void onResponse(Call<MoodPredict> call, Response<MoodPredict> response) {
+                        String result = response.message();
+                        System.out.println("Server:"+result);
+                        try {
+                            ArrayList predictionArrayList= response.body().getScore();
+                            String predictResult= predictionArrayList.get(0).toString();
+                            System.out.println("結果"+predictResult);
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangeDiaryActivity.this);
+                            //dialog box edit here
+                            if(predictResult.equals("0")){
+                                moodScore="2";
+                                alertDialog.setTitle("心情預測結果");
+                                alertDialog.setMessage("你的心情看起來不太好呢，是不是有些事情困擾著你，試著休息一會吧？");
+                                alertDialog.setIcon(R.drawable.sad);
+                                alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                alertDialog.setCancelable(true);
+                                alertDialog.show();
+                                System.out.println(moodScore);
+                                currentMood.setImageResource(R.drawable.sad);
+                            }else{
+                                moodScore="4";
+                                alertDialog.setTitle("心情預測結果");
+                                alertDialog.setIcon(R.drawable.smiling);
+                                alertDialog.setMessage("您的心情感覺還不賴，每天保持好心情的話對健康也是很有助益的喔！");
+                                alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                    }
+                                });
+                                alertDialog.setCancelable(true);
+                                alertDialog.show();
+                                System.out.println(moodScore);
+                                currentMood.setImageResource(R.drawable.smiling);
+                            }
+                            progressDialog.cancel();
+                        }catch (Exception e){
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangeDiaryActivity.this);
+                            alertDialog.setTitle("預測失敗");
+                            alertDialog.setMessage("可能有些錯誤發生，\n所以導致預測失敗😭😭，\n請稍後再試");
+                            alertDialog.setIcon(R.drawable.crying);
+                            alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progressDialog.cancel();
+                                }
+                            });
+                            alertDialog.setCancelable(true);
+                            alertDialog.show();
+                            System.out.println("預測失敗");
+                        }
+                    }
 
-                        //Dialog Button，點下去將EditText新增的分類加進去Category1 String Array
-                        NewCategory.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onFailure(Call<MoodPredict> call, Throwable t) {
+                        System.out.println("無法連線到伺服器");
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangeDiaryActivity.this);
+                        alertDialog.setTitle("連線逾時");
+                        alertDialog.setMessage("可能有些錯誤發生，\n所以導致預測失敗😭😭，\n請稍後再試");
+                        alertDialog.setIcon(R.drawable.crying);
+                        alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String categoryText = EditTextNewCategory.getText().toString();
-
-                                System.out.println(categoryText);
-
-                                categoryList = CategoryDBHelper.searchByCategory(categoryText);
-                                if(categoryList.size()==0){
-                                    System.out.println(categoryList);
-                                    CategoryDBHelper.addCategory(categoryText);
-                                }else{
-                                    final AlertDialog.Builder categoryExist = new AlertDialog.Builder(ChangeDiaryActivity.this);
-                                    final View view2 = getLayoutInflater().inflate(R.layout.categoryexist, null);
-                                    categoryExist.setView(view2);
-                                    categoryExist.setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            categoryExist.setView(view1);
-                                        }
-                                    });
-                                    categoryExist.show();
-                                    System.out.println("該目錄存在");
-                                }
+                                progressDialog.cancel();
                             }
-
                         });
-                        NewCategory.show();
+                        alertDialog.setCancelable(true);
+                        alertDialog.show();
+                        System.out.println("預測失敗");
+                        Log.d("HKT", "response: " + t.toString());
                     }
-
                 });
-            }
 
-        });
 
-        btnSaveDiary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getNewTitle = changeTextTitle.getText().toString();
-                getNewContent = changeTextContent.getText().toString();
-                getNewCategory=showCategory.getText().toString();
-                mHelper.modifyEZ(id,getNewTitle, getNewContent, getNewCategory, moodScore,todayDate);
-
-                Toast.makeText(getApplicationContext(), "儲存成功", Toast.LENGTH_SHORT).show();
-                openActivityShowDiary(id);
-                finish();
             }
         });
-        //呼叫提醒功能
-
     }
+
+
 
 
 
 
     //當使用者儲存完畢，可以馬上顯示出這筆日記
     public void openActivityShowDiary(String id ){
-
-
         Intent intent = new Intent(this, ShowDiaryActivity.class);
         String diaryId = id ;
         intent.putExtra("id",diaryId);
         startActivity(intent);
     }
-
-    //判斷Spinner選到哪一個選項
-    private Spinner.OnItemSelectedListener spinnerListener = new Spinner.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            String sel = parent.getSelectedItem().toString();
-            showCategory.setText(sel);
-        }
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-        }
-    };
-
 }
