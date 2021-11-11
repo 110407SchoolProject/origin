@@ -44,6 +44,7 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,7 @@ public class GalleryFragment extends Fragment {
     private String userToken;
     private ListView diaryListView;
     private GalleryViewModel galleryViewModel;
+
     APIService ourAPIService;
 
     SQLiteDBHelper mHelper;
@@ -71,11 +73,12 @@ public class GalleryFragment extends Fragment {
     SQLiteDBHelper TableUserPassword;
     private String PASSWORD_TABLE_NAME = "UserPassword";
     ArrayList titleArrayList = new ArrayList();
+    ArrayList diaryIdList = new ArrayList();
 
     //開啟該篇日記
-    public void openActivityShowDiary(String diaryId){
+    public void openActivityShowDiary(String diaryId, String userToken){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
-
+        intent.putExtra("userToken",userToken);
         intent.putExtra("id",diaryId);
         startActivity(intent);
     }
@@ -114,23 +117,50 @@ public class GalleryFragment extends Fragment {
                     JsonArray diaryAllList = response.body().getDiaryList();
                     for(int i=0; i<diaryAllList.size();i++){
                         JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
-                        titleArrayList.add(diaryJsonObject.get("title").toString());
+                        String diaryTitle = diaryJsonObject.get("title").toString();
+                        diaryTitle= diaryTitle.substring(1,diaryTitle.length()-1);
+                        titleArrayList.add(diaryTitle);
                     }
+
+                    for(int i=0;i<diaryAllList.size();i++){
+                        JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+//                        System.out.println(diaryJsonObject.toString());
+                        String diaryId = diaryJsonObject.get("diaryid").toString();
+                        System.out.println("DiaryID:"+diaryId);
+                        diaryId=diaryId.substring(1,diaryId.length()-1);
+                        diaryIdList.add(diaryId);
+                    }
+
+                    //日記列表樣式，屆時只要把上面的titleArrayList放入畫面就可以
                     diaryListView = (ListView)root.findViewById(R.id.diaryListView);
                     ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
                     diaryListView.setAdapter(adapter);
+
+                    diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Toast.makeText(getActivity(),"開啟日記"+(id+1), Toast.LENGTH_LONG).show();
+                            System.out.println("position"+position);
+
+                            //透過position來抓日記ID，接著將日記ID傳到下個頁面後，於下一頁call API。
+                            String diaryIdToCall = diaryIdList.get(position).toString();
+                            System.out.println("要傳的ID:"+diaryIdToCall);
+                            System.out.println("要傳的Token:"+userToken);
+                            openActivityShowDiary(diaryIdToCall,userToken);
+                        }
+                    });
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("存取日記列表失敗");
                 }
             }
-
             @Override
             public void onFailure(Call<UserDiary> call, Throwable t) {
                 System.out.println("伺服器連線失敗");
                 Log.d("HKT", "response: " + t.toString());
             }
         });
+
 //        //抓是否設密碼欄位
 //        TableUserPassword.showLock();
 //        for(HashMap<String,String> data:TableUserPassword.showLock()){
@@ -192,7 +222,6 @@ public class GalleryFragment extends Fragment {
 //                            @Override
 //                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                                Toast.makeText(getActivity(),"開啟日記"+(id+1),
-//
 //                                        Toast.LENGTH_LONG).show();
 //                                //點入看日記的頁面
 //                                int idByInt =(int)id;
@@ -200,7 +229,6 @@ public class GalleryFragment extends Fragment {
 //                                String title = (String) titleArrayList.get(idByInt);
 //                                String diaryId =(String)idArrayList.get(idByInt);
 //                                openActivityShowDiary(diaryId);
-//
 //                            }
 //                        });
 //
