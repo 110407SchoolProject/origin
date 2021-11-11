@@ -3,6 +3,7 @@ package com.example.a110407_app;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.Uri;
@@ -31,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -178,21 +180,6 @@ public class ShowDiaryActivity extends AppCompatActivity {
                 Log.d("HKT", "response: " + t.toString());
             }
         });
-//        //資料庫搜尋內容，用id搜尋
-//        diaryTitleAndContent=mHelper.searchById(id);
-//        for(HashMap<String,String> data:diaryTitleAndContent){
-//            titleText=data.get("Title");
-//            contentText=data.get("Content");
-//            categorytext = data.get("Category");
-//            moodScore=data.get("Score");
-//        }
-        //將標題和內容顯示出來
-//        showTitleText.setText(titleText);
-//        showContentText.setText(contentText);
-//        showCategory.setText("目錄："+categorytext);
-
-
-
         //刪除按鈕
         btnDeleteDiary.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,13 +188,42 @@ public class ShowDiaryActivity extends AppCompatActivity {
                 String id = intent.getStringExtra("id");
                 System.out.println("刪除日記"+id);
 
-                mHelper.deleteByIdEZ(id);
-                Toast.makeText(getApplicationContext(), "刪除成功", Toast.LENGTH_SHORT).show();
-
-                finish();
-                openActivityHome();
-
-
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(ShowDiaryActivity.this);
+                alertDialog.setTitle("日記刪除");
+                alertDialog.setIcon(R.drawable.sad);
+                alertDialog.setMessage("確定要將日記刪除嗎？");
+                alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<UserDiary> callDeleteSingleDiary = ourAPIService.deleteUserSingleDiary("bearer "+userToken,id);
+                        callDeleteSingleDiary.enqueue(new Callback<UserDiary>() {
+                            @Override
+                            public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                                try {
+                                    String result = response.body().getResult();
+                                    System.out.println(result);
+                                    if(result.equals("ok")){
+                                        Toast.makeText(getApplicationContext(), "刪除成功", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                        openActivityHome(userToken);
+                                    }else{
+                                        Toast.makeText(getApplicationContext(), "刪除失敗，系統可能發生問題", Toast.LENGTH_SHORT).show();
+                                    }
+                                }catch (Exception e){
+                                    System.out.println("刪除失敗");
+                                    Toast.makeText(getApplicationContext(), "刪除失敗，系統可能發生問題", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<UserDiary> call, Throwable t) {
+                                System.out.println("日記刪除失敗");
+                                Log.d("HKT", "response: " + t.toString());
+                            }
+                        });
+                    }
+                });
+                alertDialog.setCancelable(true);
+                alertDialog.show();
             }
         });
 
@@ -222,8 +238,6 @@ public class ShowDiaryActivity extends AppCompatActivity {
                 System.out.println(id);
             }
         });
-
-
     }
 
     public void openActivityChangeDiaryById(String Id){
@@ -234,8 +248,9 @@ public class ShowDiaryActivity extends AppCompatActivity {
         finish();
     };
 
-    public void openActivityHome(){
+    public void openActivityHome(String userToken){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("userToken",userToken);
         startActivity(intent);
 
     }
