@@ -185,6 +185,12 @@ public class ShowDiaryActivity extends AppCompatActivity {
                 alertDialog.setTitle("日記刪除");
                 alertDialog.setIcon(R.drawable.sad);
                 alertDialog.setMessage("確定要將日記刪除嗎？");
+                alertDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //No Action, Just Cancel.
+                    }
+                });
                 alertDialog.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
