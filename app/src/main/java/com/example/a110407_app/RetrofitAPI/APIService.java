@@ -48,6 +48,9 @@ public interface APIService {
     @POST("/api/diary/diarys")//新增日記
     Call<UserDiary>postUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary );
 
+    @PUT("/api/diary/diarys/{diaryId}")//更新日記
+    Call<UserDiary>putUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary, @Path("diaryId") String DiaryId );
+
     @POST("/api/bert/content")
     Call<MoodPredict>postMoodPredict(@Header("Authorization")String authHeader, @Body MoodPredict moodPredict);
 
