@@ -1,6 +1,12 @@
 package com.example.a110407_app.Model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+
 public class UserDiary {
+    private JsonArray diary_list;
     private String title;
     private String content;
     private String tag;
@@ -10,9 +16,9 @@ public class UserDiary {
     private String result;
     private String message;
 
-
-
-
+    public JsonArray getDiaryList() {
+        return diary_list;
+    }
 
     public UserDiary(String title, String content, String tag, String tag2, String tag3, int moodscore) {
 
