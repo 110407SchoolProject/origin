@@ -156,7 +156,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<UserDiary> call, Throwable t) {
-
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
             }
         });
 
