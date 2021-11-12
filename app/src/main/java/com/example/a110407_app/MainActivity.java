@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.User;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.example.a110407_app.ui.home.HomeFragment;
@@ -18,6 +23,7 @@ import com.facebook.stetho.Stetho;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.JsonObject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -34,22 +40,22 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends AppCompatActivity {
 
+    private APIService ourAPIService;
     private AppBarConfiguration mAppBarConfiguration;
     private FloatingActionButton fab;
     private ImageButton imageButton;
     private String userToken;
-
-
-
-
-
-//public SQLiteDBHelper mHelper;
-    //private final String DB_NAME = "MyDairy.db";
-    //private String TABLE_NAME = "MyDairy";
-    //private final int DB_VERSION = 1;
+    private TextView navbarNickNameTextView;
+    private TextView navbarEmailTextView;
+    private String userEmail;
+    private String userNickName;
 
 
     @Override
@@ -61,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         userToken = intent.getStringExtra("userToken");
         System.out.println("從Main抓到userToken： "+userToken);
 
+        ourAPIService = RetrofitManager.getInstance().getAPI();
         //setContentView(R.layout.content_main);
         Stetho.initializeWithDefaults(this);
 
@@ -82,25 +89,47 @@ public class MainActivity extends AppCompatActivity {
 
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        //setSupportActionBar(toolbar);
-        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,drawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        //drawer.addDrawerListener(toggle);
-        //toggle.syncState();
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        View header =navigationView.getHeaderView(0);
+        navbarEmailTextView =header.findViewById(R.id.navbarEmailTextView);
+        navbarNickNameTextView =header.findViewById(R.id.navbarNickNameTextView);
+
+
+        Call<User> callUserData = ourAPIService.getUserData("bearer "+userToken);
+
+        callUserData.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                String result=response.message();
+                System.out.println(result);
+
+                JsonObject userData =response.body().getUserAllDataInJson();
+                System.out.println(userData.toString());
+
+                userEmail=userData.get("username").toString();
+                userNickName=userData.get("nickname").toString();
+
+                userEmail=userEmail.substring(1,userEmail.length()-1);
+                userNickName=userNickName.substring(1,userNickName.length()-1);
+
+                navbarEmailTextView.setText(userEmail);
+                navbarNickNameTextView.setText(userNickName);
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home,R.id.nav_profile,R.id.nav_gallery, R.id.nav_slideshow).setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-
-
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
-
-
-
-
     // 打開右上角的menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
