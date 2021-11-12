@@ -1,9 +1,15 @@
 package com.example.a110407_app.Model;
 
-public class User {
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
+public class User {
+    private JsonObject user;
     private String username;
     private String password;
+
+
+
     private String truename;
     private String nickname;
     private String gender;
@@ -19,6 +25,9 @@ public class User {
         this.nickname = nickname;
         this.gender = gender;
         this.birthday = birthday;
+    }
+    public JsonObject getUserAllDataInJson() {
+        return user;
     }
 
     public User(String s, String s1, String 翁罐頭, String pony) {
