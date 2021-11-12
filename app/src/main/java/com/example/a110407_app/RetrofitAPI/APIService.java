@@ -33,6 +33,9 @@ public interface APIService {
     @POST("api/commonauth/users") // 用@Body表示要傳送Body資料
     Call<User> postUser(@Body User user);
 
+    @GET("api/commonauth/users") // 用@Body表示要傳送Body資料
+    Call<User> getUserData(@Header("Authorization")String authHeader);
+
     @POST("api/commonauth/tokens") // 用@Body表示要傳送Body資料
     Call<UserLogin> postUserAccountAndPassword(@Body UserLogin userLogin);
 
