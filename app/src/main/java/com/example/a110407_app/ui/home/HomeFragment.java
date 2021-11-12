@@ -22,11 +22,13 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.a110407_app.EditDiaryActivity;
 import com.example.a110407_app.Model.MoodTalk;
 import com.example.a110407_app.Model.Token;
+import com.example.a110407_app.Model.UserDiary;
 import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ShowDiaryActivity;
 import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.net.URISyntaxException;
@@ -47,6 +49,9 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private TextView dateTimeText;
 
+    ArrayList titleArrayList = new ArrayList();
+    ArrayList diaryIdList = new ArrayList();
+    private ListView diaryListView;
 //    private ListView diaryListView;
 //    SQLiteDBHelper mHelper;
 //    private final String DB_NAME = "MyDairy.db";
@@ -56,12 +61,15 @@ public class HomeFragment extends Fragment {
 
     private TextView inspiringSentence;
 
-    public void openActivityShowDiary(String diaryId){
-        Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
 
+    public void openActivityShowDiary(String diaryId, String userToken){
+        Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
+        intent.putExtra("userToken",userToken);
         intent.putExtra("id",diaryId);
         startActivity(intent);
     }
+
+
 
     public void openActivityEditDiary(){
         Intent intent = new Intent(getActivity(), EditDiaryActivity.class);
@@ -75,7 +83,6 @@ public class HomeFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         userToken =intent.getStringExtra("userToken");
-
 
         System.out.println("從Home接到userToken:    "+userToken);
         inspiringSentence=(TextView)root.findViewById(R.id.inspiringSentence);
@@ -117,6 +124,44 @@ public class HomeFragment extends Fragment {
         final String stringYear = Year.toString();
 
         dateTimeText.setText(Year+"年 "+month+"月"+date+"日 "+"星期"+weekday[day]);
+
+
+
+        Call<UserDiary> callAllDiaryToList = ourAPIService.postUserAllDiary("bearer "+userToken);
+        callAllDiaryToList.enqueue(new Callback<UserDiary>() {
+            @Override
+            public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                JsonArray diaryAllList = response.body().getDiaryList();
+
+                for(int i=0; i<diaryAllList.size();i++){
+                    JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+                    String diaryTitle = diaryJsonObject.get("title").toString();
+                    diaryTitle= diaryTitle.substring(1,diaryTitle.length()-1);
+                    titleArrayList.add(diaryTitle);
+                }
+
+                for(int i=0;i<diaryAllList.size();i++){
+                    JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+//                        System.out.println(diaryJsonObject.toString());
+                    String diaryId = diaryJsonObject.get("diaryid").toString();
+                    System.out.println("DiaryID:"+diaryId);
+                    diaryId=diaryId.substring(1,diaryId.length()-1);
+                    diaryIdList.add(diaryId);
+                }
+
+                diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
+                ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
+                diaryListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<UserDiary> call, Throwable t) {
+
+            }
+        });
+
         return root;
+
+
     }
 }
