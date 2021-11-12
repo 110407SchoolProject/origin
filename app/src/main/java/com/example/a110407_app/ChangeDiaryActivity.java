@@ -162,6 +162,8 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             System.out.println("Server:"+result);
                             if(result.equals("OK")){
                                 Toast.makeText(getApplicationContext(), "日記更新成功", Toast.LENGTH_LONG).show();
+                                openActivityShowDiary(diaryId,userToken);
+                                finish();
                             }else{
                                 Toast.makeText(getApplicationContext(), "日記更新失敗", Toast.LENGTH_LONG).show();
                             }
@@ -390,17 +392,11 @@ public class ChangeDiaryActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
-
     //當使用者儲存完畢，可以馬上顯示出這筆日記
-    public void openActivityShowDiary(String id ){
+    public void openActivityShowDiary(String diaryId,String userToken ){
         Intent intent = new Intent(this, ShowDiaryActivity.class);
-        String diaryId = id ;
         intent.putExtra("id",diaryId);
+        intent.putExtra("userToken",userToken);
         startActivity(intent);
     }
 }
