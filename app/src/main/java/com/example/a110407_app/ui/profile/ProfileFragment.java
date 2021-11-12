@@ -58,8 +58,8 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+    //介面元件
     private ImageView profileImageView;
-
     private TextView userTrueNameTextView;
     private TextView userNickNameUnderImageTextView;
     private TextView userNickNameTextView;
@@ -68,21 +68,16 @@ public class ProfileFragment extends Fragment {
     private TextView userGenderTextView;
     private TextView numberOfDiaryTextView;
     private ImageView userCurrentMood;
-
+    //Token
     private String userToken;
+    //API
     private APIService ourAPIService;
-    private Button editprofile;
-    private Switch remind;
-    private Button btnPasswordsetting;
-
-    // 原密碼比對建立的變數
-    private TextView remindtext;
+    //User相關的變數
     private String userEmail;
     private String userBirthday;
     private String userNickName;
     private String userTrueName;
     private String userGender;
-    // 原密碼比對建立的變數
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -93,7 +88,6 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -120,10 +114,8 @@ public class ProfileFragment extends Fragment {
             public void onResponse(Call<User> call, Response<User> response) {
                 String result=response.message();
                 System.out.println(result);
-
                 JsonObject userData =response.body().getUserAllDataInJson();
                 System.out.println(userData.toString());
-
                 userEmail=userData.get("username").toString();
                 userNickName=userData.get("nickname").toString();
                 userGender=userData.get("gender").toString();
@@ -145,23 +137,6 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<User> call, Throwable t) {
                 System.out.println("伺服器連線失敗");
                 Log.d("HKT", "response: " + t.toString());
-            }
-        });
-
-        editprofile = getView().findViewById(R.id.editprofile);
-        editprofile.setText("編輯個人設置");
-        btnPasswordsetting = getView().findViewById(R.id.btnPasswordsetting);
-        remind = getView().findViewById(R.id.remind);
-        remindtext = getView().findViewById(R.id.remindtext);
-        remindtext.setText("設置日記提醒");
-
-        profileImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent();
-                //intent.setType("image/*");
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                //startActivityForResult(intent, PHOTO);
             }
         });
     }
