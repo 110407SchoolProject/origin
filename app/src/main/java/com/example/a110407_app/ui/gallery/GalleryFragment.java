@@ -112,6 +112,24 @@ public class GalleryFragment extends Fragment {
                         diaryIdList.add(diaryId);
                     }
 
+                    for(int i=0;i<diaryAllList.size();i++){
+                        JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+//                        System.out.println(diaryJsonObject.toString());
+                        String create_Date = diaryJsonObject.get("create_date").toString();
+                        System.out.println("create_date:"+create_Date);
+                        create_Date=create_Date.substring(1,create_Date.length()-1);
+//                        diaryIdList.add(create_Date);
+                    }
+
+                    for(int i=0;i<diaryAllList.size();i++){
+                        JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+//                        System.out.println(diaryJsonObject.toString());
+                        String diaryId = diaryJsonObject.get("diaryid").toString();
+                        System.out.println("DiaryID:"+diaryId);
+                        diaryId=diaryId.substring(1,diaryId.length()-1);
+                        diaryIdList.add(diaryId);
+                    }
+
                     //日記列表樣式，屆時只要把上面的titleArrayList放入畫面就可以
                     diaryListView = (ListView)root.findViewById(R.id.diaryListView);
                     ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
