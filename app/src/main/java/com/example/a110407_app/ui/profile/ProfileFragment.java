@@ -102,7 +102,8 @@ public class ProfileFragment extends Fragment {
         userEmailTextView=getView().findViewById(R.id.profileEmail);
         userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);
         userNickNameUnderImageTextView = (TextView) getView().findViewById(R.id.profileName);
-        userNickNameTextView = (TextView) getView().findViewById(R.id.profileNickname);
+        //NICKNAME
+       // userNickNameTextView = (TextView) getView().findViewById(R.id.profileNickname);
 //        userGenderTextView =getView().findViewById(R.id.pro)
 ////        numberOfDiaryTextView = getView().findViewById();
 ////        userCurrentMood;

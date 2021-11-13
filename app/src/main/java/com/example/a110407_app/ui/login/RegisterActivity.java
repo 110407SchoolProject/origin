@@ -147,9 +147,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
-
-
-
     //按下註冊按鈕
     public View.OnClickListener registerInRegisterOnclick = new View.OnClickListener() {
         @Override

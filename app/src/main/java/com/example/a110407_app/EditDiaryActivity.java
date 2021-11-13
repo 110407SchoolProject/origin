@@ -187,13 +187,14 @@ public class EditDiaryActivity extends AppCompatActivity {
             }
         });
         //心情選取欄位
+        /*
         currentMood= (ImageView)findViewById(R.id.currentMoodImageView);
         btnCryingMood =(ImageView)findViewById(R.id.btnCrying);
         btnSadMood =(ImageView)findViewById(R.id.btnSad);
         btnNormalMood =(ImageView)findViewById(R.id.bntNormal);
         btnSmilingMood =(ImageView)findViewById(R.id.btnSmiling);
         btnExcitingMood =(ImageView)findViewById(R.id.btnExciting);
-
+        */
         showCategory = (TextView) findViewById(R.id.CategoryTextView);
         showCategory.setText("未選擇標籤");
 
