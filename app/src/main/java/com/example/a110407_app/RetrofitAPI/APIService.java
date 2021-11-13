@@ -33,6 +33,9 @@ public interface APIService {
     @POST("api/commonauth/users") // 用@Body表示要傳送Body資料
     Call<User> postUser(@Body User user);
 
+    @GET("api/commonauth/users") // 用@Body表示要傳送Body資料
+    Call<User> getUserData(@Header("Authorization")String authHeader);
+
     @POST("api/commonauth/tokens") // 用@Body表示要傳送Body資料
     Call<UserLogin> postUserAccountAndPassword(@Body UserLogin userLogin);
 
@@ -47,6 +50,9 @@ public interface APIService {
 
     @POST("/api/diary/diarys")//新增日記
     Call<UserDiary>postUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary );
+
+    @PUT("/api/diary/diarys/{diaryId}")//更新日記
+    Call<UserDiary>putUserDiary(@Header("Authorization")String authHeader, @Body UserDiary userDiary, @Path("diaryId") String DiaryId );
 
     @POST("/api/bert/content")
     Call<MoodPredict>postMoodPredict(@Header("Authorization")String authHeader, @Body MoodPredict moodPredict);

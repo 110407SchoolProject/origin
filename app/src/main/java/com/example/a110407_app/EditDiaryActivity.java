@@ -53,10 +53,8 @@ import retrofit2.Response;
 public class EditDiaryActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
     public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
-    private GalleryFragment GalleryFragment;
 
     String userToken;
-
     private APIService ourAPIService;
     //日記項
     private EditText editTextTitle;
@@ -83,18 +81,8 @@ public class EditDiaryActivity extends AppCompatActivity {
     private Button moodPredictButton;
     private String category = "未分類";
     private String moodScore = "5";
-    private ArrayList<HashMap<String, String>> categoryList ;
-    private ArrayList<HashMap<String, String>> categoryAllList;
+
     private TextView showCategory;
-
-    //建立分類的資料表
-    private  SQLiteDBHelper CategoryDBHelper;
-    public final String TABLE_CATEGORY = "CategoryTable";
-
-    private Notification notification;
-    private NotificationManager manager;
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,11 +146,9 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 textTitle =editTextTitle.getText().toString();
                 textContent=editTextContent.getText().toString();
                 moodScoreInt= Integer.parseInt(moodScore);
-
                 UserDiary userDiary =new UserDiary(
                         textTitle,
                         textContent,
@@ -178,14 +164,18 @@ public class EditDiaryActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
                         System.out.println("伺服器有回應");
-                        String result = response.message();
-                        System.out.println("Server:"+result);
-                        Toast.makeText(getApplicationContext(), "日記新增成功", Toast.LENGTH_LONG).show();
-//                        if(result=="OK"){
-//                            Toast.makeText(getApplicationContext(), "日記新增成功", Toast.LENGTH_LONG).show();
-//                        }else{
-//                            Toast.makeText(getApplicationContext(), "伺服器錯誤", Toast.LENGTH_LONG).show();
-//                        }
+
+                        try {
+                            String result = response.message();
+                            System.out.println("Server:"+result);
+                            if(result.equals("OK")){
+                                Toast.makeText(getApplicationContext(), "日記新增成功", Toast.LENGTH_LONG).show();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "日記新增失敗1", Toast.LENGTH_LONG).show();
+                            }
+                        }catch (Exception e){
+                            Toast.makeText(getApplicationContext(), "日記新增失敗2", Toast.LENGTH_LONG).show();
+                        }
                     }
                     @Override
                     public void onFailure(Call<UserDiary> call, Throwable t) {
@@ -205,7 +195,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnExcitingMood =(ImageView)findViewById(R.id.btnExciting);
 
         showCategory = (TextView) findViewById(R.id.CategoryTextView);
-        showCategory.setText("未分類");
+        showCategory.setText("未選擇標籤");
 
         btnCryingMood.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,27 +239,21 @@ public class EditDiaryActivity extends AppCompatActivity {
             }
         });
 
-
         //用BERT預測心情
         moodPredictButton = (Button) findViewById(R.id.moodPredictButton);
         moodPredictButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 ProgressDialog progressDialog=new ProgressDialog(EditDiaryActivity.this);
                 progressDialog.setMessage("預測中！可能會花上比較久的時間");
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressDialog.setIndeterminate(true);
                 progressDialog.show();
-
-
-
                 final int totalProgressTime = 100;
                 final Thread t =new Thread(){
                     int jumpTime=0;
                     @Override
                     public void run() {
-
                             while(jumpTime< totalProgressTime){
                                 try {
                                     sleep(200);
@@ -282,7 +266,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                     }
                 };
                 t.start();
-
                 ourAPIService = RetrofitManager.getInstance().getAPI();
                 textContent=editTextContent.getText().toString();
                 //去除空白、英文、數字字元，過濾掉一些不重要的東西避免干擾預測
@@ -348,7 +331,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                             alertDialog.setCancelable(true);
                             alertDialog.show();
                             System.out.println("預測失敗");
-
                         }
 
                     }

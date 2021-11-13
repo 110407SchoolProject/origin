@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +32,15 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.User;
+import com.example.a110407_app.Model.UserDiary;
 import com.example.a110407_app.R;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.PasswordSetting;
 import com.example.a110407_app.ui.SQLiteDBHelper;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -42,328 +49,95 @@ import java.util.HashMap;
 import java.lang.Math;
 import java.util.jar.Pack200;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-    private ImageView image;
-    private TextView name, username, email,birthday;
-
-    private TextView diaryNumbers;
-    private TextView diaryPoints;
-    private ImageView recentMood;
-
-    //建立日記資料表
-//    SQLiteDBHelper mHelper;
-//    private final String DB_NAME = "MyDairy.db";
-//    private String TABLE_NAME = "MyDairy";
-//    private final int DB_VERSION = 7;
-//    private ArrayList<HashMap<String, String>> diaryList;
-
-    private Button editprofile;
-    //private Switch setpassword;
-    private Switch remind;
-    private Button btnPasswordsetting;
-
-    // 原密碼比對建立的變數
-    private TextView remindtext;
-    private EditText getpassword, getconfirmpassword;
-    private String strpassword, strconfirmpassword;
-    private  String stringDate;
-    private TimePicker setremindtime;
-    private String s;
-    // 原密碼比對建立的變數
-
-
-    //建立存放密碼資料表
-    SQLiteDBHelper TableUserPassword;
-    private String PASSWORD_TABLE_NAME = "UserPassword";
-    private String strlock;//抓是否上鎖
-    private EditText getOpenClosePassword; //抓輸入密碼的EditText上的文字
-    private String strOpenPassword; //接EditText的文字轉成string的String
-    private String p;// 抓密碼表密碼
-
-    private final static int PHOTO = 99 ;// 取得相簿內相片
-    private static final int CAMERA = 60;
-    private DisplayMetrics mPhone;
+    //介面元件
+    private ImageView profileImageView;
+    private TextView userTrueNameTextView;
+    private TextView userNickNameUnderImageTextView;
+    private TextView userNickNameTextView;
+    private TextView userEmailTextView;
+    private TextView userBirthdayTextView;
+    private TextView userGenderTextView;
+    private TextView numberOfDiaryTextView;
+    private ImageView userCurrentMood;
+    //Token
+    private String userToken;
+    //API
+    private APIService ourAPIService;
+    //User相關的變數
+    private String userEmail;
+    private String userBirthday;
+    private String userNickName;
+    private String userTrueName;
+    private String userGender;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Intent intent = getActivity().getIntent();
+        userToken = intent.getStringExtra("userToken");
+        System.out.println("Token： "+userToken);
 
+        profileImageView = (ImageView) getView().findViewById(R.id.profileImage);
+        profileImageView.setImageResource(R.drawable.ic_menu_camera);
+//        userTrueNameTextView= getView().findViewById(R.id.profileEmail);
+        userEmailTextView=getView().findViewById(R.id.profileEmail);
+        userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);
+        userNickNameUnderImageTextView = (TextView) getView().findViewById(R.id.profileName);
+        userNickNameTextView = (TextView) getView().findViewById(R.id.profileNickname);
+//        userGenderTextView =getView().findViewById(R.id.pro)
+////        numberOfDiaryTextView = getView().findViewById();
+////        userCurrentMood;
 
-
-        // 必須先呼叫getView()取得程式畫面物件，然後才能呼叫它的
-        // findViewById()取得介面物件
-        image = (ImageView) getView().findViewById(R.id.profileImage);
-        image.setImageResource(R.drawable.ic_menu_camera);
-        name = (TextView) getView().findViewById(R.id.profileName);
-        name.setText("Pony Weng");
-        username = (TextView) getView().findViewById(R.id.profileUsername);
-        username.setText("pony1306");
-        email = (TextView) getView().findViewById(R.id.profileEmail);
-        email.setText("10746026@ntub.edu.tw");
-        birthday = (TextView) getView().findViewById(R.id.profileBirhtday);
-        birthday.setText("1999/12/07");
-
-        diaryNumbers=getView().findViewById(R.id.currentDiaryNumbers);
-//        diaryPoints=getView().findViewById(R.id.currentDiaryPoints);
-        recentMood=getView().findViewById(R.id.recentMoodImageView);
-
-//        mHelper = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,TABLE_NAME);
-
-
-
-
-//        final ArrayList allMoodScoreList = new ArrayList();
-//
-//        Integer countDiaryNumber=0;
-//        for(HashMap<String,String> data:mHelper.showAll()){
-//            countDiaryNumber+=1;
-//            String score =data.get("Score");
-//            allMoodScoreList.add(score);
-//        }
-
-//        diaryNumbers.setText(Integer.toString(countDiaryNumber));
-//        float totalMoodScore=0;
-//        float averageMoodScore=0;
-//
-//        for(int i = 0 ; i<= allMoodScoreList.size()-1;i++){
-//            float MoodScore =Float.parseFloat((String) allMoodScoreList.get(i));
-//            totalMoodScore+=MoodScore;
-//        }
-//
-//        averageMoodScore=totalMoodScore/allMoodScoreList.size();
-//        int roundAverageMoodScore = (int)Math.round(averageMoodScore);
-//
-//        System.out.println(averageMoodScore);
-//
-//        switch(roundAverageMoodScore) {
-//            case 1:
-//                System.out.println("Crying");
-//                recentMood.setImageResource(R.drawable.crying);
-//                break;
-//            case 2:
-//                System.out.println("Sad");
-//                recentMood.setImageResource(R.drawable.sad);
-//                break;
-//            case 3:
-//                System.out.println("Normal");
-//                recentMood.setImageResource(R.drawable.normal);
-//                break;
-//            case 4:
-//                System.out.println("Smiling");
-//                recentMood.setImageResource(R.drawable.smiling);
-//                break;
-//            case 5:
-//                System.out.println("Exciting");
-//                recentMood.setImageResource(R.drawable.exciting);
-//                break;
-//        }
-
-//        int diaryPoint = countDiaryNumber*5;
-//        diaryPoints.setText(Integer.toString(diaryPoint));
-
-
-        editprofile = getView().findViewById(R.id.editprofile);
-        editprofile.setText("編輯個人設置");
-        btnPasswordsetting = getView().findViewById(R.id.btnPasswordsetting);
-        remind = getView().findViewById(R.id.remind);
-        remindtext = getView().findViewById(R.id.remindtext);
-        remindtext.setText("設置日記提醒");
-
-        mPhone = new DisplayMetrics();
-
-        //以下為 Gary 5/28 寫的
-        //初始化 TableUser資料庫
-//        TableUserPassword = new SQLiteDBHelper(getActivity(),DB_NAME,null,DB_VERSION,PASSWORD_TABLE_NAME);
-//        TableUserPassword.getWritableDatabase();
-
-        //導向密碼設置Activity
-        btnPasswordsetting.setOnClickListener(new View.OnClickListener() {
+        ourAPIService = RetrofitManager.getInstance().getAPI();
+        Call<User> callUserData = ourAPIService.getUserData("bearer "+userToken);
+        callUserData.enqueue(new Callback<User>() {
             @Override
-            public void onClick(View v) {
-                //初始化AlertDialog.Builder(記得要初始化在Button內，避免第二次點選時跳錯誤)
-                AlertDialog.Builder PasswordDialog = new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme);
-                View view = getLayoutInflater().inflate(R.layout.openclosepassword, null);
-                PasswordDialog.setView(view);
-                PasswordDialog.setCancelable(false);//禁止按返回鍵(禁止取消AlertDialog)
-                //撈出目前是否上鎖
-                for(HashMap<String,String> data:TableUserPassword.showLock()){
-                    strlock = data.get("IfSetLock");
-                }
-                if(strlock.equals("1")){//目前為上鎖狀態
-                    PasswordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //返回密碼設置Actiivty
-                        }
-                    });
+            public void onResponse(Call<User> call, Response<User> response) {
+                String result=response.message();
+                System.out.println(result);
+                JsonObject userData =response.body().getUserAllDataInJson();
+                System.out.println(userData.toString());
+                userEmail=userData.get("username").toString();
+                userNickName=userData.get("nickname").toString();
+                userGender=userData.get("gender").toString();
+                userBirthday=userData.get("birthday").toString();
+                userTrueName=userData.get("truename").toString();
 
-                    PasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            getOpenClosePassword = view.findViewById(R.id.inputOpcnClosePassword);
-                            strOpenPassword = getOpenClosePassword.getText().toString();
-                            for(HashMap<String,String> data:TableUserPassword.showAllPassword()){
-                                p = data.get("Password");
-                            }
-                            if(strOpenPassword.equals(p)){//密碼吻合，開啟密碼設置Activity
-                                Intent intent = new Intent(getActivity(), PasswordSetting.class);
-                                startActivity(intent);
+                System.out.println(userEmail);
+                System.out.println(userNickName);
+                System.out.println(userGender);
+                System.out.println(userBirthday);
+                System.out.println(userTrueName);
 
-                            }else{//錯誤跳重新輸入Toast
-                                Toast.makeText(getActivity(),"密碼錯誤，請重新輸入!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-                    PasswordDialog.show();
-
-                }else{//目前為無上鎖狀態
-                    Intent intent = new Intent(getActivity(), PasswordSetting.class);
-                    startActivity(intent);
-                }
+                userNickNameTextView.setText(userNickName);
+                userNickNameUnderImageTextView.setText(userNickName);
+                userEmailTextView.setText(userEmail);
+                userBirthdayTextView.setText(userBirthday);
             }
-
-        });
-        //以上為 Gary 5/28 寫的
-
-        remind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(buttonView.isChecked()){
-                    /*
-                    final AlertDialog.Builder setremind = new AlertDialog.Builder(getActivity());
-                    final View view = getLayoutInflater().inflate(R.layout.setremind, null);
-                    setremind.setView(view);
-                    setremind.setTitle("設定提醒時間");
-                     */
-                    final Calendar c = Calendar.getInstance();
-                    int hour = c.get(Calendar.HOUR_OF_DAY);
-                    int min = c.get(Calendar.MINUTE);
-                    new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            System.out.println(hourOfDay+"點" + minute+"分");
-                            Toast.makeText(getActivity(), "您設定的是"+hourOfDay + "點" + minute +"分" , Toast.LENGTH_LONG).show();
-                        }
-                    }, hour, min, true).show();
-
-                    //setremind.show();
-                }else {
-                    Toast.makeText(getActivity(),"關閉提醒",Toast.LENGTH_LONG).show();
-                    buttonView.setChecked(false);
-                }
+            public void onFailure(Call<User> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
             }
         });
-
-
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPermissionCamera();
-                //Intent intent = new Intent();
-                //intent.setType("image/*");
-                //intent.setAction(Intent.ACTION_GET_CONTENT);
-                //startActivityForResult(intent, PHOTO);
-            }
-        });
-
-    }
-
-    //拍照完畢或選取圖片後呼叫此函式
-    @Override
-    public void onActivityResult(int requestCode, int resultCode,Intent data)
-    {
-        //藉由requestCode判斷是否為開啟相機或開啟相簿而呼叫的，且data不為null
-        if ((requestCode == CAMERA || requestCode == PHOTO ) && data != null)
-        {
-            //取得照片路徑uri
-            Uri uri = data.getData();
-            ContentResolver cr = getActivity().getContentResolver();
-
-            try {
-                //讀取照片，型態為Bitmap
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                //判斷照片為橫向或者為直向，並進入ScalePic判斷圖片是否要進行縮放
-                if(bitmap.getWidth()>bitmap.getHeight()){
-                    ScalePic(bitmap, mPhone.heightPixels);
-                }
-                else {
-                    ScalePic(bitmap,mPhone.widthPixels);
-
-                }
-            }catch (FileNotFoundException e) {
-                //
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-    private void ScalePic(Bitmap bitmap,int phone)
-    {
-        //縮放比例預設為1
-        float mScale = 1 ;
-
-        //如果圖片寬度大於手機寬度則進行縮放，否則直接將圖片放入ImageView內
-        if(bitmap.getWidth() > phone )
-        {
-            //判斷縮放比例
-            mScale = (float)phone/(float)bitmap.getWidth();
-
-            Matrix mMat = new Matrix() ;
-            mMat.setScale(mScale, mScale);
-
-            Bitmap mScaleBitmap = Bitmap.createBitmap(bitmap,
-                    0,
-                    0,
-                    bitmap.getWidth(),
-                    bitmap.getHeight(),
-                    mMat,
-                    false);
-            //image.setAdjustViewBounds(true);
-
-            image.setImageBitmap(mScaleBitmap);
-        }
-        else {
-            //image.setAdjustViewBounds(true);
-            image.setImageBitmap(bitmap);
-        }
-    }
-
-    //取得手機權限(必須要先詢問使用者權限)
-    public void getPermissionCamera(){
-        if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.CAMERA)){
-                new AlertDialog.Builder(getActivity())
-                        .setMessage("取得相簿權限")
-                        .setPositiveButton("確認", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
-                            }
-                        })
-                        .show();
-            }
-
-        }else{
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CAMERA},1);
-        }
     }
 }

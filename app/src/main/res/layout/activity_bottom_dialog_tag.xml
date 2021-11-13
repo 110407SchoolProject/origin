@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="15dp"
-        android:text="choose tag"
+        android:text="選擇這篇日記的標籤"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -49,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="test" />
+                android:text="朋友" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="test" />
+                android:text="家庭" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,10 +87,11 @@
                 app:riv_corner_radius="10dp" />
 
             <TextView
+                android:id="@+id/RelationshipTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="test" />
+                android:text="感情" />
         </LinearLayout>
 
         <LinearLayout
@@ -109,10 +109,11 @@
                 app:riv_corner_radius="10dp" />
 
             <TextView
+                android:id="@+id/WorkTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="test" />
+                android:text="工作" />
         </LinearLayout>
 
 
@@ -145,12 +146,13 @@
                     app:riv_corner_radius="10dp"
                     android:background="@drawable/mainbtnpink"
                     />
+
                 <TextView
+                    android:id="@+id/StudiesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="test"
                     android:gravity="center"
-                    />
+                    android:text="上學" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -165,12 +167,13 @@
                     app:riv_corner_radius="10dp"
                     android:background="@drawable/mainbtnpink"
                     />
+
                 <TextView
+                    android:id="@+id/TravelTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="test"
                     android:gravity="center"
-                    />
+                    android:text="旅遊" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -185,12 +188,13 @@
                     app:riv_corner_radius="10dp"
                     android:background="@drawable/mainbtnpink"
                     />
+
                 <TextView
+                    android:id="@+id/HobbyTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="test"
                     android:gravity="center"
-                    />
+                    android:text="興趣" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -205,12 +209,13 @@
                     app:riv_corner_radius="10dp"
                     android:background="@drawable/mainbtnpink"
                     />
+
                 <TextView
+                    android:id="@+id/CustomTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="test"
                     android:gravity="center"
-                    />
+                    android:text="自訂" />
             </LinearLayout>
 
 
@@ -230,15 +235,15 @@
         android:layout_height="match_parent"
         android:gravity="center"
         >
+
         <Button
+            android:id="@+id/chosen_tag_from_bottomSheet"
             android:layout_width="260dp"
             android:layout_height="40dp"
-            android:text="choose"
-            android:textSize="20sp"
-            android:textColor="#FFFFFF"
             android:background="@drawable/mainbtnpink"
-            android:id="@+id/chosen_tag_from_bottomSheet"
-            />
+            android:text="儲存"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
