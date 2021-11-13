@@ -36,7 +36,6 @@ public class RegisterActivity extends AppCompatActivity {
     public static final String EXTRA_TEXT2="com.example.application.example.EXTRA_TEXT2";
 
     APIService ourAPIService;
-
     private Button registerInRegister  ;
     private RadioGroup genderRadioGroup ;
     private RadioButton genderButtonMale;
@@ -49,26 +48,16 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userPasswordConfirmEditText;
     private String userGender="";
     public String userTrueName, userName,userBirthday, userPassword, userPasswordConfirm;
-
-    private final String DB_NAME = "MyDairy.db";
-    private final String TABLE_NAME = "Profile";
-    private final int DB_VERSION = 6;
     private int mYear;
     private int mMonth;
     private int mDay;
-
     static final int DATE_DIALOG_ID = 0;
 
-    SQLiteDBHelper mHelper;
-    //private  String TABLE_NAME_CATEGORY = "Category";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Stetho.initializeWithDefaults(this);
-//        mHelper = new SQLiteDBHelper(this,DB_NAME,null,DB_VERSION,TABLE_NAME);
-//        mHelper.getWritableDatabase();
-
         //畫面上的各個動態欄位
         registerInRegister = (Button)findViewById(R.id.btnRegisterInRegister);
         registerInRegister.setOnClickListener(registerInRegisterOnclick);
@@ -94,7 +83,6 @@ public class RegisterActivity extends AppCompatActivity {
         userPasswordConfirmEditText.setTypeface(Typeface.DEFAULT);
         userPasswordConfirmEditText.setTransformationMethod(new PasswordTransformationMethod());
 
-
         myDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,18 +97,17 @@ public class RegisterActivity extends AppCompatActivity {
         mDay = c.get(Calendar.DAY_OF_MONTH);
         //display the current date
         updateDisplay();
-
     }
 
     private void updateDisplay() {
         this.userBirthdayEditText.setText(
                 new StringBuilder()
                         // Month is 0 based so add 1
-
                         .append(mYear).append("-")
                         .append(mMonth + 1 ).append("-")
                         .append(mDay).append(" "));
     }
+
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
                 public void onDateSet(DatePicker view, int year,
@@ -143,10 +130,12 @@ public class RegisterActivity extends AppCompatActivity {
         return null;
     }
 
+
+
+    //性別
     public RadioGroup.OnCheckedChangeListener radioButtonGenderOnCheckedChange= new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-
             System.out.println(checkedId);
             if (genderButtonFemale.isChecked()){
                 System.out.println("女");
@@ -158,6 +147,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
+
+
+
+    //按下註冊按鈕
     public View.OnClickListener registerInRegisterOnclick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -166,7 +159,6 @@ public class RegisterActivity extends AppCompatActivity {
             userName = userNameEditText.getText().toString();
             userBirthday =userBirthdayEditText.getText().toString();
             userPassword = userPasswordEditText.getText().toString();
-
             userPasswordConfirm =userPasswordConfirmEditText.getText().toString();
 
             String message="";
