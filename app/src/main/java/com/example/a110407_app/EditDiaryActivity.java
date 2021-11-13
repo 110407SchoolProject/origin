@@ -164,18 +164,18 @@ public class EditDiaryActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
                         System.out.println("伺服器有回應");
+
                         try {
                             String result = response.message();
                             System.out.println("Server:"+result);
                             if(result.equals("OK")){
                                 Toast.makeText(getApplicationContext(), "日記新增成功", Toast.LENGTH_LONG).show();
                             }else{
-                                Toast.makeText(getApplicationContext(), "日記新增失敗", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "日記新增失敗1", Toast.LENGTH_LONG).show();
                             }
                         }catch (Exception e){
-                            Toast.makeText(getApplicationContext(), "日記新增失敗", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "日記新增失敗2", Toast.LENGTH_LONG).show();
                         }
-
                     }
                     @Override
                     public void onFailure(Call<UserDiary> call, Throwable t) {
