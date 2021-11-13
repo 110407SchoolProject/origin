@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
     private String userEmail;
     private String userNickName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         ourAPIService = RetrofitManager.getInstance().getAPI();
         //setContentView(R.layout.content_main);
-        Stetho.initializeWithDefaults(this);
+
 
         //啟動最上方紫色的Toolbar()
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -91,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         View header =navigationView.getHeaderView(0);
+
         navbarEmailTextView =header.findViewById(R.id.navbarEmailTextView);
         navbarNickNameTextView =header.findViewById(R.id.navbarNickNameTextView);
 
@@ -122,9 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("HKT", "response: " + t.toString());
             }
         });
-
-
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home,R.id.nav_profile,R.id.nav_gallery, R.id.nav_slideshow).setOpenableLayout(drawer)
+        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home,R.id.nav_profile,R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_tree).setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
