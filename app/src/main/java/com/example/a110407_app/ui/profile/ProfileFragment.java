@@ -129,10 +129,10 @@ public class ProfileFragment extends Fragment {
                 System.out.println(userBirthday);
                 System.out.println(userTrueName);
 
-                userNickNameTextView.setText(userNickName);
-                userNickNameUnderImageTextView.setText(userNickName);
-                userEmailTextView.setText(userEmail);
-                userBirthdayTextView.setText(userBirthday);
+//                userNickNameTextView.setText(userNickName);
+//                userNickNameUnderImageTextView.setText(userNickName);
+//                userEmailTextView.setText(userEmail);
+//                userBirthdayTextView.setText(userBirthday);
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {

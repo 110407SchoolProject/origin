@@ -198,47 +198,47 @@ public class EditDiaryActivity extends AppCompatActivity {
         showCategory = (TextView) findViewById(R.id.CategoryTextView);
         showCategory.setText("未選擇標籤");
 
-        btnCryingMood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moodScore="1";
-
-                System.out.println(moodScore);
-                currentMood.setImageResource(R.drawable.crying);
-            }
-        });
-        btnSadMood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moodScore="2";
-                System.out.println(moodScore);
-                currentMood.setImageResource(R.drawable.sad);
-            }
-        });
-        btnNormalMood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moodScore="3";
-                System.out.println(moodScore);
-                currentMood.setImageResource(R.drawable.normal);
-            }
-        });
-        btnSmilingMood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moodScore="4";
-                System.out.println(moodScore);
-                currentMood.setImageResource(R.drawable.smiling);
-            }
-        });
-        btnExcitingMood.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moodScore="5";
-                System.out.println(moodScore);
-                currentMood.setImageResource(R.drawable.exciting);
-            }
-        });
+//        btnCryingMood.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moodScore="1";
+//
+//                System.out.println(moodScore);
+//                currentMood.setImageResource(R.drawable.crying);
+//            }
+//        });
+//        btnSadMood.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moodScore="2";
+//                System.out.println(moodScore);
+//                currentMood.setImageResource(R.drawable.sad);
+//            }
+//        });
+//        btnNormalMood.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moodScore="3";
+//                System.out.println(moodScore);
+//                currentMood.setImageResource(R.drawable.normal);
+//            }
+//        });
+//        btnSmilingMood.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moodScore="4";
+//                System.out.println(moodScore);
+//                currentMood.setImageResource(R.drawable.smiling);
+//            }
+//        });
+//        btnExcitingMood.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moodScore="5";
+//                System.out.println(moodScore);
+//                currentMood.setImageResource(R.drawable.exciting);
+//            }
+//        });
 
         //用BERT預測心情
         moodPredictButton = (Button) findViewById(R.id.moodPredictButton);
