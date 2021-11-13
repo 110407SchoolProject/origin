@@ -4,29 +4,22 @@ import com.google.gson.JsonObject;
 
 public class MoodAnalysis {
     String result;
-    String url;
+    String start;
+    String end;
     int score;
     JsonObject positive_tags;
     JsonObject negative_tags;
     int count_diarys;
-    String image_url;
+    String pie_image_url;
+    String line_image_url;
 
-    public MoodAnalysis(String result, String url, int score, JsonObject positive_tags, JsonObject negative_tags, int count_diarys, String image_url){
-        this.result = result;
-        this.url = url;
-        this.score = score;
-        this.positive_tags = positive_tags;
-        this.negative_tags = negative_tags;
-        this.count_diarys = count_diarys;
-        this.image_url = image_url;
+    public MoodAnalysis(String start, String end){
+        this.start =start;
+        this.end = end;
     }
 
     public String getResult(){
         return result;
-    }
-
-    public String getUrl(){
-        return url;
     }
     public int getScore(){
         return score;
@@ -40,8 +33,11 @@ public class MoodAnalysis {
     public int getCount_diarys(){
         return count_diarys;
     }
-    public String getImage_url(){
-        return image_url;
+    public String getPie_image_url(){
+        return pie_image_url;
+    }
+    public String getLine_image_url(){
+        return line_image_url;
     }
 
 }

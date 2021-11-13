@@ -2,11 +2,13 @@ package com.example.a110407_app.Model;
 
 public class MoodAnalysisLinechart {
     private String result;
-    private String image_url;
+    private String start;
+    private String end;
+    private String line_image_url;
 
-    public MoodAnalysisLinechart(String result, String image_url){
-        this.result = result;
-        this.image_url = image_url;
+    public MoodAnalysisLinechart(String start, String end){
+        this.start = start;
+        this.end = end;
     }
 
     public String getResult(){
@@ -14,6 +16,6 @@ public class MoodAnalysisLinechart {
     }
 
     public String getImage_url(){
-        return image_url;
+        return line_image_url;
     }
 }

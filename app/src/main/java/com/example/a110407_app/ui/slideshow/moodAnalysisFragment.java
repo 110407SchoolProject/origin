@@ -55,6 +55,15 @@ public class moodAnalysisFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        System.out.println("跳到心情分析畫面了喔");
+        String start = getArguments().getString("start");
+        String end = getArguments().getString("end");
+        System.out.println((start));
+        System.out.println((end));
+
+
+
     }
 
     @Override

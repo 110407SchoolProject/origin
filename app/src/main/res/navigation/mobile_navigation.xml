@@ -55,5 +55,11 @@
         android:name="com.example.a110407_app.ui.tree.tree"
         android:label="心情樹產生"
         tools:layout="@layout/tree_fragment2" />
+    <fragment
+        android:id="@+id/nav_mood_analysis"
+        android:name="com.example.a110407_app.ui.slideshow.moodAnalysisFragment"
+        android:label="心情分析產生"
+        tools:layout="@layout/fragment_mood_analysis_activity" />
+
 
 </navigation>

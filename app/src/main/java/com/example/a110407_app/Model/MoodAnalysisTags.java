@@ -1,27 +1,28 @@
 package com.example.a110407_app.Model;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class MoodAnalysisTags {
 
     private String result;
-    private JsonObject positive_tags;
-    private JsonObject negative_tags;
+    private String start;
+    private String end;
+    private JsonArray positive_tags;
+    private JsonArray negative_tags;
 
-    public MoodAnalysisTags(String result, JsonObject positive_tags, JsonObject negative_tags){
-        this.result = result;
-        this.positive_tags = positive_tags;
-        this.negative_tags = negative_tags;
+    public MoodAnalysisTags(String start, String end){
+       this.start = start;
+       this.end = end;
     }
 
     public String getResult(){
         return result;
     }
-
-    public JsonObject getPositive_tags(){
+    public JsonArray getPositive_tags(){
         return positive_tags;
     }
-    public JsonObject getNegative_tags(){
+    public JsonArray getNegative_tags(){
         return negative_tags;
     }
 }
