@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         userPasswordConfirmEditText =(EditText)findViewById(R.id.passwordConfirmEditText);
         userPasswordConfirmEditText.setTypeface(Typeface.DEFAULT);
         userPasswordConfirmEditText.setTransformationMethod(new PasswordTransformationMethod());
-
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
         myDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
         this.userBirthdayEditText.setText(
                 new StringBuilder()
                         // Month is 0 based so add 1
-
                         .append(mYear).append("-")
                         .append(mMonth + 1 ).append("-")
                         .append(mDay).append(" "));
@@ -142,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return null;
     }
-
+///////////////////////////////////////////////////////////////////////////////////
     public RadioGroup.OnCheckedChangeListener radioButtonGenderOnCheckedChange= new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {

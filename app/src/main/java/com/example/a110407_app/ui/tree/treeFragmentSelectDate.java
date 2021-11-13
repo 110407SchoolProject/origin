@@ -2,7 +2,6 @@ package com.example.a110407_app.ui.tree;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -20,13 +19,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.a110407_app.EditDiaryActivity;
 import com.example.a110407_app.R;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,7 +93,7 @@ public class treeFragmentSelectDate extends Fragment {
         System.out.println("你正在treeFragment ");
 
         myStartDatePicker =getActivity().findViewById(R.id.myDatePickerInTree);
-        myEndDatePicker =getActivity().findViewById(R.id.myDatePicke2InTree);
+        myEndDatePicker =getActivity().findViewById(R.id.myDatePicker2InTree);
         userStartDateEditText=getActivity().findViewById(R.id.userStartDateInTree);
         userEndDateEditText=getActivity().findViewById(R.id.userEndDateInTree);
 
@@ -153,7 +150,7 @@ public class treeFragmentSelectDate extends Fragment {
     }
 
     private void updateEndDateDisplay() {
-        this.userStartDateEditText.setText(
+        this.userEndDateEditText.setText(
                 new StringBuilder()
                         // Month is 0 based so add 1
                         .append(mYear).append("-")

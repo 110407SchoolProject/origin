@@ -121,7 +121,7 @@
                     tools:layout_editor_absoluteY="233dp" />
 
                 <ImageView
-                    android:id="@+id/myDatePicke2InTree"
+                    android:id="@+id/myDatePicker2InTree"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     app:srcCompat="@drawable/calendaricon2" />
