@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        android:elevation="7dp"
+        android:text="Choose Your Profile"
+        android:textColor="#99000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="16dp"
+        android:elevation="7dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="6dp"
+        android:text="Profile can be change when ever you want"
+        android:textAlignment="center"
+        android:textColor="#3c000000"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boy1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/boy1clearbg"
+        android:elevation="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boy3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/boy3clearbg"
+        android:elevation="7dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boy2"
+        app:layout_constraintStart_toEndOf="@+id/boy2"
+        app:layout_constraintTop_toTopOf="@+id/boy2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/girl1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:layout_marginStart="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/girl1clearbg"
+        android:elevation="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/boy1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/girl2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/girl2clearbg"
+        android:elevation="7dp"
+        app:layout_constraintBottom_toBottomOf="@+id/girl1"
+        app:layout_constraintStart_toEndOf="@+id/girl1"
+        app:layout_constraintTop_toTopOf="@+id/girl1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/girl3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/girl3clearbg"
+        android:elevation="7dp"
+        app:layout_constraintBottom_toBottomOf="@+id/girl2"
+        app:layout_constraintStart_toEndOf="@+id/girl2"
+        app:layout_constraintTop_toTopOf="@+id/girl2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/boy2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/boy2clearbg"
+        android:elevation="7dp"
+        app:layout_constraintBottom_toBottomOf="@+id/boy1"
+        app:layout_constraintStart_toEndOf="@+id/boy1"
+        app:layout_constraintTop_toTopOf="@+id/boy1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnsave"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="105dp"
+        android:layout_marginLeft="105dp"
+        android:layout_marginEnd="106dp"
+        android:layout_marginRight="106dp"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/mainbtnpink"
+        android:elevation="6dp"
+        android:text="Save Now"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+

@@ -20,7 +20,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="adjustPan|stateHidden">
-        <activity android:name=".bottomDialogTag"></activity>
+        <activity android:name=".activitychooseprofile"></activity>
+        <activity android:name=".bottomDialogTag" />
         <activity android:name=".ui.PasswordSetting" />
         <activity android:name=".chooseCategory" />
         <activity android:name=".ChangeDiaryActivity" />
