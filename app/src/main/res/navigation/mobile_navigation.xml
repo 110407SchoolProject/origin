@@ -47,8 +47,13 @@
         tools:layout="@layout/fragment_slideshow" />
     <fragment
         android:id="@+id/nav_tree"
-        android:name="com.example.a110407_app.ui.tree.tree"
+        android:name="com.example.a110407_app.ui.tree.treeFragmentSelectDate"
         android:label="心情樹"
+        tools:layout="@layout/fragment_tree_select_date" />
+    <fragment
+        android:id="@+id/nav_treeGenerated"
+        android:name="com.example.a110407_app.ui.tree.tree"
+        android:label="心情樹產生"
         tools:layout="@layout/tree_fragment2" />
 
 </navigation>
