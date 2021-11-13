@@ -1,14 +1,33 @@
 package com.example.a110407_app.ui.slideshow;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.example.a110407_app.Model.MoodAnalysisCountDiarys;
+import com.example.a110407_app.Model.MoodAnalysisLinechart;
+import com.example.a110407_app.Model.MoodAnalysisPiechart;
+import com.example.a110407_app.Model.MoodAnalysisScore;
+import com.example.a110407_app.Model.MoodAnalysisTags;
 import com.example.a110407_app.R;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
+import com.google.gson.JsonArray;
+import com.squareup.picasso.Picasso;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +35,21 @@ import com.example.a110407_app.R;
  * create an instance of this fragment.
  */
 public class moodAnalysisFragment extends Fragment {
+    String userToken;
+    private TextView diary_count;
+    private TextView moodScore;
+    private ImageView moodScoreAverage;
+    private ImageView pieChart;
+    private ImageView lineChart;
+    String diary_count_result;
+    int diary_count_diarys;
+    String moodscore_result;
+    Float moodscore;
+//    String piechart_result;
+//    String pie_image_url;
+//    String linechart_result;
+//    String linechart_image_url;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,9 +95,135 @@ public class moodAnalysisFragment extends Fragment {
         String end = getArguments().getString("end");
         System.out.println((start));
         System.out.println((end));
+        APIService ourAPIService;
+        ourAPIService = RetrofitManager.getInstance().getAPI();
+        Intent intent = getActivity().getIntent();
+        userToken = intent.getStringExtra("userToken");
+        System.out.println("心情分析的token: " + userToken);
+        MoodAnalysisCountDiarys moodAnalysisCountDiarys = new MoodAnalysisCountDiarys("2021-10-10","2021-11-14");
+        Call<MoodAnalysisCountDiarys> callAnalysisCountDiarys = ourAPIService.putMoodAnalysisCountDiarys("bearer " + userToken, moodAnalysisCountDiarys);
+        MoodAnalysisScore moodAnalysisScore = new MoodAnalysisScore("2021-10-10","2021-11-14");
+        Call<MoodAnalysisScore> callAnalysisScore = ourAPIService.postMoodAnalysisScore("bearer " + userToken, moodAnalysisScore);
+        MoodAnalysisTags moodAnalysisTags = new MoodAnalysisTags("2021-10-10","2021-11-14");
+        Call<MoodAnalysisTags> callMoodAnalysisTags = ourAPIService.postMoodAnalysisTags("bearer " + userToken, moodAnalysisTags);
+        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart("2021-10-10","2021-11-14");
+        Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
+        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart("2021-10-10","2021-11-14");
+        Call<MoodAnalysisLinechart> callmoodAnalysisLineChart = ourAPIService.postMoodAnalysisLinechart("bearer " + userToken, moodAnalysisLinechart);
+//        diary_count = getActivity().findViewById(R.id.diary_count);
+        //取得日記篇數
+        callAnalysisCountDiarys.enqueue(new Callback<MoodAnalysisCountDiarys>() {
+            @Override
+            public void onResponse(Call<MoodAnalysisCountDiarys> call, Response<MoodAnalysisCountDiarys> response) {
+                try {
+                    diary_count_result = response.message();
+                    diary_count_diarys = response.body().getCount_diarys();
+                    String string_diary_count = String.valueOf(diary_count_diarys);
+                    diary_count = getActivity().findViewById(R.id.diary_count);
+                    diary_count.setText(string_diary_count);
+
+                }catch (Exception e){
+                    System.out.println(e);
+                    System.out.println("回應日記篇數失敗");
+                }
+
+            }
 
 
+            @Override
+            public void onFailure(Call<MoodAnalysisCountDiarys> call, Throwable t) {
+                Log.d("HKT", "response: " + t.toString());
+            }
 
+
+        });
+
+        //取得心情分數
+        callAnalysisScore.enqueue(new Callback<MoodAnalysisScore>() {
+            @Override
+            public void onResponse(Call<MoodAnalysisScore> call, Response<MoodAnalysisScore> response) {
+                try {
+                    String result = response.message();
+                    moodscore = response.body().getScore();
+                    moodScore = getActivity().findViewById(R.id.moodScore);
+                    String string_moodscore = String.valueOf(moodscore);
+                    moodScore.setText(string_moodscore);
+                }catch (Exception e){
+                    System.out.println(e);
+                    System.out.println("回應日記篇數失敗");
+                }
+
+            }
+            @Override
+            public void onFailure(Call<MoodAnalysisScore> call, Throwable t) {
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
+        //取得標籤
+        callMoodAnalysisTags.enqueue(new Callback<MoodAnalysisTags>() {
+            @Override
+            public void onResponse(Call<MoodAnalysisTags> call, Response<MoodAnalysisTags> response) {
+                String result = response.message();
+                JsonArray positive_tags = response.body().getPositive_tags();
+                JsonArray negative_tags = response.body().getNegative_tags();
+                System.out.println(positive_tags.get(0).toString());
+                System.out.println(negative_tags.get(1).toString());
+            }
+
+            @Override
+            public void onFailure(Call<MoodAnalysisTags> call, Throwable t) {
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
+        //取得圓餅圖url
+        callMoodAnalysisPiechart.enqueue(new Callback<MoodAnalysisPiechart>() {
+            @Override
+            public void onResponse(Call<MoodAnalysisPiechart> call, Response<MoodAnalysisPiechart> response) {
+                try {
+                    String result = response.message();
+                    String pie_image_url = response.body().getImage_url();
+                    System.out.println(result);
+                    System.out.println("piechart: " + pie_image_url);
+                    pieChart = getActivity().findViewById(R.id.pieChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).resize(300,300).into(pieChart);
+                }catch (Exception e){
+                    System.out.println(e);
+                    System.out.println("回應圓餅圖失敗");
+                }
+
+            }
+            @Override
+            public void onFailure(Call<MoodAnalysisPiechart> call, Throwable t) {
+                Log.d("HKT", "response: " + t.toString());
+
+            }
+        });
+
+        //取得長條圖url
+        callmoodAnalysisLineChart.enqueue(new Callback<MoodAnalysisLinechart>() {
+            @Override
+            public void onResponse(Call<MoodAnalysisLinechart> call, Response<MoodAnalysisLinechart> response) {
+                try {
+                    String result = response.message();
+                    String line_image_url = response.body().getImage_url();
+                    System.out.println(result);
+                    System.out.println(line_image_url);
+                    lineChart = getActivity().findViewById(R.id.lineChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).resize(450,300).into(lineChart);
+                }catch (Exception e){
+                    System.out.println(e);
+                    System.out.println("回應長條圖失敗");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MoodAnalysisLinechart> call, Throwable t) {
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
     }
 
     @Override
