@@ -58,7 +58,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/userAfterInTree"
+                    android:id="@+id/userStartDateInTree"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -102,7 +102,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/userBeforeInTree"
+                    android:id="@+id/userEndDateInTree"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
