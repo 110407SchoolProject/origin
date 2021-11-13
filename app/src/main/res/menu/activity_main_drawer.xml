@@ -6,23 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/navhomeicon"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/navpersonalsettingsicon"
             android:title="個人設置" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/navdiaryicon"
             android:title="我的日記" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/navcharticon"
             android:title="心情分析" />
         <item
             android:id="@+id/nav_tree"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/navtreeicon"
             android:title="心情樹" />
     </group>
 </menu>
