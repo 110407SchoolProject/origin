@@ -1,18 +1,23 @@
 package com.example.a110407_app.Model;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class MoodAnalysisScore {
     private String result;
-    private int score;
-    public MoodAnalysisScore(String result, int score){
-        this.result = result;
-        this.score = score;
+    private String start;
+    private String end;
+    private float score;
+    public MoodAnalysisScore(String start, String end){
+        this.start = start;
+        this.end = end;
     }
 
     public String getResult(){
         return result;
     }
 
-    public int getScore(){
+    public float getScore(){
         return score;
     }
 }

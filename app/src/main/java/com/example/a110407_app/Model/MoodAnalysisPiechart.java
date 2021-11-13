@@ -2,11 +2,13 @@ package com.example.a110407_app.Model;
 
 public class MoodAnalysisPiechart {
     private String result;
-    private String image_url;
+    private String start;
+    private String end;
+    private String pie_image_url;
 
-    public MoodAnalysisPiechart(String result, String image_url){
-        this.result = result;
-        this.image_url = image_url;
+    public MoodAnalysisPiechart(String start, String end){
+        this.start = start;
+        this.end = end;
     }
 
     public String getResult(){
@@ -14,6 +16,6 @@ public class MoodAnalysisPiechart {
     }
 
     public String getImage_url(){
-        return image_url;
+        return pie_image_url;
     }
 }

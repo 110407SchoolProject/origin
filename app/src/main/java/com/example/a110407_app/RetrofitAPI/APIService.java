@@ -51,11 +51,11 @@ public interface APIService {
     @POST("/api/bert/content")
     Call<MoodPredict>postMoodPredict(@Header("Authorization")String authHeader, @Body MoodPredict moodPredict);
 
-    @GET("/api/moodtree/days") //取得moodtree圖片
-    Call<MoodTree>getMoodTree(@Header("Authorization")String authHeader, @Body MoodTree moodTree);
+    @POST("/api/moodtree/days") //取得moodtree圖片
+    Call<MoodTree>postMoodTree(@Header("Authorization")String authHeader, @Body MoodTree moodTree);
 
-    @GET("/api/analysis/analysis/days") //取得期間內日記分數平均
-    Call<MoodAnalysisScore>getMoodAnalysisScore(@Header("Authorization")String authHeader, @Body MoodAnalysisScore moodAnalysisScore);
+    @POST("/api/analysis/analysisscore/days") //取得期間內日記分數平均
+    Call<MoodAnalysisScore>postMoodAnalysisScore(@Header("Authorization")String authHeader, @Body MoodAnalysisScore moodAnalysisScore);
 
     @POST("/api/analysis/analysis/days") //取得期間內日記中最多的兩個正負標籤
     Call<MoodAnalysisTags>postMoodAnalysisTags(@Header("Authorization")String authHeader, @Body MoodAnalysisTags moodAnalysisTags);
@@ -63,11 +63,11 @@ public interface APIService {
     @PUT("/api/analysis/analysis/days") // 取得期間內日記篇數
     Call<MoodAnalysisCountDiarys>putMoodAnalysisCountDiarys(@Header("Authorization")String authHeader, @Body MoodAnalysisCountDiarys moodAnalysisCountDiarys);
 
-    @GET("/api/analysis/piechart/days") // 取得期間內日記圓餅圖
-    Call<MoodAnalysisPiechart>getMoodAnalysisPiechart(@Header("Authorization")String authHeader, @Body MoodAnalysisPiechart moodAnalysisPiechart);
+    @POST("/api/analysis/piechart/days") // 取得期間內日記圓餅圖
+    Call<MoodAnalysisPiechart>postMoodAnalysisPiechart(@Header("Authorization")String authHeader, @Body MoodAnalysisPiechart moodAnalysisPiechart);
 
-    @GET("/api/analysis/linechart/days") // 取得期間內日記折線圖
-    Call<MoodAnalysisLinechart>getMoodAnalysisLinechart(@Header("Authorization")String authHeader, @Body MoodAnalysisLinechart moodAnalysisLinechart);
+    @POST("/api/analysis/linechart/days") // 取得期間內日記折線圖
+    Call<MoodAnalysisLinechart>postMoodAnalysisLinechart(@Header("Authorization")String authHeader, @Body MoodAnalysisLinechart moodAnalysisLinechart);
 
 
 

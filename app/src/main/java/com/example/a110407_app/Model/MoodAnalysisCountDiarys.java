@@ -1,11 +1,15 @@
 package com.example.a110407_app.Model;
 
+import com.google.gson.JsonObject;
+
 public class MoodAnalysisCountDiarys {
-    private String result;
+    String result;
+    private String start;
+    private String end;
     private int count_diarys;
-    public MoodAnalysisCountDiarys(String result, int count_diarys){
-        this.result = result;
-        this.count_diarys = count_diarys;
+    public MoodAnalysisCountDiarys(String start, String end){
+        this.start = start;
+        this.end = end;
     }
 
     public String getResult(){
