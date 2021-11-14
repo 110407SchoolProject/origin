@@ -154,6 +154,7 @@
                     app:riv_corner_radius="10dp" />
 
                 <TextView
+                    android:id="@+id/positive_tag1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -175,6 +176,7 @@
                     app:riv_corner_radius="10dp" />
 
                 <TextView
+                    android:id="@+id/positive_tag2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -235,6 +237,7 @@
                         app:riv_corner_radius="10dp" />
 
                     <TextView
+                        android:id="@+id/negative_tag1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -256,6 +259,7 @@
                         app:riv_corner_radius="10dp" />
 
                     <TextView
+                        android:id="@+id/negative_tag2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"

@@ -45,6 +45,10 @@ public class moodAnalysisFragment extends Fragment {
     int diary_count_diarys;
     String moodscore_result;
     Float moodscore;
+    private TextView positive_tag1; //positive_tag1
+    private TextView positive_tag2; //positive_tag2
+    private TextView negative_tag1; //negative_tag1
+    private TextView negative_tag2; //negative_tag2
 
 //    String piechart_result;
 //    String pie_image_url;
@@ -175,11 +179,24 @@ public class moodAnalysisFragment extends Fragment {
         callMoodAnalysisTags.enqueue(new Callback<MoodAnalysisTags>() {
             @Override
             public void onResponse(Call<MoodAnalysisTags> call, Response<MoodAnalysisTags> response) {
-                String result = response.message();
-                JsonArray positive_tags = response.body().getPositive_tags();
-                JsonArray negative_tags = response.body().getNegative_tags();
-                System.out.println(positive_tags.get(0).toString());
-                System.out.println(negative_tags.get(1).toString());
+                try {
+                    String result = response.message();
+                    JsonArray positive_tags = response.body().getPositive_tags();
+                    JsonArray negative_tags = response.body().getNegative_tags();
+                    positive_tag1 = getActivity().findViewById(R.id.positive_tag1);
+                    positive_tag2 = getActivity().findViewById(R.id.positive_tag2);
+                    negative_tag1 = getActivity().findViewById(R.id.negative_tag1);
+                    negative_tag2 = getActivity().findViewById(R.id.negative_tag2);
+//                System.out.println(positive_tags.get(0).toString());
+//                System.out.println(negative_tags.get(1).toString());
+                    positive_tag1.setText(positive_tags.get(0).toString().substring(1,positive_tags.get(0).toString().length()-1));
+                    positive_tag2.setText(positive_tags.get(1).toString().substring(1,positive_tags.get(1).toString().length()-1));
+                    negative_tag1.setText(negative_tags.get(0).toString().substring(1,negative_tags.get(0).toString().length()-1));
+                    negative_tag2.setText(negative_tags.get(1).toString().substring(1,negative_tags.get(1).toString().length()-1));
+                }catch (Exception e){
+                    System.out.println(e);
+                    System.out.println("回應標籤失敗");
+                }
             }
 
             @Override
