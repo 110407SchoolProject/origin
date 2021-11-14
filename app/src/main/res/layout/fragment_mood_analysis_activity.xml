@@ -112,12 +112,11 @@
                 android:textSize="30sp" />
 
             <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:id="@+id/moodScoreAverage"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:src="@drawable/smiling" />
+                android:gravity="center" />
         </LinearLayout>
 
 

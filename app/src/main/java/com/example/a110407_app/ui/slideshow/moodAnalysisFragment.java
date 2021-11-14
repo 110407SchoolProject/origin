@@ -45,6 +45,7 @@ public class moodAnalysisFragment extends Fragment {
     int diary_count_diarys;
     String moodscore_result;
     Float moodscore;
+
 //    String piechart_result;
 //    String pie_image_url;
 //    String linechart_result;
@@ -144,6 +145,20 @@ public class moodAnalysisFragment extends Fragment {
                     moodScore = getActivity().findViewById(R.id.moodScore);
                     String string_moodscore = String.valueOf(moodscore);
                     moodScore.setText(string_moodscore);
+                    moodScoreAverage = getActivity().findViewById(R.id.moodScoreAverage);
+                    if(moodscore <= 1.0) {
+                        moodScoreAverage.setImageResource(R.drawable.crying);
+                    }else if ( moodscore <=2.0 && moodscore > 1.0){
+                        moodScoreAverage.setImageResource(R.drawable.sad);
+                    }else if (moodscore <=3.0 && moodscore > 2.0){
+                        moodScoreAverage.setImageResource(R.drawable.normal);
+                    }else if (moodscore <=4.0 && moodscore > 3.0){
+                        moodScoreAverage.setImageResource(R.drawable.smiling);
+                    }else if(moodscore >= 5.0 && moodscore > 4.0 ){
+                        moodScoreAverage.setImageResource(R.drawable.exciting);
+                    }else {
+                        System.out.println("分數計算有誤");
+                    }
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應日記篇數失敗");
