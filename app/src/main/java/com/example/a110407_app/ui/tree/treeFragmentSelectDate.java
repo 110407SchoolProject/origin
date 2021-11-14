@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.a110407_app.R;
 
@@ -42,8 +43,8 @@ public class treeFragmentSelectDate extends Fragment {
 
 
     private Button btnTreeGenerate;
-    private ImageView myStartDatePicker;
-    private ImageView myEndDatePicker;
+    private ImageView myStartDatePickerinTree;
+    private ImageView myEndDatePickerinTree;
 
     static final int START_DATE_DIALOG_ID = 0;
     static final int END_DATE_DIALOG_ID = 1;
@@ -51,8 +52,8 @@ public class treeFragmentSelectDate extends Fragment {
     private int mYear;
     private int mMonth;
     private int mDay;
-    private EditText userStartDateEditText;
-    private EditText userEndDateEditText;
+    private EditText startDateTree;
+    private EditText endDateTree;
     public treeFragmentSelectDate() {
         // Required empty public constructor
     }
@@ -91,37 +92,10 @@ public class treeFragmentSelectDate extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         System.out.println("你正在treeFragment ");
-
-        myStartDatePicker =getActivity().findViewById(R.id.myDatePickerInTree);
-        myEndDatePicker =getActivity().findViewById(R.id.myDatePicker2InTree);
-        userStartDateEditText=getActivity().findViewById(R.id.userStartDateInTree);
-        userEndDateEditText=getActivity().findViewById(R.id.userEndDateInTree);
-
-        myStartDatePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("You Click the StartDatePicker");
-
-                getActivity().showDialog(START_DATE_DIALOG_ID);
-            }
-        });
-
-        myEndDatePicker.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                System.out.println("You Click the EndDatePicker");
-                getActivity().showDialog(END_DATE_DIALOG_ID);
-            }
-        });
-
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
-        //display the current date
-        updateEndDateDisplay();
-
+        myStartDatePickerinTree =getActivity().findViewById(R.id.myDatePicker1InTree);
+        myEndDatePickerinTree =getActivity().findViewById(R.id.myDatePicker2InTree);
+        startDateTree=getActivity().findViewById(R.id.userStartDateInTree);
+        endDateTree=getActivity().findViewById(R.id.userEndDateInTree);
 
         //都選好日期送出的部分
         btnTreeGenerate=getActivity().findViewById(R.id.btnTreeGenerateInTree);
@@ -131,61 +105,122 @@ public class treeFragmentSelectDate extends Fragment {
                 System.out.println("Hello 你按下了產生心情樹");
                 //透過當Bundle當傳遞參數的容器
                 Bundle bundle = new Bundle();
-                bundle.putString("startDate","1999-12-07");
-                bundle.putString("endDate","2021-12-07");
+                String getstartDate = startDateTree.getText().toString();
+                String getendDate = endDateTree.getText().toString();
+                System.out.println(getstartDate);
+                System.out.println(getendDate);
+                bundle.putString("start",getstartDate);
+                bundle.putString("end",getendDate);
                 //傳入
                 NavHostFragment.findNavController(treeFragmentSelectDate.this)
                         .navigate(R.id.nav_treeGenerated,bundle);
             }
         });
+
+        myStartDatePickerinTree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("起始日期");
+                datePickerStartDate(getView());
+            }
+        });
+
+        myEndDatePickerinTree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("結束日期");
+                datePickerEndDate(getView());
+            }
+        });
+
     }
 
-    private void updateStartDateDisplay() {
-        this.userStartDateEditText.setText(
-                new StringBuilder()
-                        // Month is 0 based so add 1
-                        .append(mYear).append("-")
-                        .append(mMonth + 1 ).append("-")
-                        .append(mDay).append(" "));
+    //呼叫StartDate Calendar
+    public void datePickerStartDate(View v){
+        Calendar calendarStart = Calendar.getInstance();
+        int year = calendarStart.get(Calendar.YEAR);
+        int month = calendarStart.get(Calendar.MONTH);
+        int day = calendarStart.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                String datetime = String.valueOf(year) + "-" + String.valueOf(month +1) + "-" + String.valueOf(day);
+                startDateTree.setText(datetime);
+
+
+            }
+        },year, month,day).show();
     }
 
-    private void updateEndDateDisplay() {
-        this.userEndDateEditText.setText(
-                new StringBuilder()
-                        // Month is 0 based so add 1
-                        .append(mYear).append("-")
-                        .append(mMonth + 1 ).append("-")
-                        .append(mDay).append(" "));
+    //呼叫EndDate Calendar
+    public void datePickerEndDate(View v){
+        Calendar calendarEnd = Calendar.getInstance();
+        int year = calendarEnd.get(Calendar.YEAR);
+        int month = calendarEnd.get(Calendar.MONTH);
+        int day = calendarEnd.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                String datetime = String.valueOf(year) + "-" + String.valueOf(month+1) + "-" + String.valueOf(day);
+                endDateTree.setText(datetime);
+            }
+        },year, month,day).show();
     }
 
-    private DatePickerDialog.OnDateSetListener DatePickerListener =
-            new DatePickerDialog.OnDateSetListener() {
-                public void onDateSet(DatePicker view, int year,
-                                      int monthOfYear, int dayOfMonth) {
-                    mYear = year;
-                    mMonth = monthOfYear;
-                    mDay = dayOfMonth;
-                    updateStartDateDisplay();
-                }
-            };
 
-    protected Dialog onCreateStartDateDialog(int id) {
-        switch (id) {
-            case START_DATE_DIALOG_ID:
-                return new DatePickerDialog(getActivity(),
-                        DatePickerListener,
-                        mYear, mMonth, mDay);
-        }
-        return null;
-    }
+//        final Calendar c = Calendar.getInstance();
+//        mYear = c.get(Calendar.YEAR);
+//        mMonth = c.get(Calendar.MONTH);
+//        mDay = c.get(Calendar.DAY_OF_MONTH);
+//        //display the current date
+//        //updateEndDateDisplay();
 
-    protected Dialog onCreateEndDateDialog(int id) {
-        switch (id) {
-            case END_DATE_DIALOG_ID:
-                return new DatePickerDialog(getActivity(),
-                        DatePickerListener,
-                        mYear, mMonth, mDay);
-        }
-        return null;
-    }
+//    private void updateStartDateDisplay() {
+//        this.userStartDateEditText.setText(
+//                new StringBuilder()
+//                        // Month is 0 based so add 1
+//                        .append(mYear).append("-")
+//                        .append(mMonth + 1 ).append("-")
+//                        .append(mDay).append(" "));
+//    }
+//
+//    private void updateEndDateDisplay() {
+//        this.userEndDateEditText.setText(
+//                new StringBuilder()
+//                        // Month is 0 based so add 1
+//                        .append(mYear).append("-")
+//                        .append(mMonth + 1 ).append("-")
+//                        .append(mDay).append(" "));
+//    }
+//
+//    private DatePickerDialog.OnDateSetListener DatePickerListener =
+//            new DatePickerDialog.OnDateSetListener() {
+//                public void onDateSet(DatePicker view, int year,
+//                                      int monthOfYear, int dayOfMonth) {
+//                    mYear = year;
+//                    mMonth = monthOfYear;
+//                    mDay = dayOfMonth;
+//                    updateStartDateDisplay();
+//                }
+//            };
+//
+//    protected Dialog onCreateStartDateDialog(int id) {
+//        switch (id) {
+//            case START_DATE_DIALOG_ID:
+//                return new DatePickerDialog(getActivity(),
+//                        DatePickerListener,
+//                        mYear, mMonth, mDay);
+//        }
+//        return null;
+//    }
+//
+//    protected Dialog onCreateEndDateDialog(int id) {
+//        switch (id) {
+//            case END_DATE_DIALOG_ID:
+//                return new DatePickerDialog(getActivity(),
+//                        DatePickerListener,
+//                        mYear, mMonth, mDay);
+//        }
+//        return null;
+//    }
 }
