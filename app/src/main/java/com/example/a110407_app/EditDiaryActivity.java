@@ -188,6 +188,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         });
         //心情選取欄位
         /*
+        //我在改EDITDIARY的xml-DION
         currentMood= (ImageView)findViewById(R.id.currentMoodImageView);
         btnCryingMood =(ImageView)findViewById(R.id.btnCrying);
         btnSadMood =(ImageView)findViewById(R.id.btnSad);
