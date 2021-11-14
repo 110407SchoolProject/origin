@@ -89,26 +89,23 @@ public class moodAnalysisFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
         System.out.println("跳到心情分析畫面了喔");
         String start = getArguments().getString("start");
         String end = getArguments().getString("end");
-        System.out.println((start));
-        System.out.println((end));
         APIService ourAPIService;
         ourAPIService = RetrofitManager.getInstance().getAPI();
         Intent intent = getActivity().getIntent();
         userToken = intent.getStringExtra("userToken");
         System.out.println("心情分析的token: " + userToken);
-        MoodAnalysisCountDiarys moodAnalysisCountDiarys = new MoodAnalysisCountDiarys("2021-10-10","2021-11-14");
+        MoodAnalysisCountDiarys moodAnalysisCountDiarys = new MoodAnalysisCountDiarys(start,end);
         Call<MoodAnalysisCountDiarys> callAnalysisCountDiarys = ourAPIService.putMoodAnalysisCountDiarys("bearer " + userToken, moodAnalysisCountDiarys);
-        MoodAnalysisScore moodAnalysisScore = new MoodAnalysisScore("2021-10-10","2021-11-14");
+        MoodAnalysisScore moodAnalysisScore = new MoodAnalysisScore(start,end);
         Call<MoodAnalysisScore> callAnalysisScore = ourAPIService.postMoodAnalysisScore("bearer " + userToken, moodAnalysisScore);
-        MoodAnalysisTags moodAnalysisTags = new MoodAnalysisTags("2021-10-10","2021-11-14");
+        MoodAnalysisTags moodAnalysisTags = new MoodAnalysisTags(start,end);
         Call<MoodAnalysisTags> callMoodAnalysisTags = ourAPIService.postMoodAnalysisTags("bearer " + userToken, moodAnalysisTags);
-        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart("2021-10-10","2021-11-14");
+        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(start,end);
         Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
-        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart("2021-10-10","2021-11-14");
+        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart(start,end);
         Call<MoodAnalysisLinechart> callmoodAnalysisLineChart = ourAPIService.postMoodAnalysisLinechart("bearer " + userToken, moodAnalysisLinechart);
 //        diary_count = getActivity().findViewById(R.id.diary_count);
         //取得日記篇數
@@ -121,7 +118,6 @@ public class moodAnalysisFragment extends Fragment {
                     String string_diary_count = String.valueOf(diary_count_diarys);
                     diary_count = getActivity().findViewById(R.id.diary_count);
                     diary_count.setText(string_diary_count);
-
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應日記篇數失敗");
@@ -187,7 +183,7 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println(result);
                     System.out.println("piechart: " + pie_image_url);
                     pieChart = getActivity().findViewById(R.id.pieChart);
-                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).resize(300,300).into(pieChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).into(pieChart);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應圓餅圖失敗");
@@ -201,7 +197,7 @@ public class moodAnalysisFragment extends Fragment {
             }
         });
 
-        //取得長條圖url
+        //取得折線圖url
         callmoodAnalysisLineChart.enqueue(new Callback<MoodAnalysisLinechart>() {
             @Override
             public void onResponse(Call<MoodAnalysisLinechart> call, Response<MoodAnalysisLinechart> response) {
@@ -214,7 +210,7 @@ public class moodAnalysisFragment extends Fragment {
                     Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).resize(450,300).into(lineChart);
                 }catch (Exception e){
                     System.out.println(e);
-                    System.out.println("回應長條圖失敗");
+                    System.out.println("回應折線圖失敗");
                 }
 
             }

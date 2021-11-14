@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,15 +51,18 @@ import java.util.Calendar;
 
 public class SlideshowFragment extends Fragment {
 
-    private ImageView myDatePicker;
-    private ImageView myDatePicker2;
+    private ImageView myDatePickerinSlideshow;
+    private ImageView myDatePicker2inSlideshow;
+    static final int DATE_DIALOG_ID = 0;
+    private EditText startDateSlidshow;
+    private EditText endDateSlidshow;
     private int mYear;
     private int mMonth;
     private int mDay;
-    static final int DATE_DIALOG_ID = 0;
+    //static final int DATE_DIALOG_ID = 0;
     private SlideshowViewModel slideshowViewModel;
-
     private Button btnMoodAnalysis;
+
 
     APIService ourAPIService;
     private String userToken;
@@ -183,6 +187,7 @@ public class SlideshowFragment extends Fragment {
 //        NavHostFragment.findNavController(SlideshowFragment.this).navigate((R.id.nav_mood_analysis), bundle);
 
 
+
         return root;
     }
 
@@ -190,16 +195,73 @@ public class SlideshowFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnMoodAnalysis = getActivity().findViewById(R.id.btnMoodAnalysis);
+        startDateSlidshow = getActivity().findViewById(R.id.startDate);
+        endDateSlidshow = getActivity().findViewById(R.id.endDate);
+        myDatePickerinSlideshow = getActivity().findViewById(R.id.myDatePickerinSlideshow);
+        myDatePicker2inSlideshow = getActivity().findViewById(R.id.myDatePicke2inSlideshow);
         btnMoodAnalysis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("成功ㄌ");
                 Bundle bundle = new Bundle();
-                bundle.putString("start", "2021-10-10");
-                bundle.putString("end", "2021-11-14");
+                String getstartDate = startDateSlidshow.getText().toString();
+                String getendDate = endDateSlidshow.getText().toString();
+                bundle.putString("start", getstartDate);
+                bundle.putString("end", getendDate);
                 NavHostFragment.findNavController(SlideshowFragment.this).navigate((R.id.nav_mood_analysis), bundle);
             }
         });
+
+
+        myDatePickerinSlideshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("起始日期");
+                datePickerStartDate(getView());
+            }
+        });
+
+
+        myDatePicker2inSlideshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("結束日期");
+                datePickerEndDate(getView());
+            }
+        });
+
+    }
+
+    //呼叫StartDate Calendar
+    public void datePickerStartDate(View v){
+        Calendar calendarStart = Calendar.getInstance();
+        int year = calendarStart.get(Calendar.YEAR);
+        int month = calendarStart.get(Calendar.MONTH);
+        int day = calendarStart.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                String datetime = String.valueOf(year) + "-" + String.valueOf(month +1) + "-" + String.valueOf(day);
+                startDateSlidshow.setText(datetime);
+
+
+            }
+        },year, month,day).show();
+    }
+
+    //呼叫EndDate Calendar
+    public void datePickerEndDate(View v){
+        Calendar calendarEnd = Calendar.getInstance();
+        int year = calendarEnd.get(Calendar.YEAR);
+        int month = calendarEnd.get(Calendar.MONTH);
+        int day = calendarEnd.get(Calendar.DAY_OF_MONTH);
+        new DatePickerDialog(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int day) {
+                String datetime = String.valueOf(year) + "-" + String.valueOf(month+1) + "-" + String.valueOf(day);
+                endDateSlidshow.setText(datetime);
+            }
+        },year, month,day).show();
     }
 
 }
