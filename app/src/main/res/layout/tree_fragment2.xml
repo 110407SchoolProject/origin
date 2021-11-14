@@ -40,13 +40,14 @@
 
     <ImageView
         android:id="@+id/tree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="88dp"
+        android:layout_width="400dp"
+        android:layout_height="250dp"
+        android:paddingTop="5dp"
+        android:layout_marginBottom="176dp"
         android:src="@drawable/tree"
         app:layout_constraintBottom_toBottomOf="@+id/treebone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
