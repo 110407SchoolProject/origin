@@ -183,7 +183,7 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println(result);
                     System.out.println("piechart: " + pie_image_url);
                     pieChart = getActivity().findViewById(R.id.pieChart);
-                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).into(pieChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).fit().centerCrop().into(pieChart);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應圓餅圖失敗");
@@ -207,7 +207,7 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println(result);
                     System.out.println(line_image_url);
                     lineChart = getActivity().findViewById(R.id.lineChart);
-                    Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).resize(450,300).into(lineChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).fit().centerCrop().into(lineChart);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應折線圖失敗");
