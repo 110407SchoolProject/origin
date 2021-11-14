@@ -72,7 +72,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/userAfter"
+                    android:id="@+id/startDate"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -91,7 +91,7 @@
                     tools:layout_editor_absoluteY="233dp" />
 
                 <ImageView
-                    android:id="@+id/myDatePicker"
+                    android:id="@+id/myDatePickerinSlideshow"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     app:srcCompat="@drawable/calendaricon2" />
@@ -116,7 +116,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/userBefore"
+                    android:id="@+id/endDate"
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -135,7 +135,7 @@
                     tools:layout_editor_absoluteY="233dp" />
 
                 <ImageView
-                    android:id="@+id/myDatePicke2"
+                    android:id="@+id/myDatePicke2inSlideshow"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     app:srcCompat="@drawable/calendaricon2" />
