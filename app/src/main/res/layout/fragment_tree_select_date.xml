@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="choose Since"
+                android:text="選擇起始期間"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -68,7 +68,7 @@
                     android:editable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:hint="i dont know when"
+                    android:hint="想要進行分析的起始日期"
                     android:inputType="date"
                     android:textColor="#66000000"
                     android:textColorHint="#66000000"
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="choose Since"
+                android:text="選擇結束期間"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -112,7 +112,7 @@
                     android:editable="false"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:hint="Today's Date"
+                    android:hint="想要進行分析的結束日期"
                     android:inputType="date"
                     android:textColor="#66000000"
                     android:textColorHint="#66000000"

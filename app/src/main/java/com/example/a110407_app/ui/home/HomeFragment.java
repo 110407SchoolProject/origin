@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
         final String stringMonth = month.toString();
         final String stringYear = Year.toString();
 
-        dateTimeText.setText(Year+"年 "+month+"月"+date+"日 "+"星期"+weekday[day]);
+        dateTimeText.setText(Year+"-"+month+"-"+date+"     "+"星期"+weekday[day]);
 
 
 
