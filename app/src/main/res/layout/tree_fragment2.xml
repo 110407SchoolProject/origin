@@ -42,9 +42,10 @@
         android:id="@+id/tree"
         android:layout_width="400dp"
         android:layout_height="250dp"
+        android:src="@drawable/tree"
         android:paddingTop="5dp"
         android:layout_marginBottom="176dp"
-        android:src="@drawable/tree"
+
         app:layout_constraintBottom_toBottomOf="@+id/treebone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
@@ -62,19 +63,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.634" />
 
-    <Button
-        android:id="@+id/btnCreateTree"
-        android:layout_width="306dp"
-        android:layout_height="42dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/mainbtnforest"
-        android:text="產生我的心情樹"
-        android:textColor="#FFFFFF"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
