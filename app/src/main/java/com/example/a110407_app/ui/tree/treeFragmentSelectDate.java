@@ -2,6 +2,7 @@ package com.example.a110407_app.ui.tree;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -20,11 +21,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.MoodTree;
 import com.example.a110407_app.R;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,6 +63,10 @@ public class treeFragmentSelectDate extends Fragment {
     private int mDay;
     private EditText startDateTree;
     private EditText endDateTree;
+//    private ImageView treeleaf;
+    APIService ourAPIService;
+
+
     public treeFragmentSelectDate() {
         // Required empty public constructor
     }
@@ -96,6 +109,9 @@ public class treeFragmentSelectDate extends Fragment {
         myEndDatePickerinTree =getActivity().findViewById(R.id.myDatePicker2InTree);
         startDateTree=getActivity().findViewById(R.id.userStartDateInTree);
         endDateTree=getActivity().findViewById(R.id.userEndDateInTree);
+        ourAPIService = RetrofitManager.getInstance().getAPI();
+        Intent intent = getActivity().getIntent();
+        String userToken = intent.getStringExtra("userToken");
 
         //都選好日期送出的部分
         btnTreeGenerate=getActivity().findViewById(R.id.btnTreeGenerateInTree);
@@ -104,17 +120,39 @@ public class treeFragmentSelectDate extends Fragment {
             public void onClick(View v) {
                 System.out.println("Hello 你按下了產生心情樹");
                 //透過當Bundle當傳遞參數的容器
-                Bundle bundle = new Bundle();
-                String getstartDate = startDateTree.getText().toString();
-                String getendDate = endDateTree.getText().toString();
-                System.out.println(getstartDate);
-                System.out.println(getendDate);
-                bundle.putString("start",getstartDate);
-                bundle.putString("end",getendDate);
-                //傳入
-                NavHostFragment.findNavController(treeFragmentSelectDate.this)
-                        .navigate(R.id.nav_treeGenerated,bundle);
+                String start = startDateTree.getText().toString();
+                String end = endDateTree.getText().toString();
+                System.out.println(start);
+                System.out.println(end);
+                MoodTree moodTree = new MoodTree(start,end);
+                Bundle bundletree = new Bundle();
+                Call<MoodTree> callMoodTree = ourAPIService.postMoodTree("bearer " + userToken, moodTree);
+                callMoodTree.enqueue(new Callback<MoodTree>() {
+                    @Override
+                    public void onResponse(Call<MoodTree> call, Response<MoodTree> response) {
+                        try {
+                            String result = response.message();
+                            String tree_image_url = response.body().getImage_url();
+                            System.out.println(result);
+                            System.out.println(tree_image_url);
+                            String test = "http://server.gywang.io:8084/" + tree_image_url;
+                            System.out.println("TEST:" + test);
+                            bundletree.putString("tree" , tree_image_url);
+                            NavHostFragment.findNavController(treeFragmentSelectDate.this)
+                                    .navigate(R.id.nav_treeGenerated, bundletree);
+                        }catch (Exception e){
+                            System.out.println(e);
+                            System.out.println("回應文字雲失敗");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<MoodTree> call, Throwable t) {
+
+                    }
+                });
             }
+
         });
 
         myStartDatePickerinTree.setOnClickListener(new View.OnClickListener() {
@@ -166,61 +204,4 @@ public class treeFragmentSelectDate extends Fragment {
             }
         },year, month,day).show();
     }
-
-
-//        final Calendar c = Calendar.getInstance();
-//        mYear = c.get(Calendar.YEAR);
-//        mMonth = c.get(Calendar.MONTH);
-//        mDay = c.get(Calendar.DAY_OF_MONTH);
-//        //display the current date
-//        //updateEndDateDisplay();
-
-//    private void updateStartDateDisplay() {
-//        this.userStartDateEditText.setText(
-//                new StringBuilder()
-//                        // Month is 0 based so add 1
-//                        .append(mYear).append("-")
-//                        .append(mMonth + 1 ).append("-")
-//                        .append(mDay).append(" "));
-//    }
-//
-//    private void updateEndDateDisplay() {
-//        this.userEndDateEditText.setText(
-//                new StringBuilder()
-//                        // Month is 0 based so add 1
-//                        .append(mYear).append("-")
-//                        .append(mMonth + 1 ).append("-")
-//                        .append(mDay).append(" "));
-//    }
-//
-//    private DatePickerDialog.OnDateSetListener DatePickerListener =
-//            new DatePickerDialog.OnDateSetListener() {
-//                public void onDateSet(DatePicker view, int year,
-//                                      int monthOfYear, int dayOfMonth) {
-//                    mYear = year;
-//                    mMonth = monthOfYear;
-//                    mDay = dayOfMonth;
-//                    updateStartDateDisplay();
-//                }
-//            };
-//
-//    protected Dialog onCreateStartDateDialog(int id) {
-//        switch (id) {
-//            case START_DATE_DIALOG_ID:
-//                return new DatePickerDialog(getActivity(),
-//                        DatePickerListener,
-//                        mYear, mMonth, mDay);
-//        }
-//        return null;
-//    }
-//
-//    protected Dialog onCreateEndDateDialog(int id) {
-//        switch (id) {
-//            case END_DATE_DIALOG_ID:
-//                return new DatePickerDialog(getActivity(),
-//                        DatePickerListener,
-//                        mYear, mMonth, mDay);
-//        }
-//        return null;
-//    }
 }
