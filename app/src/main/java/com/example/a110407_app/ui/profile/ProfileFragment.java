@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
         System.out.println("Token： "+userToken);
 
         profileImageView = (ImageView) getView().findViewById(R.id.profileImage);
-        profileImageView.setImageResource(R.drawable.ic_menu_camera);
+        profileImageView.setImageResource(R.drawable.boy1);
 //        userTrueNameTextView= getView().findViewById(R.id.profileEmail);
         userEmailTextView=getView().findViewById(R.id.profileEmail);
         userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);

@@ -36,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-<!--
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -79,7 +79,7 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/exciting" />
     </LinearLayout>
--->
+
 
     <ScrollView
         android:id="@+id/scrollview5"
