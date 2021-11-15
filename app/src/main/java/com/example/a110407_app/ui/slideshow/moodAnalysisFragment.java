@@ -138,7 +138,6 @@ public class moodAnalysisFragment extends Fragment {
 
 
         });
-
         //取得心情分數
         callAnalysisScore.enqueue(new Callback<MoodAnalysisScore>() {
             @Override
@@ -146,9 +145,9 @@ public class moodAnalysisFragment extends Fragment {
                 try {
                     String result = response.message();
                     moodscore = response.body().getScore();
-                    moodScore = getActivity().findViewById(R.id.moodScore);
+                    //moodScore = getActivity().findViewById(R.id.moodScore);
                     String string_moodscore = String.valueOf(moodscore);
-                    moodScore.setText(string_moodscore);
+                    //moodScore.setText(string_moodscore);
                     moodScoreAverage = getActivity().findViewById(R.id.moodScoreAverage);
                     if(moodscore <= 1.0) {
                         moodScoreAverage.setImageResource(R.drawable.crying);
@@ -165,7 +164,7 @@ public class moodAnalysisFragment extends Fragment {
                     }
                 }catch (Exception e){
                     System.out.println(e);
-                    System.out.println("回應日記篇數失敗");
+                    System.out.println("回應平均心情失敗");
                 }
 
             }
@@ -244,9 +243,7 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println(e);
                     System.out.println("回應折線圖失敗");
                 }
-
             }
-
             @Override
             public void onFailure(Call<MoodAnalysisLinechart> call, Throwable t) {
                 Log.d("HKT", "response: " + t.toString());
