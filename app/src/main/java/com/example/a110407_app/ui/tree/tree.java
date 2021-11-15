@@ -25,6 +25,8 @@ import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.FirstFragment;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -69,6 +71,6 @@ public class tree extends Fragment {
         tree = getActivity().findViewById(R.id.tree);
         String tree_image_url = getArguments().getString("tree");
         System.out.println("樹木url: " + tree_image_url);
-        Picasso.get().load("http://server.gywang.io:8084/" + tree_image_url).fit().centerCrop().into(tree);
+        Picasso.get().load("http://server.gywang.io:8084/" + tree_image_url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().centerCrop().into(tree);
     }
 }

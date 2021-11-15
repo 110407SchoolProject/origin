@@ -22,6 +22,8 @@ import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.google.gson.JsonArray;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -214,7 +216,7 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println(result);
                     System.out.println("piechart: " + pie_image_url);
                     pieChart = getActivity().findViewById(R.id.pieChart);
-                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).fit().centerCrop().into(pieChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().centerCrop().into(pieChart);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應圓餅圖失敗");
@@ -238,7 +240,7 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println(result);
                     System.out.println(line_image_url);
                     lineChart = getActivity().findViewById(R.id.lineChart);
-                    Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).fit().centerCrop().into(lineChart);
+                    Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().centerCrop().into(lineChart);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應折線圖失敗");
