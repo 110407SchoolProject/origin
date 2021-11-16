@@ -73,6 +73,7 @@
                     android:textColor="#66000000"
                     android:textColorHint="#66000000"
                     android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="233dp" />
 
@@ -117,6 +118,7 @@
                     android:textColor="#66000000"
                     android:textColorHint="#66000000"
                     android:textSize="16sp"
+                    tools:ignore="TouchTargetSizeCheck"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="233dp" />
 
@@ -137,7 +139,7 @@
         android:background="@drawable/mainbtnpink"
         android:enabled="true"
         android:gravity="center_vertical|center_horizontal"
-        android:text="@string/make_register"
+        android:text="產生心情樹"
         android:textColor="#ffffff"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -145,6 +147,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutInTree"
-        app:layout_constraintVertical_bias="0.12" />
+        app:layout_constraintVertical_bias="0.12"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
