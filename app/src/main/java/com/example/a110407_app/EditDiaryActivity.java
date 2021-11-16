@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -51,8 +52,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditDiaryActivity extends AppCompatActivity {
-    public static final String EXTRA_TEXT = "com.example.application.example.EXTRA_TEXT";
-    public static final String EXTRA_TEXT2 = "com.example.application.example.EXTRA_TEXT2";
 
     String userToken;
     private APIService ourAPIService;
@@ -68,6 +67,7 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String tag;
     private String tag1;
     private String tag2;
+    private ArrayList tags =new ArrayList();
     private int moodScoreInt;
     //心情按鈕
 
@@ -82,6 +82,14 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String category = "未分類";
     private String moodScore = "5";
 
+    private ImageView btnFriendTag;
+    private ImageView btnFamilyTag;
+    private ImageView btnRelationshipTag;
+    private ImageView btnWorkTag;
+    private ImageView btnStudyTag;
+    private ImageView btnTravelTag;
+    private ImageView btnHobbyTag;
+    private ImageView btnOptionTag;
     private TextView showCategory;
 
     @Override
@@ -107,16 +115,124 @@ public class EditDiaryActivity extends AppCompatActivity {
                                 R.layout.activity_bottom_dialog_tag,
                                 (LinearLayout)findViewById(R.id.bottom_layout_tag)
                         );
+                tags.clear();
+                tag="";
+                tag1="";
+                tag2="";
+                showCategory.setText("");
+                bottomSheetView.findViewById(R.id.FriendTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"朋友",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("朋友")){
+                            tags.remove("朋友");
+
+                        }else if(tags.size()<3){
+                            tags.add("朋友");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.FamilyTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"家庭",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("家庭")){
+                            tags.remove("家庭");
+                        }else if(tags.size()<3){
+                            tags.add("家庭");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.RelationshipTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"感情",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("感情")){
+                            tags.remove("感情");
+                        }else if(tags.size()<3){
+                            tags.add("感情");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.WorkTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"工作",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("工作")){
+                            tags.remove("工作");
+                        }else if(tags.size()<3){
+                            tags.add("工作");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.StudiesTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"上學",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("上學")){
+                            tags.remove("上學");
+                        }else if(tags.size()<3){
+                            tags.add("上學");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.TravelTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"旅遊",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("旅遊")){
+                            tags.remove("旅遊");
+                        }else if(tags.size()<3){
+                            tags.add("旅遊");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.HobbyTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"興趣",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("興趣")){
+                            tags.remove("興趣");
+                        }else if(tags.size()<3){
+                            tags.add("興趣");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.CustomTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        Toast.makeText(EditDiaryActivity.this,"自訂",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("自訂")){
+                            tags.remove("自訂");
+                        }else if(tags.size()<3){
+                            tags.add("自訂");
+                        }
+                    }
+                });
                 bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         Toast.makeText(EditDiaryActivity.this,"CHOSEN",Toast.LENGTH_SHORT).show();
                         bottomSheetDialog.dismiss();
+                        System.out.println(tags.size());
+                        for(int i = 0 ; i < tags.size();i++){
+                            System.out.print(tags.get(i)+" ");
+                        }
+                        if(tags.size()==1){
+                            tag=tags.get(0).toString();
+                        }
+                        if(tags.size()==2){
+                            tag=tags.get(0).toString();
+                            tag1=tags.get(1).toString();
+                        }
+                        if(tags.size()==3){
+                            tag=tags.get(0).toString();
+                            tag1=tags.get(1).toString();
+                            tag2=tags.get(2).toString();
+                        }
+                        if(tags.size()==0){
+                            showCategory.setText("未選擇標籤");
+                        }else{
+                            showCategory.setText(tag+" "+tag1+" "+tag2);
+                        }
                     }
                 });
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
             }
         });
+
         //TAG CATEGORY ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
         //抓取今天的日期設定到標題
@@ -152,9 +268,9 @@ public class EditDiaryActivity extends AppCompatActivity {
                 UserDiary userDiary =new UserDiary(
                         textTitle,
                         textContent,
-                        "標籤1",
-                        "標籤2",
-                        "標籤3",
+                        tag,
+                        tag1,
+                        tag2,
                         moodScoreInt
                 );
 
