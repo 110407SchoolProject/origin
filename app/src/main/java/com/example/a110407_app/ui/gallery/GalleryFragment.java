@@ -105,25 +105,14 @@ public class GalleryFragment extends Fragment {
 
                     for(int i=0;i<diaryAllList.size();i++){
                         JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
-//                        System.out.println(diaryJsonObject.toString());
                         String diaryId = diaryJsonObject.get("diaryid").toString();
                         System.out.println("DiaryID:"+diaryId);
                         diaryId=diaryId.substring(1,diaryId.length()-1);
                         diaryIdList.add(diaryId);
                     }
 
-//                    for(int i=0;i<diaryAllList.size();i++){
-//                        JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
-////                        System.out.println(diaryJsonObject.toString());
-//                        String create_Date = diaryJsonObject.get("create_date").toString();
-//                        System.out.println("create_date:"+create_Date);
-//                        create_Date=create_Date.substring(1,create_Date.length()-1);
-////                        diaryIdList.add(create_Date);
-//                    }
-
                     for(int i=0;i<diaryAllList.size();i++){
                         JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
-//                        System.out.println(diaryJsonObject.toString());
                         String diaryId = diaryJsonObject.get("diaryid").toString();
                         System.out.println("DiaryID:"+diaryId);
                         diaryId=diaryId.substring(1,diaryId.length()-1);
@@ -158,8 +147,6 @@ public class GalleryFragment extends Fragment {
                 Log.d("HKT", "response: " + t.toString());
             }
         });
-
-//
         return root;
     }
 }
