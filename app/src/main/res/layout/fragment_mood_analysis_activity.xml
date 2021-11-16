@@ -317,7 +317,6 @@
             android:layout_height="235dp"
             android:layout_marginTop="5dp"
             android:background="#FFF9D5"
-            android:src="@drawable/piechart1"
             />
             <!--separator-->
             <View
@@ -329,7 +328,6 @@
             android:layout_width="match_parent"
             android:layout_height="234dp"
             android:background="#FFF9D5"
-            android:src="@drawable/linechart1"
             />
             <!--separator-->
             <View
