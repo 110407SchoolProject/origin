@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:gravity="center_vertical"
             android:padding="2dp"
-            android:text="這棵心情樹收集了您這個期間內日記的內容。\n可以讓你您見您最在這個期間鐘耿耿於懷的文字。"
+            android:text="這棵心情樹收集了您這個期間內日記的內容。\n可以讓您看見您最在這個期間中耿耿於懷的文字。"
             android:textColor="#99000000"
             android:textSize="13.9sp" />
 
@@ -51,7 +51,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="2021年6月4號-2021年6月11號"
+        android:text="2021年11月10日-2021年11月17日"
         android:textColor="#99000000"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
