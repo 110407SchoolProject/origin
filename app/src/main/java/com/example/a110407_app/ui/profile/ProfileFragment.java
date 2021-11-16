@@ -103,7 +103,7 @@ public class ProfileFragment extends Fragment {
         userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);
         userNickNameUnderImageTextView = (TextView) getView().findViewById(R.id.profileName);
         //NICKNAME
-       // userNickNameTextView = (TextView) getView().findViewById(R.id.profileNickname);
+        userNickNameTextView = (TextView) getView().findViewById(R.id.profileName);
 //        userGenderTextView =getView().findViewById(R.id.pro)
 ////        numberOfDiaryTextView = getView().findViewById();
 ////        userCurrentMood;
@@ -123,16 +123,24 @@ public class ProfileFragment extends Fragment {
                 userBirthday=userData.get("birthday").toString();
                 userTrueName=userData.get("truename").toString();
 
-                System.out.println(userEmail);
-                System.out.println(userNickName);
-                System.out.println(userGender);
-                System.out.println(userBirthday);
-                System.out.println(userTrueName);
+//                System.out.println(userEmail);
+//                System.out.println(userNickName);
+//                System.out.println(userGender);
+//                System.out.println(userBirthday);
+//                System.out.println(userTrueName);
 
-//                userNickNameTextView.setText(userNickName);
-//                userNickNameUnderImageTextView.setText(userNickName);
-//                userEmailTextView.setText(userEmail);
-//                userBirthdayTextView.setText(userBirthday);
+                userNickName=userNickName.substring(1,userNickName.length()-1);
+                userEmail=userEmail.substring(1,userEmail.length()-1);
+                userBirthday=userBirthday.substring(1,userBirthday.length()-1);
+
+                System.out.println(userNickName);
+                System.out.println(userEmail);
+                System.out.println(userBirthday);
+
+                userNickNameTextView.setText(userNickName);
+                userNickNameUnderImageTextView.setText(userNickName);
+                userEmailTextView.setText(userEmail);
+                userBirthdayTextView.setText(userBirthday);
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
