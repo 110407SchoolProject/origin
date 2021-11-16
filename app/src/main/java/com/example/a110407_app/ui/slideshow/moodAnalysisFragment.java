@@ -88,7 +88,6 @@ public class moodAnalysisFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +95,8 @@ public class moodAnalysisFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+//        System.out.println("start開始 : " + start);
+//        System.out.println("end結束: " + end);
         System.out.println("跳到心情分析畫面了喔");
         String start = getArguments().getString("start");
         String end = getArguments().getString("end");
@@ -110,10 +111,10 @@ public class moodAnalysisFragment extends Fragment {
         Call<MoodAnalysisScore> callAnalysisScore = ourAPIService.postMoodAnalysisScore("bearer " + userToken, moodAnalysisScore);
         MoodAnalysisTags moodAnalysisTags = new MoodAnalysisTags(start,end);
         Call<MoodAnalysisTags> callMoodAnalysisTags = ourAPIService.postMoodAnalysisTags("bearer " + userToken, moodAnalysisTags);
-        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(start,end);
-        Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
-        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart(start,end);
-        Call<MoodAnalysisLinechart> callmoodAnalysisLineChart = ourAPIService.postMoodAnalysisLinechart("bearer " + userToken, moodAnalysisLinechart);
+//        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(start,end);
+//        Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
+//        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart(start,end);
+//        Call<MoodAnalysisLinechart> callmoodAnalysisLineChart = ourAPIService.postMoodAnalysisLinechart("bearer " + userToken, moodAnalysisLinechart);
 //        diary_count = getActivity().findViewById(R.id.diary_count);
         //取得日記篇數
         callAnalysisCountDiarys.enqueue(new Callback<MoodAnalysisCountDiarys>() {
@@ -205,8 +206,9 @@ public class moodAnalysisFragment extends Fragment {
                 Log.d("HKT", "response: " + t.toString());
             }
         });
-
         //取得圓餅圖url
+        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(start,end);
+        Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
         callMoodAnalysisPiechart.enqueue(new Callback<MoodAnalysisPiechart>() {
             @Override
             public void onResponse(Call<MoodAnalysisPiechart> call, Response<MoodAnalysisPiechart> response) {
@@ -214,23 +216,30 @@ public class moodAnalysisFragment extends Fragment {
                     String result = response.message();
                     String pie_image_url = response.body().getImage_url();
                     System.out.println(result);
-                    System.out.println("piechart: " + pie_image_url);
+                    System.out.println("圓餅圖"+"piechart: " + pie_image_url);
                     pieChart = getActivity().findViewById(R.id.pieChart);
                     Picasso.get().load("http://server.gywang.io:8084/" + pie_image_url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().centerCrop().into(pieChart);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應圓餅圖失敗");
                 }
-
             }
             @Override
             public void onFailure(Call<MoodAnalysisPiechart> call, Throwable t) {
                 Log.d("HKT", "response: " + t.toString());
-
             }
         });
 
+        try {
+            Thread.sleep(100);
+            System.out.println("Thread 成功了");
+        }catch (Exception e){
+            System.out.println("Thread失敗了");
+        }
+
         //取得折線圖url
+        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart(start,end);
+        Call<MoodAnalysisLinechart> callmoodAnalysisLineChart = ourAPIService.postMoodAnalysisLinechart("bearer " + userToken, moodAnalysisLinechart);
         callmoodAnalysisLineChart.enqueue(new Callback<MoodAnalysisLinechart>() {
             @Override
             public void onResponse(Call<MoodAnalysisLinechart> call, Response<MoodAnalysisLinechart> response) {
@@ -238,7 +247,7 @@ public class moodAnalysisFragment extends Fragment {
                     String result = response.message();
                     String line_image_url = response.body().getImage_url();
                     System.out.println(result);
-                    System.out.println(line_image_url);
+                    System.out.println("長條圖"+line_image_url);
                     lineChart = getActivity().findViewById(R.id.lineChart);
                     Picasso.get().load("http://server.gywang.io:8084/" + line_image_url).networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().centerCrop().into(lineChart);
                 }catch (Exception e){
@@ -251,7 +260,9 @@ public class moodAnalysisFragment extends Fragment {
                 Log.d("HKT", "response: " + t.toString());
             }
         });
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
