@@ -97,7 +97,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
         //介面元件取得
         showContentText=findViewById(R.id.textShowContents);
         showTitleText=findViewById(R.id.textShowTitle);
-        showCategory = findViewById(R.id.textShowCategory);
+//        showCategory = findViewById(R.id.textShowCategory);
         showImageMood = findViewById(R.id.moodImage);
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         btnEditDiary = findViewById(R.id.btnEditDiary);
