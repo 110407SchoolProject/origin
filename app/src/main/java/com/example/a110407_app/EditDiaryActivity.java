@@ -254,9 +254,7 @@ public class EditDiaryActivity extends AppCompatActivity {
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editTextContent.setGravity(Gravity.TOP);
         editTextContent.setSingleLine(false);
-
         ourAPIService = RetrofitManager.getInstance().getAPI();
-
         btnSaveDiary = findViewById(R.id.btnSaveDiary);
         btnSaveDiary.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,14 +270,12 @@ public class EditDiaryActivity extends AppCompatActivity {
                         tag2,
                         moodScoreInt
                 );
-
                 //發Token 要加上 "bearer "
                 Call<UserDiary> callAddNewDiary = ourAPIService.postUserDiary("bearer "+userToken,userDiary);
                 callAddNewDiary.enqueue(new Callback<UserDiary>() {
                     @Override
                     public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
                         System.out.println("伺服器有回應");
-
                         try {
                             String result = response.message();
                             System.out.println("Server:"+result);
@@ -298,11 +294,9 @@ public class EditDiaryActivity extends AppCompatActivity {
                         Log.d("HKT", "response: " + t.toString());
                     }
                 });
-
             }
         });
         //心情選取欄位
-
         //我在改EDITDIARY的xml-DION
         currentMood= (ImageView)findViewById(R.id.currentMoodImageView);
         btnCryingMood =(ImageView)findViewById(R.id.btnCrying);
@@ -310,10 +304,8 @@ public class EditDiaryActivity extends AppCompatActivity {
         btnNormalMood =(ImageView)findViewById(R.id.bntNormal);
         btnSmilingMood =(ImageView)findViewById(R.id.btnSmiling);
         btnExcitingMood =(ImageView)findViewById(R.id.btnExciting);
-
         showCategory = (TextView) findViewById(R.id.CategoryTextView);
         showCategory.setText("未選擇標籤");
-
         btnCryingMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -355,7 +347,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                 currentMood.setImageResource(R.drawable.exciting);
             }
         });
-
         //用BERT預測心情
         moodPredictButton = (Button) findViewById(R.id.moodPredictButton);
         moodPredictButton.setOnClickListener(new View.OnClickListener() {
@@ -471,7 +462,6 @@ public class EditDiaryActivity extends AppCompatActivity {
                     }
                 });
             }
-
         });
     }
 }
