@@ -34,13 +34,19 @@ import android.widget.Toast;
 
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
+import com.example.a110407_app.Model.UserNickName;
 import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
+import com.example.a110407_app.ShowDiaryActivity;
+import com.example.a110407_app.activitychooseprofile;
 import com.example.a110407_app.ui.PasswordSetting;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -68,6 +74,7 @@ public class ProfileFragment extends Fragment {
     private TextView userGenderTextView;
     private TextView numberOfDiaryTextView;
     private ImageView userCurrentMood;
+    private ImageView btnEditProfileName;
     //Token
     private String userToken;
     //API
@@ -88,6 +95,14 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
+
+    public void openActivityChooseProfile(){
+        Intent intent = new Intent(getActivity(), activitychooseprofile.class);
+//        intent.putExtra("userToken",userToken);
+//        intent.putExtra("id",diaryId);
+        startActivity(intent);
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -102,14 +117,26 @@ public class ProfileFragment extends Fragment {
         userEmailTextView=getView().findViewById(R.id.profileEmail);
         userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);
         userNickNameUnderImageTextView = (TextView) getView().findViewById(R.id.profileName);
+
+        btnEditProfileName = getView().findViewById(R.id.editProfileName);
         //NICKNAME
         userNickNameTextView = (TextView) getView().findViewById(R.id.profileName);
 //        userGenderTextView =getView().findViewById(R.id.pro)
 ////        numberOfDiaryTextView = getView().findViewById();
 ////        userCurrentMood;
 
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openActivityChooseProfile();
+            }
+        });
+
+
         ourAPIService = RetrofitManager.getInstance().getAPI();
         Call<User> callUserData = ourAPIService.getUserData("bearer "+userToken);
+
+
         callUserData.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -122,12 +149,6 @@ public class ProfileFragment extends Fragment {
                 userGender=userData.get("gender").toString();
                 userBirthday=userData.get("birthday").toString();
                 userTrueName=userData.get("truename").toString();
-
-//                System.out.println(userEmail);
-//                System.out.println(userNickName);
-//                System.out.println(userGender);
-//                System.out.println(userBirthday);
-//                System.out.println(userTrueName);
 
                 userNickName=userNickName.substring(1,userNickName.length()-1);
                 userEmail=userEmail.substring(1,userEmail.length()-1);
@@ -146,6 +167,57 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<User> call, Throwable t) {
                 System.out.println("伺服器連線失敗");
                 Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
+        btnEditProfileName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText editTextNickName =new EditText(getActivity());
+                AlertDialog.Builder dialogEditTextName = new AlertDialog.Builder(getActivity());
+                dialogEditTextName.setTitle("輸入新暱稱");
+                dialogEditTextName.setView(editTextNickName);
+                dialogEditTextName.setCancelable(false);
+                dialogEditTextName.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity(),"Setting",Toast.LENGTH_LONG);
+                        String userNewNickName = editTextNickName.getText().toString();
+                        System.out.println(userNewNickName);
+                        UserNickName userNickName =new UserNickName(userNewNickName);
+                        Call<UserNickName> callPutUser =ourAPIService.putUserNickname("bearer "+userToken,userNickName);
+                        callPutUser.enqueue(new Callback<UserNickName>() {
+                            @Override
+                            public void onResponse(Call<UserNickName> call, Response<UserNickName> response) {
+                                String result=response.message();
+                                System.out.println(result);
+                                if(result.equals("OK")){
+                                    userNickNameTextView.setText(userNewNickName);
+                                }else{
+                                    Toast.makeText(getActivity().getApplicationContext(), "更改暱稱失敗", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserNickName> call, Throwable t) {
+                                System.out.println("伺服器連線失敗");
+                                Log.d("HKT", "response: " + t.toString());
+                            }
+                        });
+
+
+
+
+                    }
+                });
+                dialogEditTextName.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                dialogEditTextName.show();
             }
         });
     }
