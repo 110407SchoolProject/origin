@@ -8,35 +8,55 @@
 
     tools:context=".ui.tree.tree">
 
+    <LinearLayout
+        android:id="@+id/info"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/boxbg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="7dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/information" />
+
+        <View
+            android:layout_width="6dp"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/tvtree"
+            android:layout_width="312dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            android:padding="2dp"
+            android:text="這棵心情樹收集了您這個期間內日記的內容。\n可以讓你您見您最在這個期間鐘耿耿於懷的文字。"
+            android:textColor="#99000000"
+            android:textSize="13.9sp" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/text_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
-        android:text="2021年6月4號-2021年6月11號的心情分析結果"
+        android:text="2021年6月4號-2021年6月11號"
         android:textColor="#99000000"
-        android:textSize="18dp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvtree"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:gravity="center"
-        android:text="過去日記所寫下的所有文字"
-        android:textColor="#99000000"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </TextView>
 
     <ImageView
         android:id="@+id/tree"
