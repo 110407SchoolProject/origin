@@ -2,14 +2,36 @@ package com.example.a110407_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.a110407_app.Model.Status;
+import com.example.a110407_app.Model.User;
+import com.example.a110407_app.RetrofitAPI.APIService;
+import com.example.a110407_app.RetrofitAPI.RetrofitManager;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class activitychooseprofile extends AppCompatActivity {
     Button boy1,boy2,boy3,girl1,btnsave,girl2,girl3;
     String SHARED_PREFS = "codeTheme";
+    private int characterNumber;
+    private APIService ourAPIService;
+    private String userToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +44,12 @@ public class activitychooseprofile extends AppCompatActivity {
         girl1 = findViewById(R.id.girl1);
         girl2 = findViewById(R.id.girl2);
         girl3 = findViewById(R.id.girl3);
+
+        Intent intent = getIntent();
+        userToken = intent.getStringExtra("userToken");
+        System.out.println("Token： "+userToken);
+        ourAPIService = RetrofitManager.getInstance().getAPI();
+
 
         //      set the function of theme changer
         boy2.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +64,8 @@ public class activitychooseprofile extends AppCompatActivity {
                 girl2.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 girl3.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 // change button color
+                characterNumber=2;
+                System.out.println(characterNumber);
                 btnsave.setTextColor(Color.parseColor("#3498db"));
             }
         });
@@ -52,6 +82,8 @@ public class activitychooseprofile extends AppCompatActivity {
                 girl2.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 girl3.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 // change button color
+                characterNumber=1;
+                System.out.println(characterNumber);
                 btnsave.setTextColor(Color.parseColor("#3498db"));
             }
         });
@@ -68,6 +100,8 @@ public class activitychooseprofile extends AppCompatActivity {
                 girl2.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 girl3.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 // change button color
+                characterNumber=3;
+                System.out.println(characterNumber);
                 btnsave.setTextColor(Color.parseColor("#3498db"));
             }
         });
@@ -84,6 +118,8 @@ public class activitychooseprofile extends AppCompatActivity {
                 girl2.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 girl3.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 // change button color
+                characterNumber=4;
+                System.out.println(characterNumber);
                 btnsave.setTextColor(Color.parseColor("#FE3BEC"));
             }
         });
@@ -100,6 +136,8 @@ public class activitychooseprofile extends AppCompatActivity {
                 girl1.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 girl3.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 // change button color
+                characterNumber=5;
+                System.out.println(characterNumber);
                 btnsave.setTextColor(Color.parseColor("#FE3BEC"));
                 // timer
 
@@ -118,6 +156,8 @@ public class activitychooseprofile extends AppCompatActivity {
                 girl1.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 girl2.animate().translationY(0).scaleX(1).scaleY(1).setDuration(350).start();
                 // change button color
+                characterNumber=6;
+                System.out.println(characterNumber);
                 btnsave.setTextColor(Color.parseColor("#FE3BEC"));
                 // timer
 
@@ -125,5 +165,30 @@ public class activitychooseprofile extends AppCompatActivity {
         });
 
 
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JsonArray characterNumberJsonArray =new JsonArray();
+                characterNumberJsonArray.add(characterNumber);
+                System.out.println(characterNumberJsonArray.toString());
+                Status status =new Status(characterNumberJsonArray);
+                Call<Status> callUpdateCharacter = ourAPIService.putUserStatus("bearer "+userToken, status);
+                callUpdateCharacter.enqueue(new Callback<Status>() {
+                    @Override
+                    public void onResponse(Call<Status> call, Response<Status> response) {
+                        String result=response.message();
+                        System.out.println(result);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Status> call, Throwable t) {
+                        System.out.println("伺服器連線失敗");
+                        Log.d("HKT", "response: " + t.toString());
+                    }
+                });
+            }
+        });
     }
 }

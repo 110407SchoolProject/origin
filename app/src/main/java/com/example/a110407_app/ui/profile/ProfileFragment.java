@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.Status;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
 import com.example.a110407_app.Model.UserNickName;
@@ -85,6 +86,7 @@ public class ProfileFragment extends Fragment {
     private String userNickName;
     private String userTrueName;
     private String userGender;
+    private String userCharacterNumber;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -96,10 +98,9 @@ public class ProfileFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
-    public void openActivityChooseProfile(){
+    public void openActivityChooseProfile(String userToken){
         Intent intent = new Intent(getActivity(), activitychooseprofile.class);
-//        intent.putExtra("userToken",userToken);
-//        intent.putExtra("id",diaryId);
+        intent.putExtra("userToken",userToken);
         startActivity(intent);
     }
 
@@ -112,7 +113,7 @@ public class ProfileFragment extends Fragment {
         System.out.println("Token： "+userToken);
 
         profileImageView = (ImageView) getView().findViewById(R.id.profileImage);
-        profileImageView.setImageResource(R.drawable.boy1);
+
 //        userTrueNameTextView= getView().findViewById(R.id.profileEmail);
         userEmailTextView=getView().findViewById(R.id.profileEmail);
         userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);
@@ -121,22 +122,14 @@ public class ProfileFragment extends Fragment {
         btnEditProfileName = getView().findViewById(R.id.editProfileName);
         //NICKNAME
         userNickNameTextView = (TextView) getView().findViewById(R.id.profileName);
-//        userGenderTextView =getView().findViewById(R.id.pro)
-////        numberOfDiaryTextView = getView().findViewById();
-////        userCurrentMood;
-
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openActivityChooseProfile();
+                openActivityChooseProfile(userToken);
             }
         });
-
-
         ourAPIService = RetrofitManager.getInstance().getAPI();
         Call<User> callUserData = ourAPIService.getUserData("bearer "+userToken);
-
-
         callUserData.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -150,10 +143,11 @@ public class ProfileFragment extends Fragment {
                 userBirthday=userData.get("birthday").toString();
                 userTrueName=userData.get("truename").toString();
 
+                userGender=userGender.substring(1,userGender.length()-1);
                 userNickName=userNickName.substring(1,userNickName.length()-1);
                 userEmail=userEmail.substring(1,userEmail.length()-1);
                 userBirthday=userBirthday.substring(1,userBirthday.length()-1);
-
+                System.out.println(userGender);
                 System.out.println(userNickName);
                 System.out.println(userEmail);
                 System.out.println(userBirthday);
@@ -165,6 +159,63 @@ public class ProfileFragment extends Fragment {
             }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+        Call<Status> callUserCharacter = ourAPIService.getUserStatus("bearer "+userToken);
+        callUserCharacter.enqueue(new Callback<Status>() {
+            @Override
+            public void onResponse(Call<Status> call, Response<Status> response) {
+                JsonArray characterNumberJsonArray = response.body().getStatus();
+                if(characterNumberJsonArray.size()!=0){
+                    String characterNumberJsonString =characterNumberJsonArray.get(0).toString();
+                    try {
+                        JSONObject characterNumberJsonObject =new JSONObject(characterNumberJsonString);
+                        userCharacterNumber=characterNumberJsonObject.get("status").toString();
+                        System.out.println("角色編號:"+userCharacterNumber);
+                        if(userCharacterNumber.equals("1")){
+                            profileImageView.setImageResource(R.drawable.boy1);
+                        }else if(userCharacterNumber.equals("2")){
+                            profileImageView.setImageResource(R.drawable.boy2);
+                        }else if(userCharacterNumber.equals("3")){
+                            profileImageView.setImageResource(R.drawable.boy3);
+                        }else if(userCharacterNumber.equals("4")){
+                            profileImageView.setImageResource(R.drawable.girl1);
+                        }else if(userCharacterNumber.equals("5")){
+                            profileImageView.setImageResource(R.drawable.girl2);
+                        }else if(userCharacterNumber.equals("6")){
+                            profileImageView.setImageResource(R.drawable.girl3);
+                        }else{
+                            profileImageView.setImageResource(R.drawable.addprofilepict);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    JsonArray characterNumberJson =new JsonArray();
+                    int roleNumber=0;
+                    characterNumberJson.add(roleNumber);
+                    profileImageView.setImageResource(R.drawable.addprofilepict);
+                    System.out.println(characterNumberJson.toString());
+                    Status status =new Status(characterNumberJson);
+                    Call<Status> callPostUserCharacter = ourAPIService.postUserStatus("bearer "+userToken,status);
+                    callPostUserCharacter.enqueue(new Callback<Status>() {
+                        @Override
+                        public void onResponse(Call<Status> call, Response<Status> response) {
+                            String result=response.message();
+                            System.out.println("沒選擇角色 "+result);
+                        }
+                        @Override
+                        public void onFailure(Call<Status> call, Throwable t) {
+                            System.out.println("伺服器連線失敗");
+                            Log.d("HKT", "response: " + t.toString());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onFailure(Call<Status> call, Throwable t) {
                 System.out.println("伺服器連線失敗");
                 Log.d("HKT", "response: " + t.toString());
             }
@@ -204,19 +255,13 @@ public class ProfileFragment extends Fragment {
                                 Log.d("HKT", "response: " + t.toString());
                             }
                         });
-
-
-
-
                     }
                 });
                 dialogEditTextName.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 });
-
                 dialogEditTextName.show();
             }
         });

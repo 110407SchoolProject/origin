@@ -9,6 +9,7 @@ import com.example.a110407_app.Model.MoodAnalysisTags;
 import com.example.a110407_app.Model.MoodPredict;
 import com.example.a110407_app.Model.MoodTalk;
 import com.example.a110407_app.Model.MoodTree;
+import com.example.a110407_app.Model.Status;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
 import com.example.a110407_app.Model.UserLogin;
@@ -31,6 +32,15 @@ public interface APIService {
 
 //    @GET("/api/index/moodtalk")    // 設置一個GET連線，路徑為albums/1
 //    Call<Sentence> getmoodtalk();
+
+    @GET("api/status/status") // 用@Body表示要傳送Body資料
+    Call<Status> getUserStatus(@Header("Authorization")String authHeader);
+
+    @POST("api/status/status") // 用@Body表示要傳送Body資料
+    Call<Status> postUserStatus(@Header("Authorization")String authHeader,@Body Status status);
+
+    @PUT("api/status/status") // 用@Body表示要傳送Body資料
+    Call<Status> putUserStatus(@Header("Authorization")String authHeader,@Body Status status);
 
     @GET("/api/index/moodtalk")    // 設置一個GET連線，路徑為albums/1
     Call<MoodTalk> getMoodTalk();
