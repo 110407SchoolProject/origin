@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -66,6 +67,7 @@ import retrofit2.Response;
  */
 public class ProfileFragment extends Fragment {
     //介面元件
+    private ProfileFragment profileFragment;
     private ImageView profileImageView;
     private TextView userTrueNameTextView;
     private TextView userNickNameUnderImageTextView;
@@ -88,6 +90,11 @@ public class ProfileFragment extends Fragment {
     private String userGender;
     private String userCharacterNumber;
 
+
+    public  void  exit(){
+        getActivity().onBackPressed();
+
+    }
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -102,6 +109,8 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(getActivity(), activitychooseprofile.class);
         intent.putExtra("userToken",userToken);
         startActivity(intent);
+        exit();
+
     }
 
     @Override

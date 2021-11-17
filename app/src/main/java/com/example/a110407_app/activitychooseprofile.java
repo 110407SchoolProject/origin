@@ -1,6 +1,7 @@
 package com.example.a110407_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import com.example.a110407_app.Model.Status;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
+import com.example.a110407_app.ui.profile.ProfileFragment;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -179,6 +181,11 @@ public class activitychooseprofile extends AppCompatActivity {
                     public void onResponse(Call<Status> call, Response<Status> response) {
                         String result=response.message();
                         System.out.println(result);
+
+//                        ProfileFragment profileFragment =new ProfileFragment() ;
+//                        getSupportFragmentManager().beginTransaction()
+//                                .show(profileFragment)
+//                                .commit();
                         finish();
                     }
 
