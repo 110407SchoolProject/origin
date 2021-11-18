@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.ModelPasswordChange;
 import com.example.a110407_app.Model.Status;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
@@ -78,6 +79,7 @@ public class ProfileFragment extends Fragment {
     private TextView numberOfDiaryTextView;
     private ImageView userCurrentMood;
     private ImageView btnEditProfileName;
+    private Button btnChangePassword;
     //Token
     private String userToken;
     //API
@@ -122,7 +124,7 @@ public class ProfileFragment extends Fragment {
         System.out.println("Token： "+userToken);
 
         profileImageView = (ImageView) getView().findViewById(R.id.profileImage);
-
+        btnChangePassword=getView().findViewById(R.id.btnPasswordSetting);
 //        userTrueNameTextView= getView().findViewById(R.id.profileEmail);
         userEmailTextView=getView().findViewById(R.id.profileEmail);
         userBirthdayTextView =getView().findViewById(R.id.profileBirhtday);
@@ -230,6 +232,8 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
+
         btnEditProfileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,7 +241,7 @@ public class ProfileFragment extends Fragment {
                 AlertDialog.Builder dialogEditTextName = new AlertDialog.Builder(getActivity());
                 dialogEditTextName.setTitle("輸入新暱稱");
                 dialogEditTextName.setView(editTextNickName);
-                dialogEditTextName.setCancelable(false);
+                dialogEditTextName.setCancelable(true);
                 dialogEditTextName.setPositiveButton("確定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -272,6 +276,101 @@ public class ProfileFragment extends Fragment {
                     }
                 });
                 dialogEditTextName.show();
+            }
+        });
+
+        btnChangePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialogInputOldPassword= new AlertDialog.Builder(getActivity());
+                View viewInputOldPassword = getActivity().getLayoutInflater().inflate(R.layout.inputoldpassword, null);
+                dialogInputOldPassword.setView(viewInputOldPassword);
+                dialogInputOldPassword.setCancelable(true);
+                EditText userOldPasswordEditText = viewInputOldPassword.findViewById(R.id.inputOldUserPassword);
+                dialogInputOldPassword.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("妳按下了確定");
+                        ModelPasswordChange userOldPassword =new ModelPasswordChange(userOldPasswordEditText.getText().toString());
+                        Call<ModelPasswordChange> callInputOldPassword =ourAPIService.postUserOldPassword("bearer "+userToken,userOldPassword);
+                        callInputOldPassword.enqueue(new Callback<ModelPasswordChange>() {
+                            @Override
+                            public void onResponse(Call<ModelPasswordChange> call, Response<ModelPasswordChange> response) {
+                                String result=response.message();
+                                System.out.println(result+"密碼驗證");
+                                if(result.equals("OK")){
+                                    Toast.makeText(getActivity(),"密碼正確",Toast.LENGTH_SHORT).show();
+                                    //密碼正確 要開啟另一個對話方塊
+                                    AlertDialog.Builder dialogInputNewPassword= new AlertDialog.Builder(getActivity());
+                                    View viewInputOldPassword = getActivity().getLayoutInflater().inflate(R.layout.setnewpassword, null);
+                                    dialogInputNewPassword.setView(viewInputOldPassword);
+                                    dialogInputNewPassword.setCancelable(true);
+                                    EditText userNewPasswordEditText = viewInputOldPassword.findViewById(R.id.inputNewPassword);
+                                    EditText userNewConfirmPasswordEditText = viewInputOldPassword.findViewById(R.id.inputConfirmNewPassword);
+                                    dialogInputNewPassword.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            System.out.println("妳按下了確定");
+                                            String newPassword =userNewPasswordEditText.getText().toString();
+                                            String newPasswordConfirm =userNewConfirmPasswordEditText.getText().toString();
+
+                                            if(newPassword.equals(newPasswordConfirm)){
+                                                ModelPasswordChange newPasswordToUpdate =new ModelPasswordChange(newPassword);
+                                                Call<ModelPasswordChange> callPasswordChange =ourAPIService.putUserOldPassword("bearer "+userToken,newPasswordToUpdate);
+                                                callPasswordChange.enqueue(new Callback<ModelPasswordChange>() {
+                                                    @Override
+                                                    public void onResponse(Call<ModelPasswordChange> call, Response<ModelPasswordChange> response) {
+                                                        String result=response.message();
+                                                        System.out.println(result+"密碼修改");
+                                                        if(result.equals("OK")){
+                                                            Toast.makeText(getActivity(),"密碼修改成功",Toast.LENGTH_SHORT).show();
+                                                        }else {
+                                                            Toast.makeText(getActivity(),"密碼格式不符",Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<ModelPasswordChange> call, Throwable t) {
+
+                                                    }
+                                                });
+                                            }else{
+                                                Toast.makeText(getActivity(),"前後密碼不一致",Toast.LENGTH_SHORT).show();
+                                            }
+
+
+                                        }
+                                    });
+                                    dialogInputNewPassword.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            System.out.println("妳按下了取消");
+                                        }
+                                    });
+
+                                    dialogInputNewPassword.show();
+
+                                }else{
+                                    Toast.makeText(getActivity(),"密碼錯誤",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ModelPasswordChange> call, Throwable t) {
+                                System.out.println("密碼修改 - 連線失敗");
+                                Log.d("HKT", "response: " + t.toString());
+                            }
+                        });
+
+                    }
+                });
+                dialogInputOldPassword.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        System.out.println("妳按下了取消");
+                    }
+                });
+                dialogInputOldPassword.show();
             }
         });
     }

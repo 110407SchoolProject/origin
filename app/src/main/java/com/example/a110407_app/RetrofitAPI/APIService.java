@@ -1,5 +1,6 @@
 package com.example.a110407_app.RetrofitAPI;
 
+import com.example.a110407_app.Model.ModelPasswordChange;
 import com.example.a110407_app.Model.MoodAnalysis;
 import com.example.a110407_app.Model.MoodAnalysisCountDiarys;
 import com.example.a110407_app.Model.MoodAnalysisLinechart;
@@ -32,6 +33,11 @@ public interface APIService {
 
 //    @GET("/api/index/moodtalk")    // 設置一個GET連線，路徑為albums/1
 //    Call<Sentence> getmoodtalk();
+    @POST("api/commonauth/passwords") // 用@Body表示要傳送Body資料
+    Call<ModelPasswordChange> postUserOldPassword(@Header("Authorization")String authHeader, @Body ModelPasswordChange modelPasswordChange);
+
+    @PUT("api/commonauth/passwords") // 用@Body表示要傳送Body資料
+    Call<ModelPasswordChange> putUserOldPassword(@Header("Authorization")String authHeader, @Body ModelPasswordChange modelPasswordChange);
 
     @GET("api/status/status") // 用@Body表示要傳送Body資料
     Call<Status> getUserStatus(@Header("Authorization")String authHeader);
