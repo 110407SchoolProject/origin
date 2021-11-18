@@ -125,7 +125,11 @@ public class treeFragmentSelectDate extends Fragment {
                 System.out.println(start);
                 System.out.println(end);
                 MoodTree moodTree = new MoodTree(start,end);
-                Bundle bundletree = new Bundle();
+                Bundle bundleTree = new Bundle();
+
+                bundleTree.putString("start", start);
+                bundleTree.putString("end", end);
+
                 Call<MoodTree> callMoodTree = ourAPIService.postMoodTree("bearer " + userToken, moodTree);
                 callMoodTree.enqueue(new Callback<MoodTree>() {
                     @Override
@@ -137,9 +141,9 @@ public class treeFragmentSelectDate extends Fragment {
                             System.out.println(tree_image_url);
                             String test = "http://server.gywang.io:8084/" + tree_image_url;
                             System.out.println("TEST:" + test);
-                            bundletree.putString("tree" , tree_image_url);
+                            bundleTree.putString("tree" , tree_image_url);
                             NavHostFragment.findNavController(treeFragmentSelectDate.this)
-                                    .navigate(R.id.nav_treeGenerated, bundletree);
+                                    .navigate(R.id.nav_treeGenerated, bundleTree);
                         }catch (Exception e){
                             System.out.println(e);
                             System.out.println("回應文字雲失敗");

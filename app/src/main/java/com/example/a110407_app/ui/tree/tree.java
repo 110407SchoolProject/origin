@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a110407_app.Model.MoodAnalysisLinechart;
@@ -29,6 +30,10 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +43,7 @@ public class tree extends Fragment {
     private TreeViewModel mViewModel;
     private OnButtonClick onButtonClick;
     private ImageView tree;
+    private TextView dateTitleTextView;
 
     public static tree newInstance() {
         return new tree();
@@ -68,6 +74,38 @@ public class tree extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         System.out.println("你成功跳轉了喔!");
+
+        dateTitleTextView = getActivity().findViewById(R.id.text_date);
+
+        String beginDateString = getArguments().getString("start");
+        String endDateString = getArguments().getString("end");
+        System.out.println(beginDateString);
+        System.out.println(endDateString);
+
+        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+        Date beginDate = null;
+        try {
+            beginDate = sdf.parse(beginDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date overDate = null;
+        try {
+            overDate = sdf.parse(endDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int startYear=(beginDate.getYear()-100+2000);
+        int startMonth=beginDate.getMonth()+1;
+        int startDate = beginDate.getDate();
+        int endYear=(overDate.getYear()-100+2000);
+        int endMonth=overDate.getMonth()+1;
+        int endDay = overDate.getDate();
+
+        String titleTextDate=startYear+"年"+startMonth+"月"+startDate+"日"+" - "+endYear+"年"+endMonth+"月"+endDay+"日";
+        dateTitleTextView.setText(titleTextDate);
+
         tree = getActivity().findViewById(R.id.tree);
         String tree_image_url = getArguments().getString("tree");
         System.out.println("樹木url: " + tree_image_url);
