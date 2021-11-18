@@ -145,7 +145,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profileImage" />
 
         <Button
-            android:id="@+id/btnPasswordsetting"
+            android:id="@+id/btnPasswordSetting"
             android:layout_width="180dp"
             android:layout_height="50dp"
             android:layout_marginStart="115dp"
