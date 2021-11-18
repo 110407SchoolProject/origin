@@ -150,7 +150,7 @@ public class PasswordSetting extends AppCompatActivity  {
                 inputOldPasswordDialog.setPositiveButton("確認", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        getOldPassword = view.findViewById(R.id.inputOldPassword);
+//                        getOldPassword = view.findViewById(R.id.inputOldPassword);
                         strOldPassword = getOldPassword.getText().toString();
                         //取得資料表中的密碼
                         for (HashMap<String, String> data : TableUserPassword.showAllPassword()) {
