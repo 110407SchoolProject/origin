@@ -7,15 +7,15 @@
     tools:context=".ui.slideshow.moodAnalysisFragment"
     android:background="@drawable/mainbg">
     <TextView
-        android:id="@+id/text_slideshow"
+        android:id="@+id/text_DateTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="2021年6月4號-2021年6月11號"
+        android:text="2021年11月4號-2021年11月11號"
         android:textColor="#66000000"
-        android:textSize="24sp"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_slideshow">
+        app:layout_constraintTop_toBottomOf="@+id/text_DateTitle">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="日記篇數 : "
                         android:textColor="#FEC9AA"
-                        android:textSize="26sp" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/diary_count"
@@ -101,9 +101,9 @@
                     android:id="@+id/moodScoreAverageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="平均心情 :"
+                    android:text="心情評價 :"
                     android:textColor="#FEC9AA"
-                    android:textSize="26sp" />
+                    android:textSize="24sp" />
 
                 <ImageView
                     android:id="@+id/moodScoreAverage"

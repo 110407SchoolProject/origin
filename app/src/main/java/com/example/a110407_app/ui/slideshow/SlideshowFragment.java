@@ -1,10 +1,7 @@
 package com.example.a110407_app.ui.slideshow;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,37 +10,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.example.a110407_app.Model.MoodAnalysis;
-import com.example.a110407_app.Model.MoodAnalysisCountDiarys;
-import com.example.a110407_app.Model.MoodAnalysisLinechart;
-import com.example.a110407_app.Model.MoodAnalysisPiechart;
-import com.example.a110407_app.Model.MoodAnalysisScore;
-import com.example.a110407_app.Model.MoodAnalysisTags;
 import com.example.a110407_app.R;
 import com.example.a110407_app.RetrofitAPI.APIService;
-import com.example.a110407_app.RetrofitAPI.RetrofitManager;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import androidx.navigation.fragment.NavHostFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 //選擇起始日期跟結束日期的畫面  for 心情分析
@@ -73,7 +52,7 @@ public class SlideshowFragment extends Fragment {
         slideshowViewModel =
                 ViewModelProviders.of(this).get(SlideshowViewModel.class);
         View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
+        final TextView textView = root.findViewById(R.id.text_DateTitle);
         slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

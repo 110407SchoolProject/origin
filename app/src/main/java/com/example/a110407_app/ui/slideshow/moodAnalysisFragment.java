@@ -26,6 +26,9 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +41,7 @@ import retrofit2.Response;
  */
 public class moodAnalysisFragment extends Fragment {
     String userToken;
+    private TextView dateTitleTextView;
     private TextView diary_count;
     private TextView moodScore;
     private ImageView moodScoreAverage;
@@ -98,18 +102,23 @@ public class moodAnalysisFragment extends Fragment {
 //        System.out.println("start開始 : " + start);
 //        System.out.println("end結束: " + end);
         System.out.println("跳到心情分析畫面了喔");
-        String start = getArguments().getString("start");
-        String end = getArguments().getString("end");
+        String startDate = getArguments().getString("start");
+        String endDate = getArguments().getString("end");
+
+
+
+
+
         APIService ourAPIService;
         ourAPIService = RetrofitManager.getInstance().getAPI();
         Intent intent = getActivity().getIntent();
         userToken = intent.getStringExtra("userToken");
         System.out.println("心情分析的token: " + userToken);
-        MoodAnalysisCountDiarys moodAnalysisCountDiarys = new MoodAnalysisCountDiarys(start,end);
+        MoodAnalysisCountDiarys moodAnalysisCountDiarys = new MoodAnalysisCountDiarys(startDate,endDate);
         Call<MoodAnalysisCountDiarys> callAnalysisCountDiarys = ourAPIService.putMoodAnalysisCountDiarys("bearer " + userToken, moodAnalysisCountDiarys);
-        MoodAnalysisScore moodAnalysisScore = new MoodAnalysisScore(start,end);
+        MoodAnalysisScore moodAnalysisScore = new MoodAnalysisScore(startDate,endDate);
         Call<MoodAnalysisScore> callAnalysisScore = ourAPIService.postMoodAnalysisScore("bearer " + userToken, moodAnalysisScore);
-        MoodAnalysisTags moodAnalysisTags = new MoodAnalysisTags(start,end);
+        MoodAnalysisTags moodAnalysisTags = new MoodAnalysisTags(startDate,endDate);
         Call<MoodAnalysisTags> callMoodAnalysisTags = ourAPIService.postMoodAnalysisTags("bearer " + userToken, moodAnalysisTags);
 //        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(start,end);
 //        Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
@@ -126,6 +135,22 @@ public class moodAnalysisFragment extends Fragment {
                     String string_diary_count = String.valueOf(diary_count_diarys);
                     diary_count = getActivity().findViewById(R.id.diary_count);
                     diary_count.setText(string_diary_count);
+
+                    dateTitleTextView = getActivity().findViewById(R.id.text_DateTitle);
+
+                    SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
+                    Date beginDate =sdf.parse(startDate);
+                    Date overDate =sdf.parse(endDate);
+
+                    int startYear=(beginDate.getYear()-100+2000);
+                    int startMonth=beginDate.getMonth()+1;
+                    int startDate = beginDate.getDate();
+                    int endYear=(overDate.getYear()-100+2000);
+                    int endMonth=overDate.getMonth()+1;
+                    int endDay = overDate.getDate();
+
+                    String titleTextDate=startYear+"年"+startMonth+"月"+startDate+"日"+" - "+endYear+"年"+endMonth+"月"+endDay+"日";
+                    dateTitleTextView.setText(titleTextDate);
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應日記篇數失敗");
@@ -207,7 +232,7 @@ public class moodAnalysisFragment extends Fragment {
             }
         });
         //取得圓餅圖url
-        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(start,end);
+        MoodAnalysisPiechart moodAnalysisPiechart = new MoodAnalysisPiechart(startDate,endDate);
         Call<MoodAnalysisPiechart> callMoodAnalysisPiechart = ourAPIService.postMoodAnalysisPiechart("bearer " + userToken, moodAnalysisPiechart);
         callMoodAnalysisPiechart.enqueue(new Callback<MoodAnalysisPiechart>() {
             @Override
@@ -238,7 +263,7 @@ public class moodAnalysisFragment extends Fragment {
         }
 
         //取得折線圖url
-        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart(start,end);
+        MoodAnalysisLinechart moodAnalysisLinechart = new MoodAnalysisLinechart(startDate,endDate);
         Call<MoodAnalysisLinechart> callmoodAnalysisLineChart = ourAPIService.postMoodAnalysisLinechart("bearer " + userToken, moodAnalysisLinechart);
         callmoodAnalysisLineChart.enqueue(new Callback<MoodAnalysisLinechart>() {
             @Override
@@ -270,4 +295,6 @@ public class moodAnalysisFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mood_analysis_activity, container, false);
     }
+
+
 }
