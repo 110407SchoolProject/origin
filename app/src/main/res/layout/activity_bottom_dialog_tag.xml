@@ -37,13 +37,14 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
                 android:id="@+id/btnFriendTag"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/mainbtnpink"
-                app:riv_corner_radius="10dp" />
+                android:src="@drawable/friendicon"
+                />
 
             <TextView
                 android:id="@+id/FriendTagTextView"
@@ -60,13 +61,14 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
                 android:id="@+id/btnFamilyTag"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/mainbtnpink"
-                app:riv_corner_radius="10dp" />
+                android:src="@drawable/familyicon"
+                 />
 
             <TextView
                 android:id="@+id/FamilyTagTextView"
@@ -83,13 +85,14 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
                 android:id="@+id/btnRelationshipTag"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/mainbtnpink"
-                app:riv_corner_radius="10dp" />
+                android:src="@drawable/relationshipicon"
+                 />
 
             <TextView
                 android:id="@+id/RelationshipTagTextView"
@@ -106,13 +109,14 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
                 android:id="@+id/btnWorkTag"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/mainbtnpink"
-                app:riv_corner_radius="10dp" />
+                android:src="@drawable/workicon"
+                 />
 
             <TextView
                 android:id="@+id/WorkTagTextView"
@@ -146,20 +150,22 @@
                 android:orientation="vertical"
                 android:gravity="center">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/btnStudyTag"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/mainbtnpink"
-                    app:riv_corner_radius="10dp" />
+                    android:src="@drawable/schoolicon"
+                    />
 
                 <TextView
                     android:id="@+id/StudiesTagTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="上學" />
+                    android:text="上學"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -168,13 +174,14 @@
                 android:gravity="center"
                 android:layout_marginLeft="20dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/btnTravelTag"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/mainbtnpink"
-                    app:riv_corner_radius="10dp" />
+                    android:src="@drawable/travelicon"
+                     />
 
                 <TextView
                     android:id="@+id/TravelTagTextView"
@@ -190,13 +197,14 @@
                 android:gravity="center"
                 android:layout_marginLeft="20dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/btnHobbyTag"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/mainbtnpink"
-                    app:riv_corner_radius="10dp" />
+                    android:src="@drawable/hobbyicon"
+                     />
 
                 <TextView
                     android:id="@+id/HobbyTagTextView"
@@ -212,20 +220,22 @@
                 android:gravity="center"
                 android:layout_marginLeft="20dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/btnOptionTag"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/mainbtnpink"
-                    app:riv_corner_radius="10dp" />
+                    android:src="@drawable/othericon"
+                    />
 
                 <TextView
                     android:id="@+id/CustomTagTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="自訂" />
+                    android:text="自訂"
+                    />
             </LinearLayout>
 
 
