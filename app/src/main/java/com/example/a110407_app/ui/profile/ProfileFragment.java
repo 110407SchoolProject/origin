@@ -34,6 +34,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.a110407_app.Model.ModelPasswordChange;
+import com.example.a110407_app.Model.ProfileDiaryNumber;
+import com.example.a110407_app.Model.ProfileScore;
 import com.example.a110407_app.Model.Status;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
@@ -77,8 +79,10 @@ public class ProfileFragment extends Fragment {
     private TextView userBirthdayTextView;
     private TextView userGenderTextView;
     private TextView numberOfDiaryTextView;
+    private TextView currentDiaryNumber;
     private ImageView userCurrentMood;
     private ImageView btnEditProfileName;
+    private ImageView recentMoodImage;
     private Button btnChangePassword;
     //Token
     private String userToken;
@@ -133,6 +137,8 @@ public class ProfileFragment extends Fragment {
         btnEditProfileName = getView().findViewById(R.id.editProfileName);
         //NICKNAME
         userNickNameTextView = (TextView) getView().findViewById(R.id.profileName);
+        currentDiaryNumber = (TextView) getView().findViewById(R.id.currentDiaryNumbers);
+        recentMoodImage = (ImageView) getView().findViewById(R.id.recentMoodImageView);
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,6 +238,54 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        //取得日記總篇數
+        Call<ProfileDiaryNumber> callProfileDiaryNumber = ourAPIService.getProfileDiaryNumber("bearer "+userToken);
+        callProfileDiaryNumber.enqueue(new Callback<ProfileDiaryNumber>() {
+            @Override
+            public void onResponse(Call<ProfileDiaryNumber> call, Response<ProfileDiaryNumber> response) {
+                String result = response.message();
+                int diary_number = response.body().getDiary_number();
+                //System.out.println("印出來總篇數" + String.valueOf(diary_number));
+                currentDiaryNumber.setText(String.valueOf(diary_number));
+            }
+
+            @Override
+            public void onFailure(Call<ProfileDiaryNumber> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
+
+        //取得最新兩篇日記加權平均分數
+        Call<ProfileScore> callProfileScore = ourAPIService.putProfileScore("bearer "+userToken);
+        callProfileScore.enqueue(new Callback<ProfileScore>() {
+            @Override
+            public void onResponse(Call<ProfileScore> call, Response<ProfileScore> response) {
+                String result = response.message();
+                float score = response.body().getScore();
+                System.out.println("分數為: " + String.valueOf(score));
+
+                if(score <= 1.0) {
+                    recentMoodImage.setImageResource(R.drawable.crying);
+                }else if ( score <=2.0 && score > 1.0){
+                    recentMoodImage.setImageResource(R.drawable.sad);
+                }else if (score <=3.0 && score > 2.0){
+                    recentMoodImage.setImageResource(R.drawable.normal);
+                }else if (score <=4.0 && score > 3.0){
+                    recentMoodImage.setImageResource(R.drawable.smiling);
+                }else if(score >= 5.0 && score > 4.0 ){
+                    recentMoodImage.setImageResource(R.drawable.exciting);
+                }else {
+                    System.out.println("分數計算有誤");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProfileScore> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
 
 
         btnEditProfileName.setOnClickListener(new View.OnClickListener() {
