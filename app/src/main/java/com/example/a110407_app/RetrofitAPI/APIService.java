@@ -10,6 +10,8 @@ import com.example.a110407_app.Model.MoodAnalysisTags;
 import com.example.a110407_app.Model.MoodPredict;
 import com.example.a110407_app.Model.MoodTalk;
 import com.example.a110407_app.Model.MoodTree;
+import com.example.a110407_app.Model.ProfileDiaryNumber;
+import com.example.a110407_app.Model.ProfileScore;
 import com.example.a110407_app.Model.Status;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.Model.UserDiary;
@@ -98,6 +100,13 @@ public interface APIService {
 
     @POST("/api/analysis/linechart/days") // 取得期間內日記折線圖
     Call<MoodAnalysisLinechart>postMoodAnalysisLinechart(@Header("Authorization")String authHeader, @Body MoodAnalysisLinechart moodAnalysisLinechart);
+
+    @PUT("/api/analysis/analysisscore/days") //取得最新兩篇日記的分數加權平均
+    Call<ProfileScore>putProfileScore(@Header("Authorization")String authHeader);
+
+    @GET("/api/analysis/analysisscore/days") // 取得日記總篇數
+    Call<ProfileDiaryNumber>getProfileDiaryNumber(@Header("Authorization")String authHeader);
+
 
 
 
