@@ -62,11 +62,11 @@
                     android:id="@+id/tagNum1"
                     android:layout_width="70dp"
                     android:layout_height="34dp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/showdiarytagbox"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:layout_marginLeft="12dp"
-                    android:text="#test1"
+                    android:text=""
                     android:textSize="18sp" />
 
                 <TextView
@@ -77,7 +77,7 @@
                     android:background="@drawable/showdiarytagbox"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="#test1"
+                    android:text=""
                     android:textSize="18sp" />
 
                 <TextView
@@ -88,7 +88,7 @@
                     android:background="@drawable/showdiarytagbox"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="#test1"
+                    android:text=""
                     android:textSize="18sp" />
 
 
@@ -101,9 +101,9 @@
             android:id="@+id/moodImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:padding="4dp"
+            android:padding="4dp"/>
 
-            app:srcCompat="@drawable/crying" />
+
 
     </LinearLayout>
 
@@ -130,7 +130,7 @@
             android:layout_marginEnd="45dp"
             android:layout_marginRight="45dp"
             android:padding="5dp"
-            android:text="text"
+            android:text=""
             android:textColor="#66000000"
             android:textSize="18sp"
             />
@@ -176,9 +176,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="10dp"
         android:gravity="start"
-        android:text="動態標題"
+        android:text=""
         android:textColor="#66000000"
         android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"

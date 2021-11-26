@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
@@ -75,7 +76,9 @@ public class ShowDiaryActivity extends AppCompatActivity {
     private String diaryId;
     private TextView showTitleText; //顯示日記標題
     private TextView showContentText; //顯示日記內文
-    private TextView showCategory;//顯示日記分類
+    private TextView tagTextView;//顯示日記標籤
+    private TextView tag2TextView;//顯示日記標籤
+    private TextView tag3TextView;//顯示日記標籤
     private ImageView showImageMood;//顯示日記心情
     private String textTitle;
     private String textContent;
@@ -102,6 +105,13 @@ public class ShowDiaryActivity extends AppCompatActivity {
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         btnEditDiary = findViewById(R.id.btnEditDiary);
 
+
+        tagTextView=findViewById(R.id.tagNum1);
+        tag2TextView=findViewById(R.id.tagNum2);
+        tag3TextView=findViewById(R.id.tagNum3);
+
+
+
         Intent intent =getIntent();
         diaryId =intent.getStringExtra("id");
         userToken = intent.getStringExtra("userToken");
@@ -125,6 +135,35 @@ public class ShowDiaryActivity extends AppCompatActivity {
                 moodScore=singleDiaryJsonObject.get("moodscore").toString();
                 createDate=singleDiaryJsonObject.get("create_date").toString();
                 modifiedDate=singleDiaryJsonObject.get("last_modified").toString();
+
+                System.out.println(tag);
+                System.out.println(tag2);
+                System.out.println(tag3);
+                if(tag.length()!=2){
+                    tag=tag.substring(1,tag.length()-1);
+                    tagTextView.setText(tag);
+                }else{
+                    tagTextView.setBackgroundColor(Color.parseColor("#fff6bb"));
+                    tagTextView.setText("");
+                }
+                if(tag2.length()!=2){
+                    tag2=tag2.substring(1,tag2.length()-1);
+                    tag2TextView.setText(tag2);
+                }else{
+                    tag2TextView.setBackgroundColor(Color.parseColor("#fff6bb"));
+                    tag2TextView.setText("");
+                }
+                if(tag3.length()!=2){
+                    tag3=tag3.substring(1,tag3.length()-1);
+                    tag3TextView.setText(tag3);
+                }else{
+                    tag3TextView.setBackgroundColor(Color.parseColor("#fff6bb"));
+                    tag3TextView.setText("");
+                }
+
+
+
+
 
                 textTitle=textTitle.substring(1,textTitle.length()-1);
                 textContent=textContent.substring(1,textContent.length()-1);
@@ -250,7 +289,5 @@ public class ShowDiaryActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("userToken",userToken);
         startActivity(intent);
-
     }
-
 }
