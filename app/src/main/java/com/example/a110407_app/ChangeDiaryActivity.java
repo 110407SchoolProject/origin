@@ -208,6 +208,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
 
                 textContent= textContent.substring(1,textContent.length()-1);
                 textTitle = textTitle.substring(1,textTitle.length()-1);
+                textContent=textContent.replace("\\n","\n");
                 editTextTitle.setText(textTitle);
                 editTextContent.setText(textContent);
 

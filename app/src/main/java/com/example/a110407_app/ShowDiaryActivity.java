@@ -129,6 +129,7 @@ public class ShowDiaryActivity extends AppCompatActivity {
 
                 textTitle=singleDiaryJsonObject.get("title").toString();
                 textContent=singleDiaryJsonObject.get("content").toString();
+                textContent=textContent.replace("\\n","\n");
                 tag=singleDiaryJsonObject.get("tag").toString();
                 tag2=singleDiaryJsonObject.get("tag2").toString();
                 tag3=singleDiaryJsonObject.get("tag3").toString();
@@ -160,10 +161,6 @@ public class ShowDiaryActivity extends AppCompatActivity {
                     tag3TextView.setBackgroundColor(Color.parseColor("#fff6bb"));
                     tag3TextView.setText("");
                 }
-
-
-
-
 
                 textTitle=textTitle.substring(1,textTitle.length()-1);
                 textContent=textContent.substring(1,textContent.length()-1);

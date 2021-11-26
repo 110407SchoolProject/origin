@@ -42,9 +42,10 @@
             android:id="@+id/test123"
             android:layout_width="55dp"
             android:layout_height="34dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center_vertical"
-            android:text="標籤 :"
+            android:text="標籤"
             android:textColor="#66000000"
             android:textSize="18sp" />
 
@@ -101,9 +102,10 @@
             android:id="@+id/moodImage"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:padding="4dp"/>
 
+            android:padding="8dp"
 
+            app:srcCompat="@drawable/crying" />
 
     </LinearLayout>
 
@@ -120,20 +122,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/textShowContents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="24dp"
-            android:layout_marginLeft="24dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="45dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="45dp"
             android:padding="5dp"
-            android:text=""
-            android:textColor="#66000000"
-            android:textSize="18sp"
-            />
+            android:text="Content"
+            android:textColor="#8B4513"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -176,10 +178,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="15dp"
         android:gravity="start"
-        android:text=""
-        android:textColor="#66000000"
+        android:text="Title"
+        android:textColor="#8B4513"
         android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintStart_toStartOf="parent"
