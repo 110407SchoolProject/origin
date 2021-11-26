@@ -58,6 +58,12 @@ public class moodAnalysisFragment extends Fragment {
     private TextView negative_tag2; //negative_tag2
     private TextView negative_tag3; //negative_tag3
 
+    private ImageView positiveTagImage1;
+    private ImageView positiveTagImage2;
+    private ImageView positiveTagImage3;
+    private ImageView negativeTagImage1;
+    private ImageView negativeTagImage2;
+    private ImageView negativeTagImage3;
 //    String piechart_result;
 //    String pie_image_url;
 //    String linechart_result;
@@ -178,6 +184,7 @@ public class moodAnalysisFragment extends Fragment {
                     //moodScore = getActivity().findViewById(R.id.moodScore);
                     String string_moodscore = String.valueOf(moodscore);
                     //moodScore.setText(string_moodscore);
+                    System.out.println("心情評價分數："+moodscore);
                     moodScoreAverage = getActivity().findViewById(R.id.moodScoreAverage);
                     if(moodscore <= 1.0) {
                         moodScoreAverage.setImageResource(R.drawable.crying);
@@ -213,22 +220,158 @@ public class moodAnalysisFragment extends Fragment {
                     JsonArray positive_tags = response.body().getPositive_tags();
                     JsonArray negative_tags = response.body().getNegative_tags();
 
+                    positiveTagImage1=getActivity().findViewById(R.id.positiveTagImage1);
+                    positiveTagImage2=getActivity().findViewById(R.id.positiveTagImage2);
+                    positiveTagImage3=getActivity().findViewById(R.id.positiveTagImage3);
+                    negativeTagImage1=getActivity().findViewById(R.id.negativeTagImage1);
+                    negativeTagImage2=getActivity().findViewById(R.id.negativeTagImage2);
+                    negativeTagImage3=getActivity().findViewById(R.id.negativeTagImage3);
+
+
                     System.out.println(positive_tags.toString());
                     System.out.println(negative_tags.toString());
+
                     positive_tag1 = getActivity().findViewById(R.id.positive_tag1);
                     positive_tag2 = getActivity().findViewById(R.id.positive_tag2);
                     positive_tag3 = getActivity().findViewById(R.id.positive_tag3);
                     negative_tag1 = getActivity().findViewById(R.id.negative_tag1);
                     negative_tag2 = getActivity().findViewById(R.id.negative_tag2);
                     negative_tag3 = getActivity().findViewById(R.id.negative_tag3);
-//                System.out.println(positive_tags.get(0).toString());
-//                System.out.println(negative_tags.get(1).toString());
-                    positive_tag1.setText(positive_tags.get(0).toString().substring(1,positive_tags.get(0).toString().length()-1));
-                    positive_tag2.setText(positive_tags.get(1).toString().substring(1,positive_tags.get(1).toString().length()-1));
-                    positive_tag3.setText(positive_tags.get(2).toString().substring(1,positive_tags.get(2).toString().length()-1));
-                    negative_tag1.setText(negative_tags.get(0).toString().substring(1,negative_tags.get(0).toString().length()-1));
-                    negative_tag2.setText(negative_tags.get(1).toString().substring(1,negative_tags.get(1).toString().length()-1));
-                    negative_tag3.setText(negative_tags.get(2).toString().substring(1,negative_tags.get(2).toString().length()-1));
+
+                    String positiveTag1=positive_tags.get(0).toString().substring(1,positive_tags.get(0).toString().length()-1);
+                    String positiveTag2=positive_tags.get(1).toString().substring(1,positive_tags.get(1).toString().length()-1);
+                    String positiveTag3=positive_tags.get(2).toString().substring(1,positive_tags.get(2).toString().length()-1);
+                    String negativeTag1=negative_tags.get(0).toString().substring(1,negative_tags.get(0).toString().length()-1);
+                    String negativeTag2=negative_tags.get(1).toString().substring(1,negative_tags.get(1).toString().length()-1);
+                    String negativeTag3=negative_tags.get(2).toString().substring(1,negative_tags.get(2).toString().length()-1);
+
+                    System.out.println("1-"+positiveTag1);
+                    System.out.println("2-"+positiveTag2);
+                    System.out.println("3-"+positiveTag3);
+                    System.out.println("4-"+negativeTag1);
+                    System.out.println("5-"+negativeTag2);
+                    System.out.println("6-"+negativeTag3);
+
+
+                    positive_tag1.setText(positiveTag1);
+                    positive_tag2.setText(positiveTag2);
+                    positive_tag3.setText(positiveTag3);
+                    negative_tag1.setText(negativeTag1);
+                    negative_tag2.setText(negativeTag2);
+                    negative_tag3.setText(negativeTag3);
+
+                    if(positiveTag1.equals("朋友")){
+                        positiveTagImage1.setImageResource(R.drawable.friendicon);
+                    }else if(positiveTag1.equals("家庭")){
+                        positiveTagImage1.setImageResource(R.drawable.familyicon);
+                    }else if(positiveTag1.equals("感情")){
+                        positiveTagImage1.setImageResource(R.drawable.relationshipicon);
+                    }else if(positiveTag1.equals("工作")){
+                        positiveTagImage1.setImageResource(R.drawable.workicon);
+                    }else if(positiveTag1.equals("上學")){
+                        positiveTagImage1.setImageResource(R.drawable.schoolicon);
+                    }else if(positiveTag1.equals("旅遊")){
+                        positiveTagImage1.setImageResource(R.drawable.travelicon);
+                    }else if(positiveTag1.equals("興趣")){
+                        positiveTagImage1.setImageResource(R.drawable.hobbyicon);
+                    }else{
+                        positiveTagImage1.setImageResource(R.drawable.othericon);
+                    }
+
+                    if(positiveTag2.equals("朋友")){
+                        positiveTagImage2.setImageResource(R.drawable.friendicon);
+                    }else if(positiveTag2.equals("家庭")){
+                        positiveTagImage2.setImageResource(R.drawable.familyicon);
+                    }else if(positiveTag2.equals("感情")){
+                        positiveTagImage2.setImageResource(R.drawable.relationshipicon);
+                    }else if(positiveTag2.equals("工作")){
+                        positiveTagImage2.setImageResource(R.drawable.workicon);
+                    }else if(positiveTag2.equals("上學")){
+                        positiveTagImage2.setImageResource(R.drawable.schoolicon);
+                    }else if(positiveTag2.equals("旅遊")){
+                        positiveTagImage2.setImageResource(R.drawable.travelicon);
+                    }else if(positiveTag2.equals("興趣")){
+                        positiveTagImage2.setImageResource(R.drawable.hobbyicon);
+                    }else{
+                        positiveTagImage2.setImageResource(R.drawable.othericon);
+                    }
+
+                    if(positiveTag3.equals("朋友")){
+                        positiveTagImage3.setImageResource(R.drawable.friendicon);
+                    }else if(positiveTag3.equals("家庭")){
+                        positiveTagImage3.setImageResource(R.drawable.familyicon);
+                    }else if(positiveTag3.equals("感情")){
+                        positiveTagImage3.setImageResource(R.drawable.relationshipicon);
+                    }else if(positiveTag3.equals("工作")){
+                        positiveTagImage3.setImageResource(R.drawable.workicon);
+                    }else if(positiveTag3.equals("上學")){
+                        positiveTagImage3.setImageResource(R.drawable.schoolicon);
+                    }else if(positiveTag3.equals("旅遊")){
+                        positiveTagImage3.setImageResource(R.drawable.travelicon);
+                    }else if(positiveTag3.equals("興趣")){
+                        positiveTagImage3.setImageResource(R.drawable.hobbyicon);
+                    }else{
+                        positiveTagImage3.setImageResource(R.drawable.othericon);
+                    }
+
+                    if(negativeTag1.equals("朋友")){
+                        negativeTagImage1.setImageResource(R.drawable.friendicon);
+                    }else if(negativeTag1.equals("家庭")){
+                        negativeTagImage1.setImageResource(R.drawable.familyicon);
+                    }else if(negativeTag1.equals("感情")){
+                        negativeTagImage1.setImageResource(R.drawable.relationshipicon);
+                    }else if(negativeTag1.equals("工作")){
+                        negativeTagImage1.setImageResource(R.drawable.workicon);
+                    }else if(negativeTag1.equals("上學")){
+                        negativeTagImage1.setImageResource(R.drawable.schoolicon);
+                    }else if(negativeTag1.equals("旅遊")){
+                        negativeTagImage1.setImageResource(R.drawable.travelicon);
+                    }else if(negativeTag1.equals("興趣")){
+                        negativeTagImage1.setImageResource(R.drawable.hobbyicon);
+                    }else{
+                        negativeTagImage1.setImageResource(R.drawable.othericon);
+                    }
+
+                    if(negativeTag2.equals("朋友")){
+                        negativeTagImage2.setImageResource(R.drawable.friendicon);
+                    }else if(negativeTag2.equals("家庭")){
+                        negativeTagImage2.setImageResource(R.drawable.familyicon);
+                    }else if(negativeTag2.equals("感情")){
+                        negativeTagImage2.setImageResource(R.drawable.relationshipicon);
+                    }else if(negativeTag2.equals("工作")){
+                        negativeTagImage2.setImageResource(R.drawable.workicon);
+                    }else if(negativeTag2.equals("上學")){
+                        negativeTagImage2.setImageResource(R.drawable.schoolicon);
+                    }else if(negativeTag2.equals("旅遊")){
+                        negativeTagImage2.setImageResource(R.drawable.travelicon);
+                    }else if(negativeTag2.equals("興趣")){
+                        negativeTagImage2.setImageResource(R.drawable.hobbyicon);
+                    }else{
+                        negativeTagImage2.setImageResource(R.drawable.othericon);
+                    }
+
+                    if(negativeTag3.equals("朋友")){
+                        negativeTagImage3.setImageResource(R.drawable.friendicon);
+                    }else if(negativeTag3.equals("家庭")){
+                        negativeTagImage3.setImageResource(R.drawable.familyicon);
+                    }else if(negativeTag3.equals("感情")){
+                        negativeTagImage3.setImageResource(R.drawable.relationshipicon);
+                    }else if(negativeTag3.equals("工作")){
+                        negativeTagImage3.setImageResource(R.drawable.workicon);
+                    }else if(negativeTag3.equals("上學")){
+                        negativeTagImage3.setImageResource(R.drawable.schoolicon);
+                    }else if(negativeTag3.equals("旅遊")){
+                        negativeTagImage3.setImageResource(R.drawable.travelicon);
+                    }else if(negativeTag3.equals("興趣")){
+                        negativeTagImage3.setImageResource(R.drawable.hobbyicon);
+                    }else{
+                        negativeTagImage3.setImageResource(R.drawable.othericon);
+                    }
+
+
+
+
+
                 }catch (Exception e){
                     System.out.println(e);
                     System.out.println("回應標籤失敗");
