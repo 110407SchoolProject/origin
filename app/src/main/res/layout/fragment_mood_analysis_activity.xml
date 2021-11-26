@@ -129,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity=""
-                android:text="這個期間中讓你開心的事"
+                android:text="讓您感到開心的可能因素"
                 android:textSize="22sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp" />
@@ -146,10 +146,12 @@
                     android:orientation="vertical">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/positiveTagImage1"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/mainbtnpink"
+                        android:src="@drawable/friendicon"
                         app:riv_corner_radius="10dp" />
 
                     <TextView
@@ -168,10 +170,12 @@
                     android:orientation="vertical">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/positiveTagImage2"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/mainbtnpink"
+                        android:src="@drawable/friendicon"
                         app:riv_corner_radius="10dp" />
 
                     <TextView
@@ -190,10 +194,12 @@
                     android:orientation="vertical">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/positiveTagImage3"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/mainbtnpink"
+                        android:src="@drawable/friendicon"
                         app:riv_corner_radius="10dp" />
 
                     <TextView
@@ -218,7 +224,7 @@
                 android:id="@+id/negativeTagText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="這個期間中讓你傷心的事"
+                android:text="讓您感到傷心的可能因素"
                 android:textSize="22sp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"/>
@@ -235,10 +241,12 @@
                     android:orientation="vertical">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/negativeTagImage1"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/mainbtnpink"
+                        android:src="@drawable/friendicon"
                         app:riv_corner_radius="10dp" />
 
                     <TextView
@@ -257,10 +265,12 @@
                     android:orientation="vertical">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/negativeTagImage2"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/mainbtnpink"
+                        android:src="@drawable/friendicon"
                         app:riv_corner_radius="10dp" />
 
                     <TextView
@@ -279,10 +289,12 @@
                     android:orientation="vertical">
 
                     <com.makeramen.roundedimageview.RoundedImageView
+                        android:id="@+id/negativeTagImage3"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/mainbtnpink"
+                        android:src="@drawable/friendicon"
                         app:riv_corner_radius="10dp" />
 
                     <TextView
@@ -303,24 +315,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/moodAnalysisText"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="上星期的心情分布"
+                android:text="這段期間的心情分布圖表"
                 android:textColor="#66000000"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                />
-        <ImageView
-            android:id="@+id/pieChart"
-            android:layout_width="match_parent"
-            android:layout_height="235dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFF9D5"
-            />
+                android:textStyle="bold" />
+
             <!--separator-->
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="-20dp"
+                android:layout_height="80dp"
+                android:src="@drawable/piechart_bar" />
+
+            <ImageView
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="235dp"
+                android:layout_marginTop="5dp"
+                android:background="#FFF9D5" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="15dp"></View>
@@ -328,7 +348,7 @@
         <ImageView
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
-            android:layout_height="234dp"
+            android:layout_height="245dp"
             android:background="#FFF9D5"
             />
             <!--separator-->
