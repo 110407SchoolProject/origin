@@ -43,8 +43,7 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/mainbtnpink"
-                android:src="@drawable/friendicon"
-                />
+                android:src="@drawable/friendicon" />
 
             <TextView
                 android:id="@+id/FriendTagTextView"
