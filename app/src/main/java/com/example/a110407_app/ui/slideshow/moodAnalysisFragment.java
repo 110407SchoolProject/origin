@@ -186,15 +186,15 @@ public class moodAnalysisFragment extends Fragment {
                     //moodScore.setText(string_moodscore);
                     System.out.println("心情評價分數："+moodscore);
                     moodScoreAverage = getActivity().findViewById(R.id.moodScoreAverage);
-                    if(moodscore <= 1.0) {
+                    if(moodscore <= 1.5) {
                         moodScoreAverage.setImageResource(R.drawable.crying);
-                    }else if ( moodscore <=2.0 && moodscore > 1.0){
+                    }else if ( moodscore <=2.5 && moodscore > 1.5){
                         moodScoreAverage.setImageResource(R.drawable.sad);
-                    }else if (moodscore <=3.0 && moodscore > 2.0){
+                    }else if (moodscore <=3.0 && moodscore > 2.5){
                         moodScoreAverage.setImageResource(R.drawable.normal);
-                    }else if (moodscore <=4.0 && moodscore > 3.0){
+                    }else if (moodscore <=3.5 && moodscore > 3.0){
                         moodScoreAverage.setImageResource(R.drawable.smiling);
-                    }else if(moodscore >= 5.0 && moodscore > 4.0 ){
+                    }else if(moodscore <= 5.0 && moodscore > 3.5 ){
                         moodScoreAverage.setImageResource(R.drawable.exciting);
                     }else {
                         System.out.println("分數計算有誤");
