@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.a110407_app.Model.ProfileScore;
 import com.example.a110407_app.Model.User;
 import com.example.a110407_app.RetrofitAPI.APIService;
 import com.example.a110407_app.RetrofitAPI.RetrofitManager;
@@ -93,25 +94,18 @@ public class MainActivity extends AppCompatActivity {
 
         navbarEmailTextView =header.findViewById(R.id.navbarEmailTextView);
         navbarNickNameTextView =header.findViewById(R.id.navbarNickNameTextView);
-
-
         Call<User> callUserData = ourAPIService.getUserData("bearer "+userToken);
-
         callUserData.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 String result=response.message();
                 System.out.println(result);
-
                 JsonObject userData =response.body().getUserAllDataInJson();
                 System.out.println(userData.toString());
-
                 userEmail=userData.get("username").toString();
                 userNickName=userData.get("nickname").toString();
-
                 userEmail=userEmail.substring(1,userEmail.length()-1);
                 userNickName=userNickName.substring(1,userNickName.length()-1);
-
                 navbarEmailTextView.setText(userEmail);
                 navbarNickNameTextView.setText(userNickName);
             }
@@ -127,6 +121,72 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        Call<ProfileScore> callProfileScore = ourAPIService.putProfileScore("bearer "+userToken);
+        callProfileScore.enqueue(new Callback<ProfileScore>() {
+            @Override
+            public void onResponse(Call<ProfileScore> call, Response<ProfileScore> response) {
+                String result = response.message();
+                System.out.println(result);
+                float score = response.body().getScore();
+                System.out.println("分數為: " + String.valueOf(score));
+
+                Call<User> callUserData = ourAPIService.getUserData("bearer "+userToken);
+                callUserData.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        String result=response.message();
+                        System.out.println(result);
+                        JsonObject userData =response.body().getUserAllDataInJson();
+                        System.out.println(userData.toString());
+                        userNickName=userData.get("nickname").toString();
+                        userNickName=userNickName.substring(1,userNickName.length()-1);
+
+                        if(score <= 1.0) {
+                            String welcomeSentence ="歡迎回來 "+userNickName +"\n最近的心情感覺不太好，試著找些事情放鬆一下吧! 祝您的心情可以快點恢復🥺";
+                            Toast.makeText(getApplicationContext(), welcomeSentence, Toast.LENGTH_SHORT).show();
+                        }else if ( score <=2.0 && score > 1.0){
+                            String welcomeSentence ="歡迎回來 "+userNickName +"\n最近發生些什麼了嗎?，好像不太開心，記得別讓自己壓力太大了唷!🥺";
+                            Toast.makeText(getApplicationContext(), welcomeSentence, Toast.LENGTH_SHORT).show();
+
+                        }else if (score <=3.0 && score > 2.0){
+                            String welcomeSentence ="歡迎回來 "+userNickName +"\n保持快樂是讓身體健康很重要的元素，試著記錄下您的心情來豐富您的日記吧!😁";
+                            Toast.makeText(getApplicationContext(), welcomeSentence, Toast.LENGTH_SHORT).show();
+
+                        }else if (score <=4.0 && score > 3.0){
+
+                            String welcomeSentence ="歡迎回來 "+userNickName +"\n最近感覺過的挺好的唷，繼續保持您快樂的心境，寫下些生活來與我分享吧!😝 ";
+
+                            Toast.makeText(getApplicationContext(), welcomeSentence, Toast.LENGTH_SHORT).show();
+
+                        }else if(score >= 5.0 && score > 4.0 ){
+                            String welcomeSentence ="歡迎回來 "+userNickName +"\n最近的心情感覺還不賴喔，快來記錄些心情與我分享吧😍";
+
+                            Toast.makeText(getApplicationContext(), welcomeSentence, Toast.LENGTH_SHORT).show();
+
+                        }else {
+                            System.out.println("分數計算有誤");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        System.out.println("伺服器連線失敗");
+                        Log.d("HKT", "response: " + t.toString());
+                    }
+                });
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<ProfileScore> call, Throwable t) {
+                System.out.println("伺服器連線失敗");
+                Log.d("HKT", "response: " + t.toString());
+            }
+        });
     }
     // 打開右上角的menu
     @Override
