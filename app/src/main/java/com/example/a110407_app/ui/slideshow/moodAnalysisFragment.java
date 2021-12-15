@@ -113,10 +113,6 @@ public class moodAnalysisFragment extends Fragment {
         String startDate = getArguments().getString("start");
         String endDate = getArguments().getString("end");
 
-
-
-
-
         APIService ourAPIService;
         ourAPIService = RetrofitManager.getInstance().getAPI();
         Intent intent = getActivity().getIntent();
@@ -227,7 +223,6 @@ public class moodAnalysisFragment extends Fragment {
                     negativeTagImage2=getActivity().findViewById(R.id.negativeTagImage2);
                     negativeTagImage3=getActivity().findViewById(R.id.negativeTagImage3);
 
-
                     System.out.println(positive_tags.toString());
                     System.out.println(negative_tags.toString());
 
@@ -251,7 +246,6 @@ public class moodAnalysisFragment extends Fragment {
                     System.out.println("4-"+negativeTag1);
                     System.out.println("5-"+negativeTag2);
                     System.out.println("6-"+negativeTag3);
-
 
                     positive_tag1.setText(positiveTag1);
                     positive_tag2.setText(positiveTag2);

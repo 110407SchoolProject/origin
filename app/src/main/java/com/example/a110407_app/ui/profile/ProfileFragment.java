@@ -208,6 +208,7 @@ public class ProfileFragment extends Fragment {
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        System.out.println("換腳色失敗");
                     }
                 }else{
                     JsonArray characterNumberJson =new JsonArray();

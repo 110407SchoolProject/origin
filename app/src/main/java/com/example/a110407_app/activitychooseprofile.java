@@ -173,7 +173,9 @@ public class activitychooseprofile extends AppCompatActivity {
             public void onClick(View v) {
                 JsonArray characterNumberJsonArray =new JsonArray();
                 characterNumberJsonArray.add(characterNumber);
+
                 System.out.println(characterNumberJsonArray.toString());
+
                 Status status =new Status(characterNumberJsonArray);
                 Call<Status> callUpdateCharacter = ourAPIService.putUserStatus("bearer "+userToken, status);
                 callUpdateCharacter.enqueue(new Callback<Status>() {
@@ -181,6 +183,7 @@ public class activitychooseprofile extends AppCompatActivity {
                     public void onResponse(Call<Status> call, Response<Status> response) {
                         String result=response.message();
                         System.out.println(result);
+                 
 
 //                        ProfileFragment profileFragment =new ProfileFragment() ;
 //                        getSupportFragmentManager().beginTransaction()

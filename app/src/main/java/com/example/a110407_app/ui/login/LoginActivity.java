@@ -186,8 +186,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         }else {
                             System.out.println("有接收到Toke，登入成功");
-                            String loginSuccessMessage ="登入成功";
-                            Toast.makeText(getApplicationContext(), loginSuccessMessage, Toast.LENGTH_LONG).show();
+//                            String loginSuccessMessage ="登入成功";
+//                            Toast.makeText(getApplicationContext(), loginSuccessMessage, Toast.LENGTH_LONG).show();
 
                             openActivityHome(userToken);
 

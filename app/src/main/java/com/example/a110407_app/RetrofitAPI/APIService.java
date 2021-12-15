@@ -47,7 +47,7 @@ public interface APIService {
     @POST("api/status/status") // 用@Body表示要傳送Body資料
     Call<Status> postUserStatus(@Header("Authorization")String authHeader,@Body Status status);
 
-    @PUT("api/status/status") // 用@Body表示要傳送Body資料
+    @PUT("api/status/status") // 用@Body表示要傳送Body資料 腳色
     Call<Status> putUserStatus(@Header("Authorization")String authHeader,@Body Status status);
 
     @GET("/api/index/moodtalk")    // 設置一個GET連線，路徑為albums/1
