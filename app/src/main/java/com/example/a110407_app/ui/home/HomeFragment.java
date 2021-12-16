@@ -152,6 +152,20 @@ public class HomeFragment extends Fragment {
                 diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
                 ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
                 diaryListView.setAdapter(adapter);
+
+                //開啟日記
+                diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        Toast.makeText(getActivity(),"開啟日記"+(id+1), Toast.LENGTH_LONG).show();
+                        System.out.println("position"+position);
+                        //透過position來抓日記ID，接著將日記ID傳到下個頁面後，於下一頁call API。
+                        String diaryIdToCall = diaryIdList.get(position).toString();
+                        System.out.println("要傳的ID:"+diaryIdToCall);
+                        System.out.println("要傳的Token:"+userToken);
+                        openActivityShowDiary(diaryIdToCall,userToken);
+                    }
+                });
             }
 
             @Override
@@ -160,6 +174,15 @@ public class HomeFragment extends Fragment {
                 Log.d("HKT", "response: " + t.toString());
             }
         });
+
+
+//        //開啟該篇日記
+//        public void openActivityShowDiary(String diaryId, String userToken){
+//            Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
+//            intent.putExtra("userToken",userToken);
+//            intent.putExtra("id",diaryId);
+//            startActivity(intent);
+//        }
 
         return root;
 
