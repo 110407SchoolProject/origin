@@ -66,8 +66,10 @@ public class ChangeDiaryActivity extends AppCompatActivity {
     private String textTitle;
     private String textContent;
     private String tag;
+    private String tag1;
     private String tag2;
-    private String tag3;
+    private ArrayList tags =new ArrayList();
+
     private int moodScoreInt;
     private String createDate;
     private String modifiedDate;
@@ -99,6 +101,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         System.out.println("DiaryID:"+diaryId);
         System.out.println("userToken:"+userToken);
 
+        showCategory = (TextView) findViewById(R.id.CategoryTextViewInChange);
         Button tagCategory = findViewById(R.id.tagCategoryInChange);
         tagCategory.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +120,121 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                         bottomSheetDialog.dismiss();
                     }
                 });
+
+                tags.clear();
+                tag="";
+                tag1="";
+                tag2="";
+                showCategory.setText("");
+                bottomSheetView.findViewById(R.id.FriendTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"朋友",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("朋友")){
+                            tags.remove("朋友");
+
+                        }else if(tags.size()<3){
+                            tags.add("朋友");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.FamilyTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"家庭",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("家庭")){
+                            tags.remove("家庭");
+                        }else if(tags.size()<3){
+                            tags.add("家庭");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.RelationshipTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"感情",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("感情")){
+                            tags.remove("感情");
+                        }else if(tags.size()<3){
+                            tags.add("感情");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.WorkTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"工作",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("工作")){
+                            tags.remove("工作");
+                        }else if(tags.size()<3){
+                            tags.add("工作");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.StudiesTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"上學",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("上學")){
+                            tags.remove("上學");
+                        }else if(tags.size()<3){
+                            tags.add("上學");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.TravelTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"旅遊",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("旅遊")){
+                            tags.remove("旅遊");
+                        }else if(tags.size()<3){
+                            tags.add("旅遊");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.HobbyTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"興趣",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("興趣")){
+                            tags.remove("興趣");
+                        }else if(tags.size()<3){
+                            tags.add("興趣");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.CustomTagTextView).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        //Toast.makeText(EditDiaryActivity.this,"自訂",Toast.LENGTH_SHORT).show();
+                        if(tags.contains("自訂")){
+                            tags.remove("自訂");
+                        }else if(tags.size()<3){
+                            tags.add("自訂");
+                        }
+                    }
+                });
+                bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){
+                    public void onClick(View view){
+                        bottomSheetDialog.dismiss();
+                        System.out.println(tags.size());
+                        for(int i = 0 ; i < tags.size();i++){
+                            System.out.print(tags.get(i)+" ");
+                        }
+                        if(tags.size()==1){
+                            tag=tags.get(0).toString();
+                        }
+                        if(tags.size()==2){
+                            tag=tags.get(0).toString();
+                            tag1=tags.get(1).toString();
+                        }
+                        if(tags.size()==3){
+                            tag=tags.get(0).toString();
+                            tag1=tags.get(1).toString();
+                            tag2=tags.get(2).toString();
+                        }
+                        if(tags.size()==0){
+                            showCategory.setText("未選擇標籤");
+                        }else{
+                            showCategory.setText(tag+" "+tag1+" "+tag2);
+                        }
+                    }
+                });
+
+
                 bottomSheetDialog.setContentView(bottomSheetView);
                 bottomSheetDialog.show();
             }
@@ -146,9 +264,9 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                 UserDiary userDiary =new UserDiary(
                         textTitle,
                         textContent,
-                        "標籤1",
-                        "標籤2",
-                        "標籤3",
+                        tag,
+                        tag1,
+                        tag2,
                         moodScoreInt
                 );
                 Call<UserDiary> callUpdateDiary = ourAPIService.putUserDiary("bearer "+userToken,userDiary,diaryId);
@@ -200,8 +318,8 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                 textTitle=singleDiaryJsonObject.get("title").toString();
                 textContent=singleDiaryJsonObject.get("content").toString();
                 tag=singleDiaryJsonObject.get("tag").toString();
-                tag2=singleDiaryJsonObject.get("tag2").toString();
-                tag3=singleDiaryJsonObject.get("tag3").toString();
+                tag1=singleDiaryJsonObject.get("tag2").toString();
+                tag2=singleDiaryJsonObject.get("tag3").toString();
                 moodScore=singleDiaryJsonObject.get("moodscore").toString();
                 createDate=singleDiaryJsonObject.get("create_date").toString();
                 modifiedDate=singleDiaryJsonObject.get("last_modified").toString();
