@@ -263,22 +263,25 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onResponse(Call<ProfileScore> call, Response<ProfileScore> response) {
                 String result = response.message();
-                float score = response.body().getScore();
-                System.out.println("分數為: " + String.valueOf(score));
+                if(result=="OK"){
+                    float score = response.body().getScore();
+                    System.out.println("分數為: " + String.valueOf(score));
 
-                if(score <= 1.0) {
-                    recentMoodImage.setImageResource(R.drawable.crying);
-                }else if ( score <=2.0 && score > 1.0){
-                    recentMoodImage.setImageResource(R.drawable.sad);
-                }else if (score <=3.0 && score > 2.0){
-                    recentMoodImage.setImageResource(R.drawable.normal);
-                }else if (score <=4.0 && score > 3.0){
-                    recentMoodImage.setImageResource(R.drawable.smiling);
-                }else if(score >= 5.0 && score > 4.0 ){
-                    recentMoodImage.setImageResource(R.drawable.exciting);
-                }else {
-                    System.out.println("分數計算有誤");
+                    if(score <= 1.0) {
+                        recentMoodImage.setImageResource(R.drawable.crying);
+                    }else if ( score <=2.0 && score > 1.0){
+                        recentMoodImage.setImageResource(R.drawable.sad);
+                    }else if (score <=3.0 && score > 2.0){
+                        recentMoodImage.setImageResource(R.drawable.normal);
+                    }else if (score <=4.0 && score > 3.0){
+                        recentMoodImage.setImageResource(R.drawable.smiling);
+                    }else if(score >= 5.0 && score > 4.0 ){
+                        recentMoodImage.setImageResource(R.drawable.exciting);
+                    }else {
+                        System.out.println("分數計算有誤");
+                    }
                 }
+
             }
 
             @Override
