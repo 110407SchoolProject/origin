@@ -129,83 +129,107 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                 bottomSheetView.findViewById(R.id.FriendTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         //Toast.makeText(EditDiaryActivity.this,"朋友",Toast.LENGTH_SHORT).show();
+                        ImageView friendTagImage =bottomSheetView.findViewById(R.id.btnFriendTag);
                         if(tags.contains("朋友")){
                             tags.remove("朋友");
-
+                            friendTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                         }else if(tags.size()<3){
-                            tags.add("朋友");
                             Toast.makeText(ChangeDiaryActivity.this,"#朋友",Toast.LENGTH_SHORT).show();
+                            tags.add("朋友");
+                            friendTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.FamilyTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView familyTagImage =bottomSheetView.findViewById(R.id.btnFamilyTag);
                         //Toast.makeText(EditDiaryActivity.this,"家庭",Toast.LENGTH_SHORT).show();
                         if(tags.contains("家庭")){
                             tags.remove("家庭");
+
+                            familyTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                         }else if(tags.size()<3){
-                            tags.add("家庭");
                             Toast.makeText(ChangeDiaryActivity.this,"#家庭",Toast.LENGTH_SHORT).show();
+                            tags.add("家庭");
+                            familyTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.RelationshipTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView relationshipTagImage =bottomSheetView.findViewById(R.id.btnRelationshipTag);
                         //Toast.makeText(EditDiaryActivity.this,"感情",Toast.LENGTH_SHORT).show();
                         if(tags.contains("感情")){
                             tags.remove("感情");
+                            relationshipTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                         }else if(tags.size()<3){
-                            tags.add("感情");
                             Toast.makeText(ChangeDiaryActivity.this,"#感情",Toast.LENGTH_SHORT).show();
+                            tags.add("感情");
+                            relationshipTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.WorkTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView workTagImage =bottomSheetView.findViewById(R.id.btnWorkTag);
                         //Toast.makeText(EditDiaryActivity.this,"工作",Toast.LENGTH_SHORT).show();
                         if(tags.contains("工作")){
                             tags.remove("工作");
+                            workTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                         }else if(tags.size()<3){
                             tags.add("工作");
+                            workTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                             Toast.makeText(ChangeDiaryActivity.this,"#工作",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.StudiesTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView schoolTagImage =bottomSheetView.findViewById(R.id.btnStudyTag);
                         //Toast.makeText(EditDiaryActivity.this,"上學",Toast.LENGTH_SHORT).show();
                         if(tags.contains("上學")){
                             tags.remove("上學");
+                            schoolTagImage.setBackgroundResource(R.drawable.mainbtnpink);
+
                         }else if(tags.size()<3){
                             tags.add("上學");
                             Toast.makeText(ChangeDiaryActivity.this,"#上學",Toast.LENGTH_SHORT).show();
+                            schoolTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.TravelTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView travelTagImage =bottomSheetView.findViewById(R.id.btnTravelTag);
                         //Toast.makeText(EditDiaryActivity.this,"旅遊",Toast.LENGTH_SHORT).show();
                         if(tags.contains("旅遊")){
                             tags.remove("旅遊");
+                            travelTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                         }else if(tags.size()<3){
                             tags.add("旅遊");
+                            travelTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                             Toast.makeText(ChangeDiaryActivity.this,"#旅遊",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.HobbyTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView hobbyTagImage =bottomSheetView.findViewById(R.id.btnHobbyTag);
                         //Toast.makeText(EditDiaryActivity.this,"興趣",Toast.LENGTH_SHORT).show();
                         if(tags.contains("興趣")){
                             tags.remove("興趣");
+                            hobbyTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                         }else if(tags.size()<3){
                             tags.add("興趣");
+                            hobbyTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                             Toast.makeText(ChangeDiaryActivity.this,"#興趣",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.CustomTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
+                        ImageView customTagImage =bottomSheetView.findViewById(R.id.btnOptionTag);
+                        //Toast.makeText(EditDiaryActivity.this,"自訂",Toast.LENGTH_SHORT).show();
                         final EditText editTextTag =new EditText(ChangeDiaryActivity.this);
                         AlertDialog.Builder dialogEditTextName = new AlertDialog.Builder(ChangeDiaryActivity.this);
                         dialogEditTextName.setTitle("輸入自訂標籤");
@@ -218,9 +242,11 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                                 System.out.println(userNewTag);
                                 if(tags.contains(userNewTag)){
                                     tags.remove(userNewTag);
+                                    customTagImage.setBackgroundResource(R.drawable.mainbtnpink);
                                 }else if(tags.size()<3){
                                     tags.add(userNewTag);
                                     Toast.makeText(ChangeDiaryActivity.this,"#"+userNewTag,Toast.LENGTH_SHORT).show();
+                                    customTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
                                 }
                             }
                         });

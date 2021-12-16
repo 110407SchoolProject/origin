@@ -131,17 +131,13 @@ public class EditDiaryActivity extends AppCompatActivity {
                 bottomSheetView.findViewById(R.id.FriendTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         ImageView friendTagImage =bottomSheetView.findViewById(R.id.btnFriendTag);
-
                         if(tags.contains("朋友")){
                             tags.remove("朋友");
-
                             friendTagImage.setBackgroundResource(R.drawable.mainbtnpink);
-//
                         }else if(tags.size()<3){
                             Toast.makeText(EditDiaryActivity.this,"#朋友",Toast.LENGTH_SHORT).show();
                             tags.add("朋友");
                             friendTagImage.setBackgroundResource(R.drawable.mainbtnpinkstroke);
-
                         }
                     }
                 });
