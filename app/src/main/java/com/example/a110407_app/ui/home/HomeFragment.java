@@ -186,20 +186,22 @@ ArrayList diaryDateList = new ArrayList();
                 titleArrayList.clear();
                 diaryIdList.clear();
                 Collections.sort(odts);
+                if(titleArrayList.size()!=0){
+                    for(int i=0;i<diaryAllList.size();i++){
+                        try {
+                            diaryIdList.add(idAndDateJson.get(String.valueOf(odts.get(diaryAllList.size()-i-1))));
+                            titleArrayList.add(idAndTitleJson.get((String) diaryIdList.get(i)));
 
-                for(int i=0;i<diaryAllList.size();i++){
-                    try {
-                        diaryIdList.add(idAndDateJson.get(String.valueOf(odts.get(diaryAllList.size()-i-1))));
-                        titleArrayList.add(idAndTitleJson.get((String) diaryIdList.get(i)));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
-                for(int i=0;i<diaryAllList.size();i++){
-                    System.out.println("測試日記列表："+titleArrayList.get(i));
-                }
+
+//                for(int i=0;i<diaryAllList.size();i++){
+//                    System.out.println("測試日記列表："+titleArrayList.get(i));
+//                }
                 diaryListView = (ListView)root.findViewById(R.id.diaryListViewInHome);
                 ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
                 diaryListView.setAdapter(adapter);
