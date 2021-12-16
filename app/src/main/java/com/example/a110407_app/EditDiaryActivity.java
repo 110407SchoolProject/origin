@@ -134,6 +134,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                             tags.remove("朋友");
 
                         }else if(tags.size()<3){
+                            Toast.makeText(EditDiaryActivity.this,"#朋友",Toast.LENGTH_SHORT).show();
                             tags.add("朋友");
                         }
                     }
@@ -144,6 +145,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                         if(tags.contains("家庭")){
                             tags.remove("家庭");
                         }else if(tags.size()<3){
+                            Toast.makeText(EditDiaryActivity.this,"#家庭",Toast.LENGTH_SHORT).show();
                             tags.add("家庭");
                         }
                     }
@@ -154,6 +156,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                         if(tags.contains("感情")){
                             tags.remove("感情");
                         }else if(tags.size()<3){
+                            Toast.makeText(EditDiaryActivity.this,"#感情",Toast.LENGTH_SHORT).show();
                             tags.add("感情");
                         }
                     }
@@ -165,6 +168,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                             tags.remove("工作");
                         }else if(tags.size()<3){
                             tags.add("工作");
+                            Toast.makeText(EditDiaryActivity.this,"#工作",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -185,6 +189,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                             tags.remove("旅遊");
                         }else if(tags.size()<3){
                             tags.add("旅遊");
+                            Toast.makeText(EditDiaryActivity.this,"#旅遊",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -195,17 +200,35 @@ public class EditDiaryActivity extends AppCompatActivity {
                             tags.remove("興趣");
                         }else if(tags.size()<3){
                             tags.add("興趣");
+                            Toast.makeText(EditDiaryActivity.this,"#興趣",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.CustomTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
                         //Toast.makeText(EditDiaryActivity.this,"自訂",Toast.LENGTH_SHORT).show();
-                        if(tags.contains("自訂")){
-                            tags.remove("自訂");
-                        }else if(tags.size()<3){
-                            tags.add("自訂");
-                        }
+                        final EditText editTextTag =new EditText(EditDiaryActivity.this);
+                        AlertDialog.Builder dialogEditTextName = new AlertDialog.Builder(EditDiaryActivity.this);
+                        dialogEditTextName.setTitle("輸入自訂標籤");
+                        dialogEditTextName.setView(editTextTag);
+                        dialogEditTextName.setCancelable(true);
+                        dialogEditTextName.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String userNewTag = editTextTag.getText().toString();
+                                System.out.println(userNewTag);
+                                if(tags.contains(userNewTag)){
+                                    tags.remove(userNewTag);
+                                }else if(tags.size()<3){
+                                    tags.add(userNewTag);
+                                    Toast.makeText(EditDiaryActivity.this,"#"+userNewTag,Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        dialogEditTextName.show();
+
+
+
                     }
                 });
                 bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){
@@ -343,13 +366,6 @@ public class EditDiaryActivity extends AppCompatActivity {
 
                                     }
                                 });
-
-
-
-
-
-
-
                             }else{
                                 Toast.makeText(getApplicationContext(), "日記新增失敗1", Toast.LENGTH_LONG).show();
                             }

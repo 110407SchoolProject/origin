@@ -134,6 +134,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
 
                         }else if(tags.size()<3){
                             tags.add("朋友");
+                            Toast.makeText(ChangeDiaryActivity.this,"#朋友",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -144,6 +145,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             tags.remove("家庭");
                         }else if(tags.size()<3){
                             tags.add("家庭");
+                            Toast.makeText(ChangeDiaryActivity.this,"#家庭",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -154,6 +156,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             tags.remove("感情");
                         }else if(tags.size()<3){
                             tags.add("感情");
+                            Toast.makeText(ChangeDiaryActivity.this,"#感情",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -164,6 +167,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             tags.remove("工作");
                         }else if(tags.size()<3){
                             tags.add("工作");
+                            Toast.makeText(ChangeDiaryActivity.this,"#工作",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -174,6 +178,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             tags.remove("上學");
                         }else if(tags.size()<3){
                             tags.add("上學");
+                            Toast.makeText(ChangeDiaryActivity.this,"#上學",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -184,6 +189,7 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             tags.remove("旅遊");
                         }else if(tags.size()<3){
                             tags.add("旅遊");
+                            Toast.makeText(ChangeDiaryActivity.this,"#旅遊",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -194,17 +200,31 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                             tags.remove("興趣");
                         }else if(tags.size()<3){
                             tags.add("興趣");
+                            Toast.makeText(ChangeDiaryActivity.this,"#興趣",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
                 bottomSheetView.findViewById(R.id.CustomTagTextView).setOnClickListener(new View.OnClickListener(){
                     public void onClick(View view){
-                        //Toast.makeText(EditDiaryActivity.this,"自訂",Toast.LENGTH_SHORT).show();
-                        if(tags.contains("自訂")){
-                            tags.remove("自訂");
-                        }else if(tags.size()<3){
-                            tags.add("自訂");
-                        }
+                        final EditText editTextTag =new EditText(ChangeDiaryActivity.this);
+                        AlertDialog.Builder dialogEditTextName = new AlertDialog.Builder(ChangeDiaryActivity.this);
+                        dialogEditTextName.setTitle("輸入自訂標籤");
+                        dialogEditTextName.setView(editTextTag);
+                        dialogEditTextName.setCancelable(true);
+                        dialogEditTextName.setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String userNewTag = editTextTag.getText().toString();
+                                System.out.println(userNewTag);
+                                if(tags.contains(userNewTag)){
+                                    tags.remove(userNewTag);
+                                }else if(tags.size()<3){
+                                    tags.add(userNewTag);
+                                    Toast.makeText(ChangeDiaryActivity.this,"#"+userNewTag,Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        dialogEditTextName.show();
                     }
                 });
                 bottomSheetView.findViewById(R.id.chosen_tag_from_bottomSheet).setOnClickListener(new View.OnClickListener(){
@@ -252,6 +272,9 @@ public class ChangeDiaryActivity extends AppCompatActivity {
         editTextContent.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editTextContent.setGravity(Gravity.TOP);
         editTextContent.setSingleLine(false);
+
+
+
 
         btnSaveDiary=findViewById(R.id.btnSaveDiaryInChange);
 
@@ -324,11 +347,22 @@ public class ChangeDiaryActivity extends AppCompatActivity {
                 createDate=singleDiaryJsonObject.get("create_date").toString();
                 modifiedDate=singleDiaryJsonObject.get("last_modified").toString();
 
+                System.out.println("標籤");
+                System.out.println(tag);
+                System.out.println(tag1);
+                System.out.println(tag2);
+
                 textContent= textContent.substring(1,textContent.length()-1);
                 textTitle = textTitle.substring(1,textTitle.length()-1);
                 textContent=textContent.replace("\\n","\n");
                 editTextTitle.setText(textTitle);
                 editTextContent.setText(textContent);
+
+                tag=tag.substring(1,tag.length()-1);
+                tag1=tag1.substring(1,tag1.length()-1);
+                tag2=tag2.substring(1,tag2.length()-1);
+                showCategory.setText(tag+" "+tag1+" "+tag2);
+
 
                 if(moodScore.equals("1")){
                     currentMood.setImageResource(R.drawable.crying);
