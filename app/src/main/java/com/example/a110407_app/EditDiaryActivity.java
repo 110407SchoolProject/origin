@@ -33,23 +33,28 @@ import com.example.a110407_app.RetrofitAPI.RetrofitManager;
 import com.example.a110407_app.ui.SQLiteDBHelper;
 import com.example.a110407_app.ui.gallery.GalleryFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import kotlin.text.Regex;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.time.OffsetDateTime;
 
 public class EditDiaryActivity extends AppCompatActivity {
 
@@ -69,6 +74,8 @@ public class EditDiaryActivity extends AppCompatActivity {
     private String tag2;
     private ArrayList tags =new ArrayList();
     private int moodScoreInt;
+    ArrayList diaryIdList = new ArrayList();
+    ArrayList diaryDateList = new ArrayList();
     //心情按鈕
 
     private ImageView btnCryingMood;
@@ -233,7 +240,6 @@ public class EditDiaryActivity extends AppCompatActivity {
         });
 
         //TAG CATEGORY ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
         //抓取今天的日期設定到標題
         Integer year = 0;
         Integer month = 0;
@@ -281,6 +287,69 @@ public class EditDiaryActivity extends AppCompatActivity {
                             System.out.println("Server:"+result);
                             if(result.equals("OK")){
                                 Toast.makeText(getApplicationContext(), "日記新增成功", Toast.LENGTH_LONG).show();
+
+                                Call<UserDiary> callAllDiaryToList = ourAPIService.postUserAllDiary("bearer "+userToken);
+                                callAllDiaryToList.enqueue(new Callback<UserDiary>() {
+                                    @RequiresApi(api = Build.VERSION_CODES.O)
+                                    @Override
+                                    public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
+                                        JsonArray diaryAllList = response.body().getDiaryList();
+                                        System.out.println(diaryAllList);
+                                        for(int i=0;i<diaryAllList.size();i++){
+                                            JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+                                            String diaryId = diaryJsonObject.get("diaryid").toString();
+                                            System.out.println("DiaryID:"+diaryId);
+                                            diaryId=diaryId.substring(1,diaryId.length()-1);
+                                            diaryIdList.add(diaryId);
+                                        }
+
+                                        List<OffsetDateTime> odts = new ArrayList<>();
+
+                                        for(int i=0; i<diaryAllList.size();i++){
+                                            JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
+                                            String diaryDate = diaryJsonObject.get("last_modified").toString();
+                                            diaryDate= diaryDate.substring(1,diaryDate.length()-1);
+                                            OffsetDateTime odt = OffsetDateTime.parse( diaryDate ) ;
+                                            odts.add(odt);
+                                            diaryDateList.add(diaryDate);
+                                            System.out.println("diaryDate:"+diaryDate);
+                                        }
+                                        JSONObject idAndDateJson = new JSONObject();
+                                        for(int i = 0; i<diaryAllList.size();i++){
+                                            try {
+                                                idAndDateJson.put((String) diaryDateList.get(i), diaryIdList.get(i));
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+//                                        System.out.println("ID和日期JSON"+idAndDateJson);
+                                        Collections.sort(odts);
+//                                        System.out.println("日期列表"+odts);
+
+                                        try {
+                                            String newestDiaryId= (String) idAndDateJson.get(odts.get(odts.size()-1).toString());
+                                            System.out.println(newestDiaryId);
+
+                                            openActivityShowDiary(newestDiaryId,userToken);
+                                            finish();
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<UserDiary> call, Throwable t) {
+
+                                    }
+                                });
+
+
+
+
+
+
+
                             }else{
                                 Toast.makeText(getApplicationContext(), "日記新增失敗1", Toast.LENGTH_LONG).show();
                             }
@@ -463,5 +532,12 @@ public class EditDiaryActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    //當使用者儲存完畢，可以馬上顯示出這筆日記
+    public void openActivityShowDiary(String diaryId,String userToken ){
+        Intent intent = new Intent(this, ShowDiaryActivity.class);
+        intent.putExtra("id",diaryId);
+        intent.putExtra("userToken",userToken);
+        startActivity(intent);
     }
 }
