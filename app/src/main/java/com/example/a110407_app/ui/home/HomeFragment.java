@@ -70,6 +70,11 @@ ArrayList diaryDateList = new ArrayList();
 
     private TextView inspiringSentence;
 
+    public void openActivityEditDiary(String userToken){
+        Intent intent = new Intent(getActivity(), EditDiaryActivity.class);
+        intent.putExtra("userToken", userToken);
+        startActivity(intent);
+    }
 
     public void openActivityShowDiary(String diaryId, String userToken){
         Intent intent = new Intent(getActivity(), ShowDiaryActivity.class);
@@ -197,6 +202,8 @@ ArrayList diaryDateList = new ArrayList();
                             e.printStackTrace();
                         }
                     }
+                }else{
+                    titleArrayList.add("目前日記空空如也唷，快點來新增日記吧");
                 }
 
 
@@ -214,10 +221,16 @@ ArrayList diaryDateList = new ArrayList();
 //                        Toast.makeText(getActivity(),"開啟日記"+(id+1), Toast.LENGTH_LONG).show();
                         System.out.println("position"+position);
                         //透過position來抓日記ID，接著將日記ID傳到下個頁面後，於下一頁call API。
-                        String diaryIdToCall = diaryIdList.get(position).toString();
-                        System.out.println("要傳的ID:"+diaryIdToCall);
-                        System.out.println("要傳的Token:"+userToken);
-                        openActivityShowDiary(diaryIdToCall,userToken);
+
+                        if(diaryIdList.size()==0){
+                            openActivityEditDiary(userToken);
+                        }else{
+                            String diaryIdToCall = diaryIdList.get(position).toString();
+                            System.out.println("要傳的ID:"+diaryIdToCall);
+                            System.out.println("要傳的Token:"+userToken);
+                            openActivityShowDiary(diaryIdToCall,userToken);
+                        }
+
                     }
                 });
             }
