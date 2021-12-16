@@ -127,7 +127,7 @@ public class GalleryFragment extends Fragment {
                     diaryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(getActivity(),"開啟日記"+(id+1), Toast.LENGTH_LONG).show();
+//                            Toast.makeText(getActivity(),"開啟日記"+(id+1), Toast.LENGTH_LONG).show();
                             System.out.println("position"+position);
                             //透過position來抓日記ID，接著將日記ID傳到下個頁面後，於下一頁call API。
                             String diaryIdToCall = diaryIdList.get(position).toString();
