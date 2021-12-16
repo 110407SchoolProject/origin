@@ -105,7 +105,6 @@ public class ShowDiaryActivity extends AppCompatActivity {
         btnDeleteDiary =findViewById(R.id.btnDeleteDiary);
         btnEditDiary = findViewById(R.id.btnEditDiary);
 
-
         tagTextView=findViewById(R.id.tagNum1);
         tag2TextView=findViewById(R.id.tagNum2);
         tag3TextView=findViewById(R.id.tagNum3);

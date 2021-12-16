@@ -155,7 +155,7 @@ public class GalleryFragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                    
+
                     //日記列表樣式，屆時只要把上面的titleArrayList放入畫面就可以
                     diaryListView = (ListView)root.findViewById(R.id.diaryListView);
                     ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
