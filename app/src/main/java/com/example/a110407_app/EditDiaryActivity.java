@@ -179,6 +179,7 @@ public class EditDiaryActivity extends AppCompatActivity {
                             tags.remove("上學");
                         }else if(tags.size()<3){
                             tags.add("上學");
+                            Toast.makeText(EditDiaryActivity.this,"#上學",Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
