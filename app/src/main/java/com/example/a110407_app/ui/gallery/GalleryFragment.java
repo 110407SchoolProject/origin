@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,10 +44,13 @@ import com.example.a110407_app.ui.login.RegisterActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +67,7 @@ public class GalleryFragment extends Fragment {
     APIService ourAPIService;
     ArrayList titleArrayList = new ArrayList();
     ArrayList diaryIdList = new ArrayList();
+    ArrayList diaryDateList = new ArrayList();
 
     //開啟該篇日記
     public void openActivityShowDiary(String diaryId, String userToken){
@@ -92,6 +98,7 @@ public class GalleryFragment extends Fragment {
 
         Call<UserDiary> callAllDiaryToList = ourAPIService.postUserAllDiary("bearer "+userToken);
         callAllDiaryToList.enqueue(new Callback<UserDiary>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onResponse(Call<UserDiary> call, Response<UserDiary> response) {
                 try {
@@ -111,14 +118,44 @@ public class GalleryFragment extends Fragment {
                         diaryIdList.add(diaryId);
                     }
 
-                    for(int i=0;i<diaryAllList.size();i++){
+                    List<OffsetDateTime> odts = new ArrayList<>();
+
+                    for(int i=0; i<diaryAllList.size();i++){
                         JsonObject diaryJsonObject = (JsonObject) diaryAllList.get(i);
-                        String diaryId = diaryJsonObject.get("diaryid").toString();
-                        System.out.println("DiaryID:"+diaryId);
-                        diaryId=diaryId.substring(1,diaryId.length()-1);
-                        diaryIdList.add(diaryId);
+                        String diaryDate = diaryJsonObject.get("last_modified").toString();
+                        diaryDate= diaryDate.substring(1,diaryDate.length()-1);
+                        OffsetDateTime odt = OffsetDateTime.parse( diaryDate ) ;
+                        odts.add(odt);
+                        diaryDateList.add(diaryDate);
+                        System.out.println("diaryDate:"+diaryDate);
                     }
 
+                    JSONObject idAndDateJson = new JSONObject();
+                    JSONObject idAndTitleJson = new JSONObject();
+                    for(int i = 0; i<diaryAllList.size();i++){
+                        try {
+                            idAndDateJson.put((String) diaryDateList.get(i), diaryIdList.get(i));
+                            idAndTitleJson.put((String) diaryIdList.get(i), titleArrayList.get(i));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    titleArrayList.clear();
+                    diaryIdList.clear();
+                    Collections.sort(odts);
+
+                    for(int i=0;i<diaryAllList.size();i++){
+                        try {
+                            diaryIdList.add(idAndDateJson.get(String.valueOf(odts.get(diaryAllList.size()-i-1))));
+                            titleArrayList.add(idAndTitleJson.get((String) diaryIdList.get(i)));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    
                     //日記列表樣式，屆時只要把上面的titleArrayList放入畫面就可以
                     diaryListView = (ListView)root.findViewById(R.id.diaryListView);
                     ArrayAdapter adapter = new ArrayAdapter<>(getActivity(),R.layout.list_text_setting,titleArrayList);
