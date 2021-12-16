@@ -182,14 +182,14 @@ ArrayList diaryDateList = new ArrayList();
                         e.printStackTrace();
                     }
                 }
-
+                titleArrayList.clear();
+                diaryIdList.clear();
 
                 Collections.sort(odts);
-                if(titleArrayList.size()!=0){
+                if(diaryAllList.size()!=0){
                     for(int i=0;i<diaryAllList.size();i++){
                         try {
-                            titleArrayList.clear();
-                            diaryIdList.clear();
+
                             diaryIdList.add(idAndDateJson.get(String.valueOf(odts.get(diaryAllList.size()-i-1))));
                             titleArrayList.add(idAndTitleJson.get((String) diaryIdList.get(i)));
 
