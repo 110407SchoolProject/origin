@@ -183,7 +183,7 @@ public class activitychooseprofile extends AppCompatActivity {
                     public void onResponse(Call<Status> call, Response<Status> response) {
                         String result=response.message();
                         System.out.println(result);
-                 
+
 
 //                        ProfileFragment profileFragment =new ProfileFragment() ;
 //                        getSupportFragmentManager().beginTransaction()
