@@ -209,7 +209,7 @@ public class RegisterActivity extends AppCompatActivity {
                         userName,
                         userPassword,
                         userTrueName,
-                        userName,
+                        userTrueName,
                         userGender,
                         userBirthday);
 
